@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de Modelado de Datos - Bucle Creativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS para la paleta de colores */
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #7c3aed;
+            --accent-color: #0ea5e9;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --text-color: #334155;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Estilos del encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .topic {
+            background-color: rgba(255, 255, 255, 0.15);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            margin-top: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Estilos de las secciones */
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            transition: var(--transition);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Estilos de botones */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #6d28d9;
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        .btn-accent:hover {
+            background-color: #0284c7;
+        }
+
+        /* Estilos para ejemplos y notas */
+        .example-box {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .example-title {
+            color: var(--dark-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-title i {
+            color: var(--accent-color);
+        }
+
+        .highlight {
+            background-color: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Estilos del juego de evaluación */
+        #quiz-container {
+            text-align: center;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 600px) {
+            .options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            background-color: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .option:hover {
+            background-color: #f1f5f9;
+            border-color: var(--accent-color);
+        }
+
+        .option.selected {
+            background-color: #dbeafe;
+            border-color: var(--primary-color);
+        }
+
+        .option.correct {
+            background-color: #d1fae5;
+            border-color: var(--success-color);
+        }
+
+        .option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .score-container {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            color: var(--primary-color);
+        }
+
+        /* Estilos del pie de página */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .signature {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin: 1.5rem 20px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            section {
+                padding: 1.2rem;
+                margin: 1.2rem 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-database"></i>
+                <h1>Bucle Creativo</h1>
+            </div>
+            <p class="subtitle">Taller diseñado con el corazón de un docente y la mente de un programador</p>
+            <div class="topic">Base de datos: Modelado de Datos (conceptual, lógico y físico)</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Título principal -->
+        <section id="title-section">
+            <h2>De las ideas a la estructura: El arte de dar forma a la información</h2>
+            <p>Imagina que tienes en tus manos el poder de organizar el caos, de transformar un montón de datos dispersos en un sistema coherente y útil. Este taller te guiará en ese viaje de creación, donde aprenderás a modelar datos como un arquitecto diseña un edificio: primero la visión general, luego los planos detallados y finalmente la construcción real.</p>
+        </section>
+
+        <!-- Objetivo de aprendizaje -->
+        <section id="objective-section">
+            <h2>Objetivo de aprendizaje</h2>
+            <p>Dominar el proceso de modelado de datos en sus tres niveles (conceptual, lógico y físico) mediante la identificación de entidades, atributos y relaciones en un contexto real, aplicando principios de normalización y utilizando herramientas gráficas, para diseñar bases de datos eficientes que resuelvan problemas concretos, fomentando el pensamiento analítico, la atención al detalle y la ética en el manejo de información sensible.</p>
+        </section>
+
+        <!-- Contextualización -->
+        <section id="context-section">
+            <h2>Un mundo de conexiones ocultas</h2>
+            <p>Piensa en tu aplicación de música favorita. Detrás de esa interfaz colorida que te recomienda canciones, hay un universo de datos organizados con precisión: artistas, álbumes, canciones, géneros, listas de reproducción, usuarios, historiales de escucha. Cada like, cada playlist creada, cada canción reproducida es un dato que se relaciona con otros.</p>
+            <p>El modelado de datos es como descubrir las conexiones invisibles entre las cosas. Es el proceso mediante el cual transformamos la complejidad del mundo real en estructuras comprensibles para los sistemas informáticos. En Ecuador, donde la digitalización avanza rápidamente, esta habilidad se vuelve esencial para crear soluciones tecnológicas que respondan a nuestras realidades y necesidades particulares.</p>
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-lightbulb"></i> Reflexiona</div>
+                <p>¿Cómo crees que se organizan los datos en tu colegio? Piensa en estudiantes, materias, profesores, calificaciones, horarios. Todas estas "cosas" están relacionadas de maneras específicas. Descubrir y representar esas relaciones es el corazón del modelado de datos.</p>
+            </div>
+        </section>
+
+        <!-- Desarrollo de la actividad -->
+        <section id="activity-section">
+            <h2>Los tres niveles del modelado: Una escalera hacia la concreción</h2>
+            
+            <h3>1. Modelo Conceptual: La visión panorámica</h3>
+            <p>Es el nivel más abstracto, donde identificamos las entidades importantes del sistema y sus relaciones, sin preocuparnos por los detalles técnicos. Es como hacer un bosquejo inicial de una pintura.</p>
+            
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-pencil-alt"></i> Ejemplo práctico: Sistema de biblioteca escolar</div>
+                <p><span class="highlight">Entidades identificadas:</span> Libro, Estudiante, Préstamo, Autor, Categoría.</p>
+                <p><span class="highlight">Relaciones:</span> Un estudiante realiza préstamos, un préstamo involucra libros, un libro tiene autores y pertenece a categorías.</p>
+                <p><span class="highlight">Diagrama:</span> Se representa con entidades (rectángulos) y relaciones (rombos) conectados por líneas.</p>
+            </div>
+            
+            <h3>2. Modelo Lógico: Los planos detallados</h3>
+            <p>Aquí transformamos las entidades y relaciones en tablas, columnas y claves. Aplicamos las reglas de normalización para evitar redundancias y anomalías en los datos.</p>
+            
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-ruler-combined"></i> Ejemplo práctico: Del concepto a las tablas</div>
+                <p><span class="highlight">Entidad Libro se convierte en:</span></p>
+                <ul>
+                    <li>Tabla: LIBRO</li>
+                    <li>Columnas: id_libro (clave primaria), titulo, isbn, año_publicacion, id_categoria (clave foránea)</li>
+                </ul>
+                <p><span class="highlight">Relación "tiene" entre Libro y Autor se convierte en:</span></p>
+                <ul>
+                    <li>Tabla intermedia: LIBRO_AUTOR</li>
+                    <li>Columnas: id_libro (clave foránea), id_autor (clave foránea)</li>
+                </ul>
+                <p>Así garantizamos que un libro pueda tener varios autores y un autor pueda tener varios libros, sin duplicar información.</p>
+            </div>
+            
+            <h3>3. Modelo Físico: La construcción real</h3>
+            <p>Es la implementación concreta en un sistema gestor de bases de datos específico (como MySQL, PostgreSQL o SQLite). Aquí definimos tipos de datos precisos, índices para optimizar búsquedas, y consideramos el espacio de almacenamiento.</p>
+            
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-hammer"></i> Ejemplo práctico: Código SQL para crear tablas</div>
+                <pre style="background-color: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 8px; overflow-x: auto; margin-top: 10px;">
+CREATE TABLE libro (
+    id_libro INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(200) NOT NULL,
+    isbn VARCHAR(20) UNIQUE,
+    año_publicacion INT,
+    id_categoria INT,
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
+
+CREATE INDEX idx_titulo ON libro(titulo);</pre>
+                <p>Observa cómo cada decisión (longitud de VARCHAR, tipo INT, restricciones NOT NULL) afecta el funcionamiento y eficiencia de la base de datos.</p>
+            </div>
+            
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-user-graduate"></i> Actividad de exploración</div>
+                <p>En grupos de tres, identifiquen las entidades, atributos y relaciones para un sistema de gestión de un equipo deportivo de tu colegio. Consideren jugadores, entrenadores, partidos, posiciones, estadísticas. Dibujen el modelo conceptual y luego propongan cómo se vería el modelo lógico con tablas y relaciones.</p>
+                <button class="btn btn-accent" id="exploration-hint">Pista para la actividad</button>
+                <div id="hint-content" style="display: none; margin-top: 15px; padding: 15px; background-color: #f0f9ff; border-radius: 8px;">
+                    <p>Piensen en preguntas como: ¿Un jugador puede tener múltiples posiciones? ¿Un partido involucra a dos equipos? ¿Cómo registrarían las estadísticas de un jugador en un partido específico? Estas preguntas les ayudarán a identificar las relaciones necesarias.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- El reto final -->
+        <section id="challenge-section">
+            <h2>El Reto Final: Diseña la base de datos para "Ecuador Gastronómico"</h2>
+            <p>Imagina que estás desarrollando una aplicación para promover la gastronomía ecuatoriana a nivel nacional e internacional. Tu misión es diseñar la base de datos completa que soportará esta aplicación.</p>
+            
+            <h3>Requisitos del sistema:</h3>
+            <ul>
+                <li>Registrar los platos típicos de cada región del Ecuador</li>
+                <li>Llevar control de los ingredientes necesarios para cada plato</li>
+                <li>Permitir que usuarios califiquen y comenten sobre los platos</li>
+                <li>Registrar restaurantes que ofrecen estos platos, con su ubicación</li>
+                <li>Llevar un historial de precios promedio por región</li>
+            </ul>
+            
+            <h3>Tu tarea:</h3>
+            <ol>
+                <li>Crea el <span class="highlight">modelo conceptual</span> identificando al menos 5 entidades principales y sus relaciones.</li>
+                <li>Convierte este modelo en un <span class="highlight">modelo lógico</span> con tablas, columnas y tipos de datos apropiados.</li>
+                <li>Considera al menos una relación muchos-a-muchos y aplícale normalización hasta la tercera forma normal.</li>
+                <li>Escribe el código SQL para crear 3 de las tablas principales (modelo físico).</li>
+                <li>Reflexiona: ¿Qué consideraciones éticas deberías tener al manejar información sobre precios y ubicaciones de restaurantes?</li>
+            </ol>
+            
+            <p>Este reto integra todo lo aprendido y te prepara para situaciones reales del desarrollo de software. Trabaja en equipo, discute alternativas y defiende tus decisiones de diseño con argumentos técnicos.</p>
+            
+            <button class="btn" id="challenge-help">Ver sugerencias para comenzar</button>
+            <div id="challenge-suggestions" style="display: none; margin-top: 15px; padding: 15px; background-color: #f0fdf4; border-radius: 8px;">
+                <p><strong>Sugerencias iniciales:</strong> Empieza identificando entidades claras como "Plato", "Ingrediente", "Restaurante", "Región", "Usuario". Piensa en cómo se relacionan: ¿Un plato pertenece a una región? ¿Un plato tiene muchos ingredientes? ¿Un ingrediente puede estar en muchos platos? ¿Cómo registrarías que un usuario califica un plato específico en un restaurante específico?</p>
+            </div>
+        </section>
+
+        <!-- Evaluación lúdica -->
+        <section id="quiz-section">
+            <h2>Evaluación lúdica: ¿Eres un arquitecto de datos?</h2>
+            <p>Comprueba tu comprensión de los conceptos con este breve quiz interactivo. ¡Cada respuesta correcta te acerca a dominar el arte del modelado de datos!</p>
+            
+            <div id="quiz-container">
+                <div class="question" id="question-text">Pregunta aparecerá aquí</div>
+                <div class="options" id="options-container">
+                    <!-- Las opciones se generarán con JavaScript -->
+                </div>
+                <div class="feedback" id="feedback"></div>
+                <div class="score-container">
+                    Puntuación: <span id="score">0</span>/5
+                </div>
+                <button class="btn btn-secondary" id="next-btn" disabled>Siguiente pregunta</button>
+                <button class="btn btn-accent" id="restart-btn" style="display: none; margin-top: 10px;">Reiniciar quiz</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="footer-content">
+            <p>Taller de Base de Datos: Modelado de Datos</p>
+            <p class="signature">Diseñado por: Edwin Méndez J.</p>
+            <p>Bucle Creativo - Transformando conceptos técnicos en experiencias de aprendizaje significativas</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos para el quiz
+        const quizData = [
+            {
+                question: "En el modelo conceptual de datos, ¿qué elemento representa una 'cosa' u objeto del mundo real sobre el cual almacenamos información?",
+                options: [
+                    "Atributo",
+                    "Entidad",
+                    "Tabla",
+                    "Registro"
+                ],
+                correct: 1,
+                explanation: "Correcto. En el modelo conceptual, una 'entidad' representa cualquier objeto del mundo real sobre el cual queremos almacenar información, como 'Estudiante', 'Libro' o 'Producto'."
+            },
+            {
+                question: "¿Cuál es el principal objetivo de la normalización en el modelo lógico de datos?",
+                options: [
+                    "Hacer que las consultas sean más rápidas",
+                    "Eliminar redundancias y anomalías en los datos",
+                    "Reducir el espacio de almacenamiento utilizado",
+                    "Facilitar la migración entre sistemas de bases de datos"
+                ],
+                correct: 1,
+                explanation: "¡Excelente! La normalización busca principalmente eliminar redundancias (datos repetidos) y anomalías (problemas en inserciones, actualizaciones y eliminaciones) mediante la organización eficiente de los datos."
+            },
+            {
+                question: "En una relación muchos-a-muchos entre 'Estudiante' y 'Materia', ¿cómo se representa normalmente en el modelo lógico?",
+                options: [
+                    "Añadiendo un atributo 'materias' en la tabla Estudiante",
+                    "Creando una tabla intermedia que relaciona las claves primarias de ambas tablas",
+                    "Repitiendo los datos del estudiante por cada materia",
+                    "Añadiendo un atributo 'estudiantes' en la tabla Materia"
+                ],
+                correct: 1,
+                explanation: "Perfecto. Para representar relaciones muchos-a-muchos se crea una tabla intermedia (a veces llamada 'tabla de unión' o 'tabla puente') que contiene las claves primarias de ambas tablas como claves foráneas."
+            },
+            {
+                question: "En el modelo físico, ¿qué elemento se utiliza para acelerar las consultas frecuentes sobre una columna específica?",
+                options: [
+                    "Vista (View)",
+                    "Procedimiento almacenado",
+                    "Índice (Index)",
+                    "Disparador (Trigger)"
+                ],
+                correct: 2,
+                explanation: "Correcto. Los índices son estructuras de datos que mejoran la velocidad de las operaciones de búsqueda en una tabla, aunque pueden ralentizar las inserciones y actualizaciones."
+            },
+            {
+                question: "¿Cuál de estas es una consideración ética importante en el modelado de bases de datos?",
+                options: [
+                    "Usar siempre la última versión del software de base de datos",
+                    "Incluir campos para almacenar todo tipo de información personal sin restricciones",
+                    "Proteger la privacidad de los usuarios y solo almacenar datos necesarios",
+                    "Utilizar nombres de tablas en inglés para estandarizar"
+                ],
+                correct: 2,
+                explanation: "Muy bien. La ética en el modelado de datos implica respetar la privacidad de los usuarios, aplicar el principio de minimización de datos (solo recolectar lo necesario) y asegurar la protección de información sensible."
+            }
+        ];
+
+        // Variables del quiz
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        // Elementos DOM del quiz
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackElement = document.getElementById('feedback');
+        const scoreElement = document.getElementById('score');
+        const nextButton = document.getElementById('next-btn');
+        const restartButton = document.getElementById('restart-btn');
+
+        // Inicializar el quiz
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            scoreElement.textContent = score;
+            nextButton.disabled = true;
+            restartButton.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Cargar una pregunta
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            questionText.textContent = `Pregunta ${currentQuestion + 1}: ${question.question}`;
+            
+            // Limpiar opciones anteriores
+            optionsContainer.innerHTML = '';
+            
+            // Crear nuevas opciones
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.dataset.index = index;
+                
+                optionElement.addEventListener('click', () => selectOption(optionElement, index));
+                
+                // Si ya respondió esta pregunta antes, mostrar su respuesta
+                if (userAnswers[currentQuestion] !== undefined) {
+                    if (userAnswers[currentQuestion] === index) {
+                        optionElement.classList.add('selected');
+                        if (index === question.correct) {
+                            optionElement.classList.add('correct');
+                        } else {
+                            optionElement.classList.add('incorrect');
+                        }
+                    } else if (index === question.correct) {
+                        optionElement.classList.add('correct');
+                    }
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Configurar feedback si ya respondió
+            if (userAnswers[currentQuestion] !== undefined) {
+                const isCorrect = userAnswers[currentQuestion] === question.correct;
+                feedbackElement.textContent = isCorrect 
+                    ? `✅ ${question.explanation}` 
+                    : `❌ ${question.explanation}`;
+                feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                nextButton.disabled = false;
+            } else {
+                feedbackElement.className = 'feedback';
+                feedbackElement.style.display = 'none';
+            }
+            
+            // Configurar botón siguiente
+            nextButton.textContent = currentQuestion === quizData.length - 1 ? 'Ver resultados' : 'Siguiente pregunta';
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionElement, optionIndex) {
+            // Si ya respondió esta pregunta, no permitir cambiar
+            if (userAnswers[currentQuestion] !== undefined) return;
+            
+            // Remover selección anterior
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Marcar opción seleccionada
+            optionElement.classList.add('selected');
+            
+            // Guardar respuesta
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Verificar si es correcta
+            const isCorrect = optionIndex === quizData[currentQuestion].correct;
+            
+            // Mostrar retroalimentación
+            if (isCorrect) {
+                score++;
+                scoreElement.textContent = score;
+                feedbackElement.textContent = `✅ ${quizData[currentQuestion].explanation}`;
+                feedbackElement.className = 'feedback correct';
+                optionElement.classList.add('correct');
+            } else {
+                feedbackElement.textContent = `❌ ${quizData[currentQuestion].explanation}`;
+                feedbackElement.className = 'feedback incorrect';
+                optionElement.classList.add('incorrect');
+                
+                // También mostrar cuál era la correcta
+                document.querySelectorAll('.option')[quizData[currentQuestion].correct].classList.add('correct');
+            }
+            
+            // Habilitar botón siguiente
+            nextButton.disabled = false;
+        }
+
+        // Ir a la siguiente pregunta
+        nextButton.addEventListener('click', () => {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                // Mostrar resultados finales
+                showResults();
+            }
+        });
+
+        // Mostrar resultados finales
+        function showResults() {
+            const percentage = (score / quizData.length) * 100;
+            let message;
+            
+            if (percentage >= 80) {
+                message = "¡Excelente! Eres un verdadero arquitecto de datos. Dominas los conceptos fundamentales del modelado.";
+            } else if (percentage >= 60) {
+                message = "¡Muy bien! Tienes un buen entendimiento, pero aún hay detalles por afinar. Revisa los conceptos nuevamente.";
+            } else {
+                message = "¡Sigue practicando! El modelado de datos requiere práctica constante. Revisa los ejemplos y vuelve a intentarlo.";
+            }
+            
+            questionText.textContent = `Quiz completado: ${score} de ${quizData.length} correctas (${percentage}%)`;
+            optionsContainer.innerHTML = '';
+            feedbackElement.textContent = message;
+            feedbackElement.className = 'feedback correct';
+            
+            nextButton.style.display = 'none';
+            restartButton.style.display = 'inline-block';
+        }
+
+        // Reiniciar quiz
+        restartButton.addEventListener('click', initQuiz);
+
+        // Funcionalidad para botones de ayuda
+        document.getElementById('exploration-hint').addEventListener('click', function() {
+            const hintContent = document.getElementById('hint-content');
+            if (hintContent.style.display === 'none') {
+                hintContent.style.display = 'block';
+                this.textContent = 'Ocultar pista';
+            } else {
+                hintContent.style.display = 'none';
+                this.textContent = 'Pista para la actividad';
+            }
+        });
+
+        document.getElementById('challenge-help').addEventListener('click', function() {
+            const suggestions = document.getElementById('challenge-suggestions');
+            if (suggestions.style.display === 'none') {
+                suggestions.style.display = 'block';
+                this.textContent = 'Ocultar sugerencias';
+            } else {
+                suggestions.style.display = 'none';
+                this.textContent = 'Ver sugerencias para comenzar';
+            }
+        });
+
+        // Inicializar el quiz cuando se carga la página
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
