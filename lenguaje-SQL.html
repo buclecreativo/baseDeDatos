@@ -108,12 +108,12 @@
                 <h4 class="text-xl font-bold text-emerald-700 mb-4">1. Explorando el Universo: Consultas y Filtros</h4>
                 <p class="mb-4">Para obtener información específica, usamos la estructura básica: <code>SELECT</code> (qué quiero), <code>FROM</code> (de dónde) y <code>WHERE</code> (bajo qué condición).</p>
                 <div class="sql-highlight code-font">
-                    -- Busquemos estudiantes de 3ero de Bachillerato con promedio mayor a 9
-                    SELECT DISTINCT nombre, apellido 
-                    FROM estudiantes 
-                    WHERE curso = '3ero' AND promedio > 9 
-                    ORDER BY apellido ASC 
-                    LIMIT 10;
+                    -- Busquemos estudiantes de 3ero de Bachillerato con promedio mayor a 9 <br/>
+                    SELECT DISTINCT nombre, apellido <br/>
+                    FROM estudiantes <br/>
+                    WHERE curso = '3ero' AND promedio > 9 <br/>
+                    ORDER BY apellido ASC <br/>
+                    LIMIT 10;<br/>
                 </div>
                 <p class="text-sm text-slate-500 mt-2 italic">Usa <code>LIKE '%Quito%'</code> para buscar coincidencias parciales y <code>BETWEEN</code> para rangos.</p>
             </div>
@@ -123,10 +123,10 @@
                 <h4 class="text-xl font-bold text-emerald-700 mb-4">2. La Fuerza de la Unión: Funciones y Agregaciones</h4>
                 <p class="mb-4">A veces no queremos filas individuales, sino resúmenes: ¿Cuál es el promedio general? ¿Cuántos alumnos hay por provincia?</p>
                 <div class="sql-highlight code-font">
-                    SELECT provincia, COUNT(*) as total_estudiantes, AVG(edad) as edad_promedio
-                    FROM estudiantes
-                    GROUP BY provincia
-                    HAVING total_estudiantes > 50;
+                    SELECT provincia, COUNT(*) as total_estudiantes, AVG(edad) as edad_promedio<br/>
+                    FROM estudiantes<br/>
+                    GROUP BY provincia<br/>
+                    HAVING total_estudiantes > 50;<br/>
                 </div>
             </div>
 
@@ -139,10 +139,10 @@
                     <li><strong>LEFT JOIN:</strong> Todo de la izquierda, aunque no tenga pareja a la derecha.</li>
                 </ul>
                 <div class="sql-highlight code-font">
-                    SELECT e.nombre, c.nombre_curso
-                    FROM estudiantes e
-                    INNER JOIN matriculas m ON e.id = m.estudiante_id
-                    INNER JOIN cursos c ON m.curso_id = c.id;
+                    SELECT e.nombre, c.nombre_curso <br/>
+                    FROM estudiantes e <br/>
+                    INNER JOIN matriculas m ON e.id = m.estudiante_id<br/>
+                    INNER JOIN cursos c ON m.curso_id = c.id;<br/>
                 </div>
             </div>
 
@@ -151,16 +151,16 @@
                 <h4 class="text-xl font-bold text-indigo-700 mb-4">4. Crear y Transformar: DDL y DML</h4>
                 <p class="mb-4"><strong>DDL</strong> define la estructura (el molde) y <strong>DML</strong> manipula el contenido (la masa).</p>
                 <div class="sql-highlight code-font">
-                    -- Crear una tabla con reglas (Constraints)
-                    CREATE TABLE inventario (
-                        id INT PRIMARY KEY,
-                        producto VARCHAR(100) NOT NULL,
-                        precio DECIMAL(10,2) CHECK (precio > 0),
-                        stock INT DEFAULT 0
-                    );
+                    -- Crear una tabla con reglas (Constraints)<br/>
+                    CREATE TABLE inventario (<br/>
+                        id INT PRIMARY KEY,<br/>
+                        producto VARCHAR(100) NOT NULL,<br/>
+                        precio DECIMAL(10,2) CHECK (precio > 0),<br/>
+                        stock INT DEFAULT 0<br/>
+                    );<br/><br/>
 
-                    -- Actualizar datos con cuidado
-                    UPDATE inventario SET stock = stock + 10 WHERE id = 5;
+                    -- Actualizar datos con cuidado<br/>
+                    UPDATE inventario SET stock = stock + 10 WHERE id = 5;<br/><br/>
                 </div>
             </div>
 
@@ -169,11 +169,11 @@
                 <h4 class="text-xl font-bold text-red-700 mb-4">5. Seguridad y Resiliencia: Transacciones</h4>
                 <p class="mb-4">Imagina que transfieres dinero. Si se descuenta de tu cuenta pero no llega a la otra por un apagón, ¡hay un problema! Las transacciones aseguran que <em>todo sucede o nada sucede</em>.</p>
                 <div class="sql-highlight code-font">
-                    BEGIN TRANSACTION;
-                    UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1;
-                    UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2;
-                    -- Si algo falla, usamos ROLLBACK. Si todo ok:
-                    COMMIT;
+                    BEGIN TRANSACTION;<br/>
+                    UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1;<br/>
+                    UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2;<br/>
+                    -- Si algo falla, usamos ROLLBACK. Si todo ok:<br/>
+                    COMMIT;<br/><br/>
                 </div>
             </div>
         </section>
@@ -342,4 +342,5 @@
         window.onload = loadQuestion;
     </script>
 </body>
+
 </html>
