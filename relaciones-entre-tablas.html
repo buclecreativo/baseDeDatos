@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relaciones entre Tablas - Bucle Creativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de color y estilos base */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #ff9e00;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset y estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Tema principal */
+        .theme-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+            border-left: 6px solid var(--accent);
+        }
+
+        .main-title {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Tarjetas de contenido */
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--secondary);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #5e08a0;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #e11575;
+        }
+
+        /* Estilos para ejemplos y código */
+        .example-box {
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .sql-keyword {
+            color: #ff6b8b;
+        }
+
+        .sql-table {
+            color: #4cc9f0;
+        }
+
+        .sql-column {
+            color: #9ae6b4;
+        }
+
+        /* Juego de evaluación */
+        #quiz-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--box-shadow);
+            display: none;
+        }
+
+        #quiz-container.active {
+            display: block;
+        }
+
+        .quiz-question {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .quiz-options {
+            list-style-type: none;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            background-color: var(--light-gray);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background-color: #dbeafe;
+            border-color: var(--primary);
+        }
+
+        .quiz-option.selected {
+            background-color: #dbeafe;
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .quiz-option.correct {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            display: block;
+        }
+
+        .score-container {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Estilos para tablas de ejemplo */
+        .table-example {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-example th, .table-example td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-example th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .table-example tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table-example tr:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Sección de reto final */
+        .challenge-box {
+            background: linear-gradient(135deg, #fdf2ff 0%, #e3e7ff 100%);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 2px solid var(--secondary);
+        }
+
+        .challenge-title {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-infinity"></i>
+                <span>Bucle Creativo</span>
+            </div>
+            <p class="subtitle">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+            <h1 class="theme-container" style="color:red">Relaciones entre Tablas: El arte de tejer conexiones significativas</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Objetivo de aprendizaje -->
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-bullseye"></i> Objetivo de aprendizaje</h2>
+            <p>Dominar el diseño e implementación de relaciones entre tablas en bases de datos, integrando competencias técnicas (claves primarias y foráneas, tipos de relaciones), cognitivas (análisis de problemas complejos, modelado lógico) y actitudinales (trabajo meticuloso, pensamiento sistémico y colaboración), para construir estructuras de datos eficientes que simulen escenarios reales y promuevan soluciones innovadoras a problemas contextualizados.</p>
+        </section>
+
+        <!-- Contextualización -->
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-globe-americas"></i> Contextualización: Más que tablas, historias entrelazadas</h2>
+            <p>Imagina por un momento que eres el encargado de organizar la biblioteca de tu colegio. Tienes libros, estudiantes que los solicitan, fechas de préstamo y devolución. Si registras todo en una sola lista gigante, pronto sería un caos encontrar qué libro tiene quién y cuándo debe devolverlo.</p>
+            <p>Ahora piensa en las redes sociales que usas: tus amigos, tus publicaciones, los "me gusta", los comentarios. Todo está conectado. Tu perfil se relaciona con tus amigos, tus publicaciones se vinculan a los comentarios. Detrás de esas conexiones aparentemente simples, hay una estructura poderosa: relaciones entre tablas.</p>
+            <p>En este taller, no solo aprenderás sobre claves primarias y foráneas. Descubrirás cómo tejer narrativas con datos, cómo conectar historias separadas para crear un todo coherente. Aprenderás a pensar como un arquitecto de información, construyendo puentes entre islas de datos para crear un continente de conocimiento accionable.</p>
+        </section>
+
+        <!-- Desarrollo de la actividad -->
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-code-branch"></i> Desarrollo de la actividad: Tejiendo la red de conexiones</h2>
+            
+            <h3>1. Los cimientos: Claves primarias y foráneas</h3>
+            <p>En el mundo de las bases de datos, cada tabla necesita una identificación única: la <strong>clave primaria</strong>. Es como tu número de cédula: único e irrepetible. Luego están las <strong>claves foráneas</strong>, que son referencias a las claves primarias de otras tablas. Son como cuando en un formulario pones "Cédula del representante": no es tu cédula, pero te conecta con otra persona.</p>
+            
+            <div class="example-box">
+                <h4>Ejemplo práctico: Sistema de gestión escolar</h4>
+                <p>Imagina que estamos diseñando una base de datos para tu colegio. Necesitamos tablas para <strong>Estudiantes</strong>, <strong>Materias</strong> y <strong>Inscripciones</strong>.</p>
+                
+                <table class="table-example">
+                    <thead>
+                        <tr>
+                            <th>Tabla Estudiantes</th>
+                            <th>Tabla Materias</th>
+                            <th>Tabla Inscripciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>id_estudiante (PK)</td>
+                            <td>id_materia (PK)</td>
+                            <td>id_inscripcion (PK)</td>
+                        </tr>
+                        <tr>
+                            <td>nombre</td>
+                            <td>nombre_materia</td>
+                            <td>id_estudiante (FK)</td>
+                        </tr>
+                        <tr>
+                            <td>cedula</td>
+                            <td>creditos</td>
+                            <td>id_materia (FK)</td>
+                        </tr>
+                        <tr>
+                            <td>fecha_nacimiento</td>
+                            <td>profesor</td>
+                            <td>fecha_inscripcion</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p>En este diseño, la tabla <strong>Inscripciones</strong> actúa como puente entre Estudiantes y Materias. Contiene claves foráneas que referencian a las claves primarias de las otras dos tablas.</p>
+            </div>
+
+            <h3>2. Los tipos de relaciones: Uno a uno, uno a muchos, muchos a muchos</h3>
+            <p>Las relaciones entre tablas pueden ser de diferentes tipos, cada una con su propósito específico:</p>
+            
+            <div class="code-block">
+                <span class="sql-keyword">-- Relación uno a muchos (1:N)</span><br>
+                <span class="sql-keyword">-- Un estudiante puede tener muchas inscripciones</span><br>
+                <span class="sql-keyword">-- Una inscripción pertenece a un solo estudiante</span><br>
+                <span class="sql-keyword">CREATE TABLE</span> <span class="sql-table">Estudiantes</span> (<br>
+                &nbsp;&nbsp;<span class="sql-column">id_estudiante</span> <span class="sql-keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                &nbsp;&nbsp;<span class="sql-column">nombre</span> <span class="sql-keyword">VARCHAR(100) NOT NULL</span>,<br>
+                &nbsp;&nbsp;<span class="sql-column">cedula</span> <span class="sql-keyword">VARCHAR(10) UNIQUE</span><br>
+                );<br><br>
+                
+                <span class="sql-keyword">CREATE TABLE</span> <span class="sql-table">Inscripciones</span> (<br>
+                &nbsp;&nbsp;<span class="sql-column">id_inscripcion</span> <span class="sql-keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                &nbsp;&nbsp;<span class="sql-column">id_estudiante</span> <span class="sql-keyword">INT</span>,<br>
+                &nbsp;&nbsp;<span class="sql-column">id_materia</span> <span class="sql-keyword">INT</span>,<br>
+                &nbsp;&nbsp;<span class="sql-column">fecha_inscripcion</span> <span class="sql-keyword">DATE DEFAULT</span> (CURDATE()),<br>
+                &nbsp;&nbsp;<span class="sql-keyword">FOREIGN KEY</span> (<span class="sql-column">id_estudiante</span>) <span class="sql-keyword">REFERENCES</span> <span class="sql-table">Estudiantes</span>(<span class="sql-column">id_estudiante</span>),<br>
+                &nbsp;&nbsp;<span class="sql-keyword">FOREIGN KEY</span> (<span class="sql-column">id_materia</span>) <span class="sql-keyword">REFERENCES</span> <span class="sql-table">Materias</span>(<span class="sql-column">id_materia</span>)<br>
+                );
+            </div>
+
+            <h3>3. Integridad referencial: El guardián de las relaciones</h3>
+            <p>La integridad referencial asegura que las relaciones entre tablas sean consistentes. Es como un sistema de control que no te permite prestar un libro que no existe en la biblioteca o asignar una calificación a un estudiante que no está registrado.</p>
+            
+            <div class="example-box">
+                <h4>Reflexión consciente:</h4>
+                <p>Piensa en tu aplicación favorita (Instagram, WhatsApp, TikTok). ¿Qué tablas crees que existen detrás? ¿Cómo se relacionan los usuarios con las publicaciones, los mensajes, los "me gusta"? Dibuja un diagrama simple con las relaciones que imaginas.</p>
+                <p>Ahora piensa: ¿Qué pasaría si no existieran estas relaciones? ¿Cómo sería la experiencia de usuario? Esta reflexión te ayudará a entender por qué las relaciones entre tablas no son solo un tema técnico, sino la base de experiencias digitales coherentes.</p>
+            </div>
+        </section>
+
+        <!-- El reto final -->
+        <section class="challenge-box">
+            <h2 class="challenge-title"><i class="fas fa-trophy"></i> El reto final: Diseña la base de datos para "EcoComunidad"</h2>
+            <p>Imagina que tu colegio está desarrollando una aplicación llamada <strong>"EcoComunidad"</strong> para promover el reciclaje y la sostenibilidad. La aplicación permitirá:</p>
+            <ul style="margin-left: 20px; margin-bottom: 1.5rem;">
+                <li>Registrar estudiantes que participan en el programa</li>
+                <li>Llevar un control de los materiales reciclables que entrega cada estudiante</li>
+                <li>Asignar puntos por cada entrega</li>
+                <li>Canjear puntos por recompensas (materiales educativos, descuentos en cafetería, etc.)</li>
+                <li>Organizar eventos de reciclaje con participación estudiantil</li>
+            </ul>
+            
+            <p><strong>Tu misión:</strong> Diseña el modelo de base de datos completo con al menos 5 tablas y sus relaciones. Considera:</p>
+            <ol style="margin-left: 20px; margin-bottom: 1.5rem;">
+                <li>¿Qué tablas necesitas? (Ej: Estudiantes, Materiales, Entregas, Puntos, Recompensas, Eventos)</li>
+                <li>¿Qué relaciones existen entre ellas? (Uno a muchos, muchos a muchos)</li>
+                <li>¿Qué campos tendría cada tabla?</li>
+                <li>¿Qué claves primarias y foráneas necesitas?</li>
+            </ol>
+            
+            <p>Presenta tu diseño en forma de diagrama (puedes dibujarlo a mano o usar una herramienta digital) y escribe las sentencias SQL para crear al menos 3 de las tablas con sus relaciones. ¡Sé creativo y piensa en cómo hacer que el sistema sea justo, motivador y efectivo!</p>
+            
+            <button id="start-quiz" class="btn btn-accent" style="margin-top: 1rem;">
+                <i class="fas fa-play-circle"></i> ¿Listo para poner a prueba lo aprendido? ¡Comienza el juego!
+            </button>
+        </section>
+
+        <!-- Evaluación lúdica -->
+        <section id="quiz-container">
+            <h2 class="card-title"><i class="fas fa-gamepad"></i> Evaluación lúdica: Conecta los conceptos</h2>
+            <p>Responde las siguientes preguntas para validar tu comprensión. ¡Cada acierto vale 20 puntos!</p>
+            
+            <div class="score-container">
+                Puntuación: <span id="score">0</span>/100
+            </div>
+            
+            <div id="question-container">
+                <!-- Las preguntas se insertarán aquí mediante JavaScript -->
+            </div>
+            
+            <div id="feedback" class="feedback"></div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="next-btn" class="btn btn-secondary" disabled>
+                    <i class="fas fa-arrow-right"></i> Siguiente pregunta
+                </button>
+                <button id="restart-btn" class="btn" style="display: none;">
+                    <i class="fas fa-redo"></i> Reiniciar juego
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">Diseñado por: Edwin Méndez J.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Variables globales para el juego
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        
+        // Preguntas del juego
+        const questions = [
+            {
+                question: "En una base de datos, ¿qué es una clave primaria?",
+                options: [
+                    "Un campo que identifica de forma única cada registro en una tabla",
+                    "Un campo que permite duplicados para acelerar las búsquedas",
+                    "Un campo opcional que solo se usa en tablas grandes",
+                    "Un campo que siempre debe ser de tipo texto"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué tipo de relación existe cuando un estudiante puede inscribirse en muchas materias y una materia puede tener muchos estudiantes?",
+                options: [
+                    "Uno a uno (1:1)",
+                    "Uno a muchos (1:N)",
+                    "Muchos a muchos (N:M)",
+                    "Ninguna relación"
+                ],
+                correct: 2
+            },
+            {
+                question: "En el contexto de relaciones entre tablas, ¿qué es una clave foránea?",
+                options: [
+                    "Un campo que referencia la clave primaria de otra tabla",
+                    "Una clave que permite acceso especial a la base de datos",
+                    "Un campo que siempre debe ser numérico",
+                    "Una clave que se usa solo para tablas temporales"
+                ],
+                correct: 0
+            },
+            {
+                question: "Si tenemos una tabla 'Libros' y una tabla 'Autores', y un libro solo puede tener un autor pero un autor puede escribir muchos libros, ¿qué tipo de relación es?",
+                options: [
+                    "Uno a uno (1:1)",
+                    "Uno a muchos (1:N)",
+                    "Muchos a muchos (N:M)",
+                    "No hay relación posible"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿Qué asegura la integridad referencial en una base de datos?",
+                options: [
+                    "Que las claves foráneas siempre hagan referencia a valores existentes en la tabla referenciada",
+                    "Que todas las tablas tengan el mismo número de registros",
+                    "Que los datos se respalden automáticamente cada hora",
+                    "Que los nombres de las tablas sean descriptivos"
+                ],
+                correct: 0
+            }
+        ];
+
+        // Elementos del DOM
+        const quizContainer = document.getElementById('quiz-container');
+        const questionContainer = document.getElementById('question-container');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const restartButton = document.getElementById('restart-btn');
+        const scoreElement = document.getElementById('score');
+        const startQuizButton = document.getElementById('start-quiz');
+
+        // Iniciar el juego
+        startQuizButton.addEventListener('click', function() {
+            quizContainer.classList.add('active');
+            this.style.display = 'none';
+            loadQuestion();
+        });
+
+        // Cargar una pregunta
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+            
+            const question = questions[currentQuestion];
+            selectedOption = null;
+            
+            questionContainer.innerHTML = `
+                <h3 class="quiz-question">Pregunta ${currentQuestion + 1}: ${question.question}</h3>
+                <ul class="quiz-options">
+                    ${question.options.map((option, index) => `
+                        <li class="quiz-option" data-index="${index}">
+                            ${String.fromCharCode(65 + index)}) ${option}
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+            
+            feedbackElement.className = 'feedback';
+            feedbackElement.textContent = '';
+            nextButton.disabled = true;
+            
+            // Agregar event listeners a las opciones
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+        }
+
+        // Seleccionar una opción
+        function selectOption(e) {
+            if (selectedOption !== null) return;
+            
+            const optionElement = e.currentTarget;
+            const optionIndex = parseInt(optionElement.getAttribute('data-index'));
+            const question = questions[currentQuestion];
+            
+            selectedOption = optionIndex;
+            
+            // Marcar la opción seleccionada
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            optionElement.classList.add('selected');
+            
+            // Verificar si es correcta
+            if (optionIndex === question.correct) {
+                optionElement.classList.add('correct');
+                feedbackElement.textContent = '¡Correcto! Has entendido bien este concepto.';
+                feedbackElement.classList.add('correct');
+                score += 20;
+            } else {
+                optionElement.classList.add('incorrect');
+                feedbackElement.textContent = `Incorrecto. La respuesta correcta es: ${String.fromCharCode(65 + question.correct)}) ${question.options[question.correct]}`;
+                feedbackElement.classList.add('incorrect');
+                
+                // También mostrar la correcta
+                document.querySelector(`.quiz-option[data-index="${question.correct}"]`).classList.add('correct');
+            }
+            
+            scoreElement.textContent = score;
+            nextButton.disabled = false;
+        }
+
+        // Siguiente pregunta
+        nextButton.addEventListener('click', function() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        // Mostrar resultados finales
+        function showResults() {
+            let message = '';
+            if (score >= 80) {
+                message = '¡Excelente! Dominas las relaciones entre tablas.';
+            } else if (score >= 60) {
+                message = '¡Muy bien! Tienes un buen entendimiento del tema.';
+            } else {
+                message = 'Puedes mejorar. Revisa los conceptos y vuelve a intentarlo.';
+            }
+            
+            questionContainer.innerHTML = `
+                <h3 class="quiz-question">¡Juego completado!</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">${message}</p>
+                <p style="font-size: 1.2rem;">Tu puntuación final: <strong>${score}/100</strong></p>
+                <p style="margin-top: 1.5rem;">¿Quieres intentarlo de nuevo para mejorar tu puntuación?</p>
+            `;
+            
+            feedbackElement.className = 'feedback';
+            feedbackElement.textContent = '';
+            nextButton.style.display = 'none';
+            restartButton.style.display = 'inline-block';
+        }
+
+        // Reiniciar juego
+        restartButton.addEventListener('click', function() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            scoreElement.textContent = '0';
+            nextButton.style.display = 'inline-block';
+            restartButton.style.display = 'none';
+            nextButton.disabled = true;
+            loadQuestion();
+        });
+
+        // Efectos visuales adicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar animación sutil a las tarjetas al cargar
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 300 + (index * 200));
+            });
+        });
+    </script>
+</body>
+</html>
