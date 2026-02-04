@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de MySQL - Bucle Creativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de colores y tipografía */
+        :root {
+            --primary: #2E5BFF;
+            --primary-dark: #1A3FC7;
+            --secondary: #00C8B3;
+            --secondary-dark: #00A993;
+            --accent: #FF6B8B;
+            --light: #F7F9FC;
+            --dark: #2E384D;
+            --gray: #8C96AB;
+            --light-gray: #E0E6EF;
+            --success: #36B37E;
+            --warning: #FFAB00;
+            --danger: #FF5630;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background-color: var(--light);
+            background-image: linear-gradient(to bottom right, #f7f9fc 0%, #f0f4f8 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+        
+        .theme {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            display: inline-block;
+            font-size: 1.4rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .nav-btn {
+            background-color: var(--light);
+            color: var(--dark);
+            border: none;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .nav-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Secciones principales */
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h2 i {
+            color: var(--secondary);
+        }
+        
+        h3 {
+            color: var(--primary-dark);
+            margin: 30px 0 15px;
+            font-size: 1.6rem;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .highlight {
+            background-color: rgba(46, 91, 255, 0.08);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 25px 0;
+        }
+        
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 25px 0;
+            overflow-x: auto;
+            box-shadow: var(--shadow);
+        }
+        
+        .code-comment {
+            color: #6A9955;
+        }
+        
+        .code-keyword {
+            color: #569CD6;
+        }
+        
+        .code-string {
+            color: #CE9178;
+        }
+        
+        .code-function {
+            color: #DCDCAA;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Botones */
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #ff4d73;
+        }
+        
+        /* Juego de evaluación */
+        .quiz-container {
+            background-color: #f8fbff;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid var(--light-gray);
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            background-color: white;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            background-color: rgba(46, 91, 255, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background-color: rgba(46, 91, 255, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background-color: rgba(54, 179, 126, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--danger);
+            background-color: rgba(255, 86, 48, 0.1);
+        }
+        
+        .option-letter {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        
+        .option:hover .option-letter {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .option.selected .option-letter {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .feedback {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(54, 179, 126, 0.1);
+            color: var(--success);
+            border-left: 5px solid var(--success);
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(255, 86, 48, 0.1);
+            color: var(--danger);
+            border-left: 5px solid var(--danger);
+            display: block;
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .result-icon.success {
+            color: var(--success);
+        }
+        
+        .result-icon.warning {
+            color: var(--warning);
+        }
+        
+        /* Pie de página */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .signature {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .theme {
+                font-size: 1.2rem;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+            }
+            
+            .nav-item {
+                min-width: 100%;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            section {
+                padding: 30px 20px;
+            }
+            
+            .code-block {
+                padding: 20px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-infinity"></i>
+                    Bucle Creativo
+                </div>
+                <p class="tagline">Taller diseñado con el corazón de un docente y la mente de un programador</p>
+                <div class="theme">MySQL: Bases de datos para crear el futuro</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Navegación -->
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button class="nav-btn active" data-section="inicio">
+                        <i class="fas fa-home"></i> Inicio
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-section="contenido">
+                        <i class="fas fa-database"></i> Contenido
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-section="reto">
+                        <i class="fas fa-flag-checkered"></i> Reto Final
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" data-section="evaluacion">
+                        <i class="fas fa-gamepad"></i> Evaluación Lúdica
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Sección de inicio -->
+        <section id="inicio" class="active">
+            <h2><i class="fas fa-star"></i> Bases de datos: El lenguaje de los datos que mueven al mundo</h2>
+            
+            <div class="highlight">
+                <h3>Objetivo de aprendizaje</h3>
+                <p>Dominar la arquitectura, instalación y operación de MySQL para diseñar, implementar y gestionar bases de datos eficientes y seguras, integrando competencias técnicas como la creación de consultas complejas y procedimientos almacenados, cognitivas como el análisis de estructuras de datos y la optimización de rendimiento, y actitudinales como la curiosidad por explorar sistemas de información, la ética en el manejo de datos sensibles y la resiliencia para resolver problemas complejos, con el propósito de desarrollar soluciones tecnológicas que transformen datos en conocimiento valioso para la toma de decisiones en contextos reales.</p>
+            </div>
+            
+            <h3>Contextualización</h3>
+            <p>Imagina por un momento que cada like en tus redes sociales, cada transacción bancaria que realizas, cada calificación que recibes en el colegio, cada producto que compras en línea... todos son datos. Datos que necesitan un hogar organizado, seguro y accesible. Así como tu habitación necesita estantes y cajas para mantener el orden, el mundo digital necesita bases de datos.</p>
+            
+            <p>En Ecuador, mientras lees esto, hospitales registran historias médicas, municipios gestionan servicios públicos, emprendedores venden productos en línea, y profesores califican tareas. Detrás de cada una de estas acciones hay una base de datos trabajando silenciosamente, como el latido del corazón de la tecnología.</p>
+            
+            <p>MySQL es uno de esos sistemas que da vida a este universo de datos. Es como aprender el idioma que hablan las aplicaciones para organizar sus recuerdos (datos). En este taller, no solo aprenderás comandos técnicos, sino que descubrirás cómo dar estructura al caos, cómo transformar información dispersa en conocimiento útil, y cómo crear soluciones que impacten positivamente en tu comunidad.</p>
+            
+            <p>Te invito a un viaje donde serás arquitecto de información, detective de datos y guardián de la privacidad. Donde cada línea de código SQL que escribas será un paso hacia la comprensión del mundo digital que ya habitas.</p>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" id="start-learning">
+                    <i class="fas fa-rocket"></i> Comenzar el aprendizaje
+                </button>
+            </div>
+        </section>
+        
+        <!-- Sección de contenido -->
+        <section id="contenido">
+            <h2><i class="fas fa-database"></i> Contenido del taller</h2>
+            
+            <h3>1. Arquitectura y funcionamiento de MySQL</h3>
+            <p>MySQL funciona como una biblioteca digital con múltiples salas especializadas. Su arquitectura cliente-servero separa claramente las responsabilidades:</p>
+            
+            <ul>
+                <li><strong>Cliente</strong>: Tú, enviando solicitudes (consultas SQL) a través de aplicaciones como MySQL Workbench o phpMyAdmin.</li>
+                <li><strong>Servidor</strong>: El cerebro que procesa las solicitudes, gestionando conexiones, analizando consultas, optimizando ejecuciones y garantizando la integridad de los datos.</li>
+                <li><strong>Motor de almacenamiento</strong>: El sistema de archivos que decide cómo guardar físicamente los datos en el disco duro (InnoDB es el más común, balanceando rendimiento y confiabilidad).</li>
+            </ul>
+            
+            <div class="code-block">
+                <span class="code-comment">-- MySQL sigue este flujo cuando ejecutas una consulta:</span><br>
+                1. <span class="code-keyword">Cliente</span> envía: <span class="code-string">"SELECT * FROM estudiantes WHERE ciudad = 'Quito'"</span><br>
+                2. <span class="code-keyword">Servidor</span> recibe y <span class="code-function">analiza</span> la consulta<br>
+                3. <span class="code-keyword">Optimizador</span> busca el <span class="code-function">camino más rápido</span> para obtener los datos<br>
+                4. <span class="code-keyword">Motor de almacenamiento</span> accede a las <span class="code-function">tablas en disco</span><br>
+                5. <span class="code-keyword">Resultados</span> viajan de vuelta al <span class="code-function">cliente</span>
+            </div>
+            
+            <h3>2. Instalación y configuración del entorno MySQL</h3>
+            <p>Vamos a instalar MySQL en tres pasos sencillos:</p>
+            
+            <ol>
+                <li><strong>Descarga</strong>: Visita dev.mysql.com y descarga MySQL Community Server (gratuito).</li>
+                <li><strong>Instalación</strong>: Ejecuta el instalador. En Windows, elige "Developer Default". En Ubuntu/Mac, usa los comandos del gestor de paquetes.</li>
+                <li><strong>Configuración</strong>:
+                    <ul>
+                        <li>Establece una contraseña segura para el usuario root (ej: "MiSecurePass2024!")</li>
+                        <li>Selecciona "Standalone MySQL Server"</li>
+                        <li>Mantén el puerto predeterminado 3306</li>
+                        <li>Configura el servicio para que inicie automáticamente</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <div class="code-block">
+                <span class="code-comment">-- Para verificar la instalación en la terminal (Linux/Mac) o línea de comandos (Windows):</span><br>
+                <span class="code-function">mysql</span> --version<br><br>
+                
+                <span class="code-comment">-- Conectar al servidor recién instalado:</span><br>
+                <span class="code-function">mysql</span> -u root -p<br>
+                <span class="code-comment">-- (te pedirá la contraseña que configuraste durante la instalación)</span>
+            </div>
+            
+            <h3>3. Gestión de bases de datos y usuarios</h3>
+            <p>En el mundo real, no todos deben tener acceso a todo. MySQL permite crear "comunidades" organizadas:</p>
+            
+            <div class="code-block">
+                <span class="code-comment">-- 1. Crear una base de datos para un colegio</span><br>
+                <span class="code-keyword">CREATE DATABASE</span> colegio_alberto;<br>
+                <span class="code-keyword">USE</span> colegio_alberto;<br><br>
+                
+                <span class="code-comment">-- 2. Crear usuarios con privilegios específicos</span><br>
+                <span class="code-keyword">CREATE USER</span> 'profesor_java'@'localhost' <span class="code-keyword">IDENTIFIED BY</span> 'ClaveSegura123';<br>
+                <span class="code-keyword">CREATE USER</span> 'administrador'@'localhost' <span class="code-keyword">IDENTIFIED BY</span> 'AdminSecure456';<br><br>
+                
+                <span class="code-comment">-- 3. Asignar permisos (seguridad por capas)</span><br>
+                <span class="code-comment">-- Profesor puede ver y modificar datos, pero no cambiar la estructura</span><br>
+                <span class="code-keyword">GRANT</span> SELECT, INSERT, UPDATE, DELETE <span class="code-keyword">ON</span> colegio_alberto.* <span class="code-keyword">TO</span> 'profesor_java'@'localhost';<br><br>
+                
+                <span class="code-comment">-- Administrador tiene control total</span><br>
+                <span class="code-keyword">GRANT</span> ALL PRIVILEGES <span class="code-keyword">ON</span> colegio_alberto.* <span class="code-keyword">TO</span> 'administrador'@'localhost';<br><br>
+                
+                <span class="code-comment">-- 4. Aplicar los cambios de permisos</span><br>
+                <span class="code-keyword">FLUSH</span> PRIVILEGES;
+            </div>
+            
+            <h3>4. Lenguaje SQL en MySQL (DDL, DML y DCL)</h3>
+            <p>SQL es el idioma para conversar con las bases de datos. Se divide en tres dialectos principales:</p>
+            
+            <div class="code-block">
+                <span class="code-comment">-- DDL (Lenguaje de Definición de Datos) - Construir la casa</span><br>
+                <span class="code-keyword">CREATE TABLE</span> estudiantes (<br>
+                &nbsp;&nbsp;id_estudiante <span class="code-keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                &nbsp;&nbsp;cedula <span class="code-keyword">VARCHAR</span>(10) <span class="code-keyword">UNIQUE NOT NULL</span>,<br>
+                &nbsp;&nbsp;nombres <span class="code-keyword">VARCHAR</span>(50) <span class="code-keyword">NOT NULL</span>,<br>
+                &nbsp;&nbsp;apellidos <span class="code-keyword">VARCHAR</span>(50) <span class="code-keyword">NOT NULL</span>,<br>
+                &nbsp;&nbsp;fecha_nacimiento <span class="code-keyword">DATE</span>,<br>
+                &nbsp;&nbsp;ciudad <span class="code-keyword">VARCHAR</span>(30) <span class="code-keyword">DEFAULT</span> 'Quito',<br>
+                &nbsp;&nbsp;promedio <span class="code-keyword">DECIMAL</span>(3,2) <span class="code-keyword">CHECK</span> (promedio >= 0 <span class="code-keyword">AND</span> promedio <= 10)<br>
+                );<br><br>
+                
+                <span class="code-comment">-- DML (Lenguaje de Manipulación de Datos) - Poblar la casa</span><br>
+                <span class="code-keyword">INSERT INTO</span> estudiantes (cedula, nombres, apellidos, fecha_nacimiento, promedio)<br>
+                <span class="code-keyword">VALUES</span> ('1723456789', 'María José', 'Pérez González', '2006-05-15', 8.75);<br><br>
+                
+                <span class="code-keyword">UPDATE</span> estudiantes <span class="code-keyword">SET</span> ciudad = 'Cuenca' <span class="code-keyword">WHERE</span> id_estudiante = 1;<br><br>
+                
+                <span class="code-comment">-- DCL (Lenguaje de Control de Datos) - Dar llaves de la casa</span><br>
+                <span class="code-keyword">GRANT</span> SELECT <span class="code-keyword">ON</span> estudiantes <span class="code-keyword">TO</span> 'profesor_java'@'localhost';<br>
+                <span class="code-keyword">REVOKE</span> DELETE <span class="code-keyword">ON</span> estudiantes <span class="code-keyword">FROM</span> 'profesor_java'@'localhost';
+            </div>
+            
+            <p><strong>Reflexión</strong>: ¿Por qué es importante separar los privilegios? Piensa en tu colegio: ¿todos los profesores deberían poder modificar las notas de todos los estudiantes? ¿O cada profesor solo las de sus asignaturas? MySQL permite este nivel de precisión en la seguridad.</p>
+            
+            <h3>5. Consultas avanzadas, índices y vistas</h3>
+            <p>Cuando tu base de datos crece (imagina 10,000 estudiantes), buscar información se vuelve lento. Los índices son como el índice de un libro: te llevan directamente a la página correcta.</p>
+            
+            <div class="code-block">
+                <span class="code-comment">-- Sin índice, MySQL debe revisar TODOS los registros (lento)</span><br>
+                <span class="code-keyword">SELECT</span> * <span class="code-keyword">FROM</span> estudiantes <span class="code-keyword">WHERE</span> cedula = '1723456789';<br><br>
+                
+                <span class="code-comment">-- Crear un índice para acelerar búsquedas por cédula</span><br>
+                <span class="code-keyword">CREATE INDEX</span> idx_cedula <span class="code-keyword">ON</span> estudiantes(cedula);<br><br>
+                
+                <span class="code-comment">-- Ahora la misma consulta es mucho más rápida</span><br>
+                <span class="code-keyword">SELECT</span> * <span class="code-keyword">FROM</span> estudiantes <span class="code-keyword">WHERE</span> cedula = '1723456789';<br><br>
+                
+                <span class="code-comment">-- Vistas: Consultas guardadas como "ventanas" personalizadas</span><br>
+                <span class="code-keyword">CREATE VIEW</span> estudiantes_quito_excelentes <span class="code-keyword">AS</span><br>
+                <span class="code-keyword">SELECT</span> nombres, apellidos, promedio, ciudad<br>
+                <span class="code-keyword">FROM</span> estudiantes<br>
+                <span class="code-keyword">WHERE</span> ciudad = 'Quito' <span class="code-keyword">AND</span> promedio >= 9.0<br>
+                <span class="code-keyword">ORDER BY</span> promedio <span class="code-keyword">DESC</span>;<br><br>
+                
+                <span class="code-comment">-- Usar la vista como si fuera una tabla normal</span><br>
+                <span class="code-keyword">SELECT</span> * <span class="code-keyword">FROM</span> estudiantes_quito_excelentes;
+            </div>
+            
+            <h3>6. Procedimientos almacenados y disparadores (triggers)</h3>
+            <p>Los procedimientos son "recetas guardadas" y los triggers son "guardianes automáticos" de tus datos.</p>
+            
+            <div class="code-block">
+                <span class="code-comment">-- Procedimiento almacenado: Calcular el promedio de un estudiante</span><br>
+                <span class="code-keyword">DELIMITER</span> $$<br>
+                <span class="code-keyword">CREATE PROCEDURE</span> calcular_promedio_estudiante(<span class="code-keyword">IN</span> estudiante_id <span class="code-keyword">INT</span>)<br>
+                <span class="code-keyword">BEGIN</span><br>
+                &nbsp;&nbsp;<span class="code-keyword">DECLARE</span> promedio_calculado <span class="code-keyword">DECIMAL</span>(3,2);<br>
+                &nbsp;&nbsp;<br>
+                &nbsp;&nbsp;<span class="code-keyword">SELECT</span> AVG(calificacion) <span class="code-keyword">INTO</span> promedio_calculado<br>
+                &nbsp;&nbsp;<span class="code-keyword">FROM</span> calificaciones<br>
+                &nbsp;&nbsp;<span class="code-keyword">WHERE</span> id_estudiante = estudiante_id;<br>
+                &nbsp;&nbsp;<br>
+                &nbsp;&nbsp;<span class="code-keyword">UPDATE</span> estudiantes<br>
+                &nbsp;&nbsp;<span class="code-keyword">SET</span> promedio = promedio_calculado<br>
+                &nbsp;&nbsp;<span class="code-keyword">WHERE</span> id_estudiante = estudiante_id;<br>
+                &nbsp;&nbsp;<br>
+                &nbsp;&nbsp;<span class="code-keyword">SELECT</span> CONCAT('Promedio actualizado: ', promedio_calculado) <span class="code-keyword">AS</span> resultado;<br>
+                <span class="code-keyword">END</span>$$<br>
+                <span class="code-keyword">DELIMITER</span> ;<br><br>
+                
+                <span class="code-comment">-- Trigger: Guardar histórico cuando cambia una calificación</span><br>
+                <span class="code-keyword">CREATE TRIGGER</span> guardar_historico_calificaciones<br>
+                <span class="code-keyword">AFTER UPDATE</span> <span class="code-keyword">ON</span> calificaciones<br>
+                <span class="code-keyword">FOR EACH ROW</span><br>
+                <span class="code-keyword">BEGIN</span><br>
+                &nbsp;&nbsp;<span class="code-keyword">INSERT INTO</span> historico_calificaciones (id_calificacion, calificacion_anterior, calificacion_nueva, fecha_cambio)<br>
+                &nbsp;&nbsp;<span class="code-keyword">VALUES</span> (OLD.id_calificacion, OLD.calificacion, NEW.calificacion, <span class="code-function">NOW</span>());<br>
+                <span class="code-keyword">END</span>;<br>
+            </div>
+            
+            <h3>7. Optimización y seguridad en MySQL</h3>
+            <p>Una base de datos lenta o insegura es como una biblioteca con libros desordenados y puertas abiertas. Vamos a optimizar y proteger:</p>
+            
+            <div class="code-block">
+                <span class="code-comment">-- OPTIMIZACIÓN: Consultas eficientes</span><br>
+                <span class="code-comment">-- Mala (trae todas las columnas, luego filtra)</span><br>
+                <span class="code-keyword">SELECT</span> * <span class="code-keyword">FROM</span> estudiantes <span class="code-keyword">WHERE</span> ciudad = 'Guayaquil';<br><br>
+                
+                <span class="code-comment">-- Buena (solo trae lo necesario)</span><br>
+                <span class="code-keyword">SELECT</span> id_estudiante, nombres, apellidos <span class="code-keyword">FROM</span> estudiantes <br>
+                <span class="code-keyword">WHERE</span> ciudad = 'Guayaquil';<br><br>
+                
+                <span class="code-comment">-- SEGURIDAD: Buenas prácticas</span><br>
+                1. <span class="code-comment">-- NUNCA almacenes contraseñas en texto plano</span><br>
+                <span class="code-keyword">INSERT INTO</span> usuarios (username, password) <br>
+                <span class="code-keyword">VALUES</span> ('admin', <span class="code-function">SHA2</span>('MiContraseñaSecreta', 256));<br><br>
+                
+                2. <span class="code-comment">-- Usa parámetros para prevenir inyección SQL</span><br>
+                <span class="code-comment">-- En PHP sería: $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = ?");</span><br>
+                <span class="code-comment">-- $stmt->execute([$username]);</span><br><br>
+                
+                3. <span class="code-comment">-- Limita intentos de conexión fallidos</span><br>
+                <span class="code-comment">-- En my.cnf: max_connect_errors = 100</span>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>Experimento:</strong> Crea una tabla con 1000 estudiantes ficticios usando un procedimiento almacenado. Luego, mide el tiempo de una consulta sin índice y con índice. ¿Notas la diferencia? Esto te ayudará a entender por qué la optimización es crucial en aplicaciones reales como Facebook o WhatsApp (que usan MySQL).</p>
+            </div>
+        </section>
+        
+        <!-- Sección del reto final -->
+        <section id="reto">
+            <h2><i class="fas fa-flag-checkered"></i> El Reto Final: Sistema de Gestión para el Colegio "Amazonía Digital"</h2>
+            
+            <p>El Colegio "Amazonía Digital" en Tena, Ecuador, necesita un sistema para gestionar sus programas de educación ambiental. Como equipo de desarrollo, deberás crear una base de datos completa que cumpla con los siguientes requerimientos:</p>
+            
+            <h3>Contexto del problema</h3>
+            <p>El colegio tiene 500 estudiantes participando en proyectos de reforestación, reciclaje y conservación de especies. Actualmente, registran todo en hojas de cálculo desorganizadas, lo que genera duplicidad de datos, errores en reportes y dificultad para seguir el progreso de cada estudiante.</p>
+            
+            <h3>Tu misión</h3>
+            <p>Diseñar e implementar una base de datos MySQL que incluya:</p>
+            
+            <ol>
+                <li><strong>Estructura de tablas</strong> para:
+                    <ul>
+                        <li>Estudiantes (con datos personales y contacto de emergencia)</li>
+                        <li>Proyectos ambientales (tipo, ubicación, fecha inicio/fin)</li>
+                        <li>Inscripciones (qué estudiante en qué proyecto)</li>
+                        <li>Evaluaciones (calificaciones por proyecto con retroalimentación)</li>
+                        <li>Bitácora de actividades (registro diario de trabajo en campo)</li>
+                    </ul>
+                </li>
+                <li><strong>Seguridad por roles</strong>:
+                    <ul>
+                        <li>Estudiantes: Solo ver sus propios datos y proyectos</li>
+                        <li>Profesores: Ver todos los estudiantes de sus proyectos, calificar</li>
+                        <li>Coordinadores: Acceso completo a su área (reforestación, reciclaje, etc.)</li>
+                        <li>Administradores: Control total del sistema</li>
+                    </ul>
+                </li>
+                <li><strong>Funcionalidades avanzadas</strong>:
+                    <ul>
+                        <li>Vista que muestre el "ranking ecológico" de estudiantes por horas de servicio</li>
+                        <li>Procedimiento que calcule automáticamente el impacto ambiental (árboles plantados, kg reciclados)</li>
+                        <li>Trigger que registre automáticamente cambios en las calificaciones con justificación</li>
+                        <li>Índices para optimizar búsquedas por nombre de estudiante y tipo de proyecto</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Requisitos técnicos específicos</h3>
+            <div class="code-block">
+                <span class="code-comment">-- 1. Crea la base de datos</span><br>
+                <span class="code-keyword">CREATE DATABASE</span> colegio_amazonia_digital;<br><br>
+                
+                <span class="code-comment">-- 2. Tabla estudiantes debe incluir al menos:</span><br>
+                <span class="code-comment">-- cédula (única), nombres, apellidos, fecha_nacimiento, </span><br>
+                <span class="code-comment">-- email, telefono_emergencia, fecha_inscripcion</span><br><br>
+                
+                <span class="code-comment">-- 3. Tabla proyectos debe incluir:</span><br>
+                <span class="code-comment">-- nombre, tipo (reforestacion/reciclaje/conservacion), </span><br>
+                <span class="code-comment">-- ubicacion_gps, coordinador_id, horas_requeridas</span><br><br>
+                
+                <span class="code-comment">-- 4. Implementa al menos 3 vistas diferentes</span><br>
+                <span class="code-comment">-- 5. Crea 2 procedimientos almacenados</span><br>
+                <span class="code-comment">-- 6. Implementa 2 triggers para auditoría</span>
+            </div>
+            
+            <h3>Entrega y evaluación</h3>
+            <p>Deberás entregar:</p>
+            <ul>
+                <li>Script SQL completo con toda la estructura</li>
+                <li>Documento con diagrama de la base de datos (puedes dibujarlo a mano y tomar foto)</li>
+                <li>Ejemplos de consultas complejas que resolverían preguntas como:
+                    <ul>
+                        <li>"¿Cuántos kg de plástico recicló el colegio en el último mes?"</li>
+                        <li>"¿Qué estudiantes cumplieron más del 80% de horas requeridas?"</li>
+                        <li>"¿Cuál es el proyecto con mayor participación femenina?"</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <div class="highlight">
+                <p><strong>Reflexión crítica:</strong> Piensa en la ética de los datos que manejas. ¿Qué información de los estudiantes es sensible? ¿Cómo protegerías datos como dirección exacta o problemas de salud? Considera aspectos del Reglamento de Protección de Datos Personales de Ecuador en tu diseño.</p>
+            </div>
+            
+            <p>Este reto integra todo lo aprendido: desde la creación de tablas hasta la optimización y seguridad. Trabaja en equipo, divide responsabilidades y recuerda: cada línea de código que escribas está ayudando a proteger la Amazonía ecuatoriana a través de la educación.</p>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-secondary" id="hint-button">
+                    <i class="fas fa-lightbulb"></i> Ver pista para comenzar
+                </button>
+            </div>
+            
+            <div id="hint" style="display: none; margin-top: 30px; padding: 20px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                <h4>Pista para comenzar:</h4>
+                <p>Empieza por modelar las entidades principales (estudiantes, proyectos) y su relación (muchos a muchos, por eso necesitas tabla inscripciones). Luego agrega atributos específicos como "tipo_sangre" para estudiantes (importante en emergencias en campo) y "impacto_estimado" para proyectos. No olvides campos de auditoría como "fecha_creacion" y "usuario_creacion" en cada tabla.</p>
+            </div>
+        </section>
+        
+        <!-- Sección de evaluación lúdica -->
+        <section id="evaluacion">
+            <h2><i class="fas fa-gamepad"></i> Evaluación Lúdica: Desafío MySQL</h2>
+            <p>¡Pon a prueba lo que has aprendido! Responde estas 5 preguntas sobre MySQL. Cada respuesta correcta vale 20 puntos. ¡Intenta llegar a 100!</p>
+            
+            <div class="quiz-container">
+                <div class="score-container">
+                    <div class="score">Puntuación: <span id="current-score">0</span>/100</div>
+                    <div id="question-counter">Pregunta 1 de 5</div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="quiz-progress" style="width: 0%;"></div>
+                </div>
+                
+                <div id="quiz-content">
+                    <div class="question" id="question-text">Cargando pregunta...</div>
+                    
+                    <div class="options" id="options-container">
+                        <!-- Las opciones se cargarán dinámicamente -->
+                    </div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    
+                    <div style="text-align: center;">
+                        <button class="btn btn-accent" id="next-question" disabled>
+                            <i class="fas fa-forward"></i> Siguiente pregunta
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="quiz-result" class="quiz-result">
+                    <div class="result-icon" id="result-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 id="result-title">¡Resultados!</h3>
+                    <p id="result-message">Has completado el cuestionario.</p>
+                    <p id="result-score">Tu puntuación: <span id="final-score">0</span>/100</p>
+                    <button class="btn" id="restart-quiz">
+                        <i class="fas fa-redo"></i> Intentar nuevamente
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="signature">Diseñado por: Edwin Méndez J.</p>
+                <p style="margin-top: 15px; opacity: 0.7;">© 2024 Bucle Creativo - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Datos para el cuestionario
+        const quizQuestions = [
+            {
+                question: "¿Cuál es la principal ventaja de usar índices en una tabla MySQL?",
+                options: [
+                    "Reducen el espacio en disco de la tabla",
+                    "Aceleran las operaciones de búsqueda y filtrado",
+                    "Permiten almacenar más datos en cada fila",
+                    "Eliminan automáticamente datos duplicados"
+                ],
+                correct: 1,
+                explanation: "Los índices funcionan como el índice de un libro, permitiendo a MySQL encontrar rápidamente las filas que coinciden con una condición WHERE, acelerando significativamente las consultas de búsqueda."
+            },
+            {
+                question: "¿Qué tipo de lenguaje SQL se utiliza para crear o modificar la estructura de una base de datos?",
+                options: [
+                    "DML (Data Manipulation Language)",
+                    "DDL (Data Definition Language)",
+                    "DCL (Data Control Language)",
+                    "TCL (Transaction Control Language)"
+                ],
+                correct: 1,
+                explanation: "DDL (Lenguaje de Definición de Datos) incluye comandos como CREATE, ALTER y DROP que se usan para definir la estructura de la base de datos: tablas, índices, vistas, etc."
+            },
+            {
+                question: "¿Cuál de estas es la mejor práctica para almacenar contraseñas en una base de datos?",
+                options: [
+                    "Guardarlas en texto plano para facilitar el acceso",
+                    "Encriptarlas usando algoritmos de hash como SHA-256",
+                    "Almacenarlas en una hoja de cálculo aparte",
+                    "Utilizar siempre la misma contraseña para todos los usuarios"
+                ],
+                correct: 1,
+                explanation: "Las contraseñas deben almacenarse usando funciones hash criptográficas (como SHA-256) con un 'salt' único. Esto protege las contraseñas incluso si la base de datos es comprometida."
+            },
+            {
+                question: "¿Qué hace un trigger (disparador) en MySQL?",
+                options: [
+                    "Inicia el servidor de base de datos automáticamente",
+                    "Ejecuta código SQL automáticamente ante eventos específicos",
+                    "Desconecta a los usuarios inactivos para ahorrar recursos",
+                    "Crea copias de seguridad programadas de la base de datos"
+                ],
+                correct: 1,
+                explanation: "Un trigger es un objeto de base de datos que se ejecuta automáticamente cuando ocurre un evento específico (INSERT, UPDATE, DELETE) en una tabla. Es útil para auditoría, validación y mantener la integridad referencial."
+            },
+            {
+                question: "En el contexto de MySQL, ¿qué es una vista?",
+                options: [
+                    "Una ventana gráfica para ver los datos en formato tabla",
+                    "Una consulta almacenada que se comporta como una tabla virtual",
+                    "La pantalla inicial de phpMyAdmin",
+                    "Un tipo especial de índice para búsquedas rápidas"
+                ],
+                correct: 1,
+                explanation: "Una vista es una tabla virtual basada en el resultado de una consulta SQL. Permite simplificar consultas complejas, proporcionar una capa de seguridad (ocultando columnas sensibles) y presentar los datos de manera organizada sin duplicarlos."
+            }
+        ];
+        
+        // Variables del cuestionario
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        
+        // Navegación entre secciones
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar navegación
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Actualizar botones activos
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar sección correspondiente
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetSection) {
+                            section.classList.add('active');
+                        }
+                    });
+                    
+                    // Inicializar cuestionario si es la sección de evaluación
+                    if (targetSection === 'evaluacion') {
+                        initQuiz();
+                    }
+                });
+            });
+            
+            // Botón para comenzar aprendizaje
+            document.getElementById('start-learning').addEventListener('click', function() {
+                document.querySelector('[data-section="contenido"]').click();
+            });
+            
+            // Botón para pista en reto final
+            document.getElementById('hint-button').addEventListener('click', function() {
+                const hint = document.getElementById('hint');
+                if (hint.style.display === 'none' || hint.style.display === '') {
+                    hint.style.display = 'block';
+                    this.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar pista';
+                } else {
+                    hint.style.display = 'none';
+                    this.innerHTML = '<i class="fas fa-lightbulb"></i> Ver pista para comenzar';
+                }
+            });
+            
+            // Inicializar cuestionario si estamos en la sección de evaluación
+            if (document.getElementById('evaluacion').classList.contains('active')) {
+                initQuiz();
+            }
+        });
+        
+        // Funciones del cuestionario
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            
+            updateScoreDisplay();
+            loadQuestion(currentQuestion);
+            document.getElementById('quiz-result').style.display = 'none';
+            document.getElementById('quiz-content').style.display = 'block';
+        }
+        
+        function loadQuestion(questionIndex) {
+            const question = quizQuestions[questionIndex];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('question-counter').textContent = `Pregunta ${questionIndex + 1} de ${quizQuestions.length}`;
+            
+            // Actualizar barra de progreso
+            const progress = ((questionIndex) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+            
+            // Cargar opciones
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-letter">${optionLetters[index]}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                
+                optionElement.addEventListener('click', function() {
+                    if (!document.querySelector('.option.selected')) {
+                        selectOption(index, optionElement);
+                    }
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Reiniciar estado
+            document.getElementById('next-question').disabled = true;
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').style.display = 'none';
+        }
+        
+        function selectOption(optionIndex, optionElement) {
+            const question = quizQuestions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            // Marcar la opción seleccionada
+            optionElement.classList.add('selected');
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Deshabilitar otras opciones
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            // Mostrar retroalimentación
+            const feedback = document.getElementById('feedback');
+            
+            if (optionIndex === question.correct) {
+                optionElement.classList.add('correct');
+                feedback.textContent = `¡Correcto! ${question.explanation}`;
+                feedback.className = 'feedback correct';
+                score += 20;
+            } else {
+                optionElement.classList.add('incorrect');
+                
+                // Marcar la correcta
+                options[question.correct].classList.add('correct');
+                
+                feedback.textContent = `Incorrecto. La respuesta correcta es: ${question.options[question.correct]}. ${question.explanation}`;
+                feedback.className = 'feedback incorrect';
+            }
+            
+            feedback.style.display = 'block';
+            updateScoreDisplay();
+            document.getElementById('next-question').disabled = false;
+        }
+        
+        function updateScoreDisplay() {
+            document.getElementById('current-score').textContent = score;
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizQuestions.length) {
+                loadQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        }
+        
+        function showResults() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'block';
+            
+            // Actualizar barra de progreso al 100%
+            document.getElementById('quiz-progress').style.width = '100%';
+            
+            // Mostrar resultados
+            document.getElementById('final-score').textContent = score;
+            
+            const resultIcon = document.getElementById('result-icon');
+            const resultTitle = document.getElementById('result-title');
+            const resultMessage = document.getElementById('result-message');
+            
+            if (score >= 80) {
+                resultIcon.innerHTML = '<i class="fas fa-trophy success"></i>';
+                resultIcon.className = 'result-icon success';
+                resultTitle.textContent = '¡Excelente!';
+                resultMessage.textContent = 'Dominas los conceptos fundamentales de MySQL. Estás listo para diseñar bases de datos robustas y seguras.';
+            } else if (score >= 60) {
+                resultIcon.innerHTML = '<i class="fas fa-star warning"></i>';
+                resultIcon.className = 'result-icon warning';
+                resultTitle.textContent = '¡Buen trabajo!';
+                resultMessage.textContent = 'Tienes una base sólida, pero hay algunos conceptos que puedes reforzar. Revisa las explicaciones de las preguntas incorrectas.';
+            } else {
+                resultIcon.innerHTML = '<i class="fas fa-redo"></i>';
+                resultTitle.textContent = '¡Sigue practicando!';
+                resultMessage.textContent = 'MySQL tiene sus complejidades. Te recomiendo revisar los contenidos del taller y volver a intentarlo.';
+            }
+        }
+        
+        function restartQuiz() {
+            initQuiz();
+        }
+        
+        // Asignar eventos a los botones del cuestionario
+        document.getElementById('next-question').addEventListener('click', nextQuestion);
+        document.getElementById('restart-quiz').addEventListener('click', restartQuiz);
+    </script>
+</body>
+</html>

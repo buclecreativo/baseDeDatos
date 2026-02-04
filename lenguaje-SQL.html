@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo: El Arte de Organizar el Mundo con SQL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        .btn-hover:hover {
+            background-color: #4338ca !important;
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+        }
+        .sql-highlight {
+            background: #1e1e1e;
+            color: #dcdcdc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--secondary);
+            margin: 1rem 0;
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="leading-relaxed">
+
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white py-12 px-6 text-center shadow-lg">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Bucle Creativo</h1>
+        <p class="text-xl opacity-90 italic">"Taller diseñado con el corazón de un docente y la mente de un programador"</p>
+        <div class="mt-8 inline-block bg-indigo-800 px-6 py-2 rounded-full text-sm font-semibold tracking-widest uppercase">
+            Tema: Lenguaje SQL y Estructuras de Datos
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-12">
+        
+        <!-- Título Inspirador -->
+        <section class="mb-16 text-center">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-indigo-900 mb-6">
+                El Arquitecto de Datos: <br>
+                <span class="text-emerald-600">Construyendo Orden en el Caos Digital</span>
+            </h2>
+            <div class="w-24 h-1 bg-amber-500 mx-auto"></div>
+        </section>
+
+        <!-- Objetivo de Aprendizaje -->
+        <section class="bg-white p-8 rounded-2xl shadow-sm border-l-8 border-indigo-600 mb-12">
+            <h3 class="text-2xl font-bold mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Objetivo de Aprendizaje
+            </h3>
+            <p class="text-lg text-slate-700">
+                Dominar las herramientas fundamentales del lenguaje SQL para la gestión, manipulación y optimización de bases de datos relacionales, integrando habilidades técnicas de consulta y diseño estructural con una postura ética y crítica que permita al estudiante proponer soluciones eficientes y resilientes ante los desafíos de la sociedad de la información actual.
+            </p>
+        </section>
+
+        <!-- Contextualización -->
+        <section class="mb-16">
+            <div class="flex flex-col md:flex-row gap-10 items-center">
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold text-indigo-900 mb-4">Imaginen un mundo sin memoria...</h3>
+                    <p class="text-slate-600 mb-4">
+                        Piensen en su aplicación favorita, tal vez una red social o el sistema de notas de su colegio aquí en Ecuador. Sin una base de datos, cada "like", cada mensaje y cada calificación se desvanecería al cerrar la pantalla. 
+                    </p>
+                    <p class="text-slate-600">
+                        Aprender SQL no es solo aprender a escribir comandos en una pantalla negra; es aprender a darle estructura a la realidad. Es como aprender a leer los hilos invisibles que conectan una compra en una tienda de Guayaquil con un inventario en Quito. Es, en esencia, aprender a ser un guardián de la verdad digital.
+                    </p>
+                </div>
+                <div class="md:w-1/2 bg-indigo-100 p-8 rounded-3xl text-center">
+                    <span class="text-6xl">💾</span>
+                    <p class="mt-4 font-semibold text-indigo-800 italic">"Los datos son el petróleo del siglo XXI, pero el SQL es la refinería que los hace útiles."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Desarrollo de la Actividad -->
+        <section class="space-y-12">
+            
+            <!-- Parte 1: Consultas y Filtros -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover-card">
+                <h4 class="text-xl font-bold text-emerald-700 mb-4">1. Explorando el Universo: Consultas y Filtros</h4>
+                <p class="mb-4">Para obtener información específica, usamos la estructura básica: <code>SELECT</code> (qué quiero), <code>FROM</code> (de dónde) y <code>WHERE</code> (bajo qué condición).</p>
+                <div class="sql-highlight code-font">
+                    -- Busquemos estudiantes de 3ero de Bachillerato con promedio mayor a 9
+                    SELECT DISTINCT nombre, apellido 
+                    FROM estudiantes 
+                    WHERE curso = '3ero' AND promedio > 9 
+                    ORDER BY apellido ASC 
+                    LIMIT 10;
+                </div>
+                <p class="text-sm text-slate-500 mt-2 italic">Usa <code>LIKE '%Quito%'</code> para buscar coincidencias parciales y <code>BETWEEN</code> para rangos.</p>
+            </div>
+
+            <!-- Parte 2: Funciones y Agrupaciones -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover-card">
+                <h4 class="text-xl font-bold text-emerald-700 mb-4">2. La Fuerza de la Unión: Funciones y Agregaciones</h4>
+                <p class="mb-4">A veces no queremos filas individuales, sino resúmenes: ¿Cuál es el promedio general? ¿Cuántos alumnos hay por provincia?</p>
+                <div class="sql-highlight code-font">
+                    SELECT provincia, COUNT(*) as total_estudiantes, AVG(edad) as edad_promedio
+                    FROM estudiantes
+                    GROUP BY provincia
+                    HAVING total_estudiantes > 50;
+                </div>
+            </div>
+
+            <!-- Parte 3: JOINS -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover-card border-t-4 border-amber-400">
+                <h4 class="text-xl font-bold text-amber-700 mb-4">3. Puentes Digitales: JOINS</h4>
+                <p class="mb-4">En el mundo real, la información está repartida. Los <strong>JOINS</strong> son los puentes que unen tablas.</p>
+                <ul class="list-disc ml-6 space-y-2 text-slate-700">
+                    <li><strong>INNER JOIN:</strong> Solo lo que coincide en ambos lados.</li>
+                    <li><strong>LEFT JOIN:</strong> Todo de la izquierda, aunque no tenga pareja a la derecha.</li>
+                </ul>
+                <div class="sql-highlight code-font">
+                    SELECT e.nombre, c.nombre_curso
+                    FROM estudiantes e
+                    INNER JOIN matriculas m ON e.id = m.estudiante_id
+                    INNER JOIN cursos c ON m.curso_id = c.id;
+                </div>
+            </div>
+
+            <!-- Parte 4: DDL y DML -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover-card">
+                <h4 class="text-xl font-bold text-indigo-700 mb-4">4. Crear y Transformar: DDL y DML</h4>
+                <p class="mb-4"><strong>DDL</strong> define la estructura (el molde) y <strong>DML</strong> manipula el contenido (la masa).</p>
+                <div class="sql-highlight code-font">
+                    -- Crear una tabla con reglas (Constraints)
+                    CREATE TABLE inventario (
+                        id INT PRIMARY KEY,
+                        producto VARCHAR(100) NOT NULL,
+                        precio DECIMAL(10,2) CHECK (precio > 0),
+                        stock INT DEFAULT 0
+                    );
+
+                    -- Actualizar datos con cuidado
+                    UPDATE inventario SET stock = stock + 10 WHERE id = 5;
+                </div>
+            </div>
+
+            <!-- Parte 5: Transacciones y Seguridad -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover-card border-l-4 border-red-500">
+                <h4 class="text-xl font-bold text-red-700 mb-4">5. Seguridad y Resiliencia: Transacciones</h4>
+                <p class="mb-4">Imagina que transfieres dinero. Si se descuenta de tu cuenta pero no llega a la otra por un apagón, ¡hay un problema! Las transacciones aseguran que <em>todo sucede o nada sucede</em>.</p>
+                <div class="sql-highlight code-font">
+                    BEGIN TRANSACTION;
+                    UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1;
+                    UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2;
+                    -- Si algo falla, usamos ROLLBACK. Si todo ok:
+                    COMMIT;
+                </div>
+            </div>
+        </section>
+
+        <!-- El Reto Final -->
+        <section class="mt-20 bg-indigo-900 text-white p-10 rounded-3xl shadow-2xl overflow-hidden relative">
+            <div class="relative z-10">
+                <h3 class="text-3xl font-bold mb-6">🚀 El Reto: "S.O.S. Emprendimiento Local"</h3>
+                <p class="text-lg mb-6 leading-relaxed">
+                    Un grupo de artesanos de Otavalo necesita digitalizar sus ventas para llegar a todo el mundo. Tu misión es diseñar la estructura (DDL) para sus productos y clientes, insertar datos de prueba (DML) y crear una consulta (JOIN) que muestre qué productos ha comprado cada cliente, aplicando un filtro para ver solo las ventas superiores a $50 realizadas este año. 
+                </p>
+                <div class="bg-indigo-800 p-6 rounded-xl border border-indigo-700 italic">
+                    "Recuerda: Un buen diseño de base de datos es aquel que puede crecer sin romperse, como un árbol bien plantado."
+                </div>
+            </div>
+            <div class="absolute top-0 right-0 p-10 opacity-10 text-9xl">💻</div>
+        </section>
+
+        <!-- Evaluación Lúdica (Test Interactivo) -->
+        <section class="mt-20 bg-emerald-50 p-8 md:p-12 rounded-3xl border-2 border-emerald-200" id="quiz-section">
+            <h3 class="text-3xl font-bold text-emerald-900 mb-8 text-center">🧠 Pon a prueba tu lógica</h3>
+            
+            <div id="quiz-container" class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+                <div id="question-area">
+                    <p id="question-text" class="text-xl font-semibold mb-6">Cargando pregunta...</p>
+                    <div id="options-area" class="space-y-4">
+                        <!-- Opciones dinámicas -->
+                    </div>
+                </div>
+                
+                <div id="feedback-area" class="mt-6 hidden p-4 rounded-lg text-center font-bold"></div>
+
+                <div class="mt-8 flex justify-between items-center">
+                    <p class="text-emerald-700 font-medium">Puntaje: <span id="score">0</span>/5</p>
+                    <button id="next-btn" class="hidden bg-emerald-600 text-white px-8 py-2 rounded-full font-bold btn-hover transition-all">
+                        Siguiente Pregunta
+                    </button>
+                    <button id="restart-btn" class="hidden bg-indigo-600 text-white px-8 py-2 rounded-full font-bold btn-hover transition-all">
+                        Reiniciar Taller
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 px-6 mt-12 text-center">
+        <div class="max-w-5xl mx-auto border-t border-slate-800 pt-8">
+            <p class="text-lg mb-2">Diseñado por: <span class="text-white font-semibold">Edwin Méndez J.</span></p>
+            <p class="text-sm opacity-50">© 2026 - Educación con Propósito y Tecnología</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos del Quiz
+        const quizData = [
+            {
+                question: "¿Cuál de estos comandos se usa para eliminar los datos de una tabla pero mantener su estructura?",
+                options: ["DELETE", "DROP TABLE", "TRUNCATE", "REMOVE"],
+                correct: 2,
+                feedback: "¡Exacto! TRUNCATE es más rápido que DELETE para limpiar una tabla por completo."
+            },
+            {
+                question: "Si quiero unir la tabla 'Pedidos' con 'Clientes' mostrando SOLO los pedidos que tienen un cliente asignado, ¿qué uso?",
+                options: ["LEFT JOIN", "INNER JOIN", "FULL JOIN", "CROSS JOIN"],
+                correct: 1,
+                feedback: "¡Correcto! El INNER JOIN busca la intersección perfecta entre ambas tablas."
+            },
+            {
+                question: "¿Qué propiedad de las transacciones asegura que una operación se realice por completo o no se realice en absoluto?",
+                options: ["Durabilidad", "Aislamiento", "Consistencia", "Atomicidad"],
+                correct: 3,
+                feedback: "¡Brillante! Como un átomo, la transacción es indivisible."
+            },
+            {
+                question: "Para filtrar resultados que contienen la palabra 'Ecuador' en cualquier parte de un texto, usamos:",
+                options: ["LIKE 'Ecuador%'", "LIKE '%Ecuador%'", "WHERE = 'Ecuador'", "IN ('Ecuador')"],
+                correct: 1,
+                feedback: "¡Muy bien! Los comodines % indican que puede haber cualquier texto antes o después."
+            },
+            {
+                question: "¿Qué cláusula se utiliza para filtrar los resultados de una función agregada como SUM() o COUNT()?",
+                options: ["WHERE", "ORDER BY", "HAVING", "GROUP BY"],
+                correct: 2,
+                feedback: "¡Excelente! WHERE filtra filas, HAVING filtra grupos."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionText = document.getElementById('question-text');
+        const optionsArea = document.getElementById('options-area');
+        const feedbackArea = document.getElementById('feedback-area');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreSpan = document.getElementById('score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            questionText.textContent = `${currentQuestion + 1}. ${data.question}`;
+            optionsArea.innerHTML = '';
+            feedbackArea.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+
+            data.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200 font-medium";
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index);
+                optionsArea.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const data = quizData[currentQuestion];
+            const buttons = optionsArea.querySelectorAll('button');
+            
+            // Deshabilitar botones
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === data.correct) {
+                score++;
+                scoreSpan.textContent = score;
+                feedbackArea.textContent = data.feedback;
+                feedbackArea.className = "mt-6 p-4 rounded-lg text-center font-bold bg-emerald-100 text-emerald-800 block";
+                buttons[selectedIndex].classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
+            } else {
+                feedbackArea.textContent = "¡Ánimo! La respuesta correcta era: " + data.options[data.correct];
+                feedbackArea.className = "mt-6 p-4 rounded-lg text-center font-bold bg-red-100 text-red-800 block";
+                buttons[selectedIndex].classList.add('bg-red-500', 'text-white', 'border-red-500');
+            }
+
+            if (currentQuestion < quizData.length - 1) {
+                nextBtn.classList.remove('hidden');
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            questionText.textContent = "¡Taller Completado!";
+            optionsArea.innerHTML = `<div class="text-center py-8">
+                <span class="text-6xl">🏆</span>
+                <p class="text-2xl mt-4 font-bold">Tu puntuación final es ${score} de ${quizData.length}</p>
+                <p class="mt-2 text-slate-600">"El conocimiento es la única herramienta que crece cuando se comparte."</p>
+            </div>`;
+            restartBtn.classList.remove('hidden');
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            loadQuestion();
+        };
+
+        restartBtn.onclick = () => {
+            currentQuestion = 0;
+            score = 0;
+            scoreSpan.textContent = "0";
+            restartBtn.classList.add('hidden');
+            loadQuestion();
+        };
+
+        // Iniciar quiz
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>

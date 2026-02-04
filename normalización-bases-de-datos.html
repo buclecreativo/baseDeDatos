@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos: Normalización - Taller Interactivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de colores y estilos */
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --secondary-dark: #27ae60;
+            --accent: #e74c3c;
+            --accent-dark: #c0392b;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: var(--light-gray);
+        }
+
+        .theme {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Secciones */
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 i {
+            color: var(--secondary);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 7px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-dark);
+            box-shadow: 0 7px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Ejemplos y tablas */
+        .example {
+            background-color: var(--light-gray);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            text-align: left;
+            padding: 15px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f7fd;
+        }
+
+        /* Cuestionario interactivo */
+        .quiz-container {
+            background-color: #f0f7ff;
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            background-color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: #e8f4fc;
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background-color: #d4edda;
+            border-color: var(--secondary);
+        }
+
+        .option.correct {
+            background-color: #d4edda;
+            border-color: var(--secondary);
+        }
+
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--accent);
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 20px;
+            color: var(--primary-dark);
+        }
+
+        /* Reto final */
+        .challenge {
+            background-color: #fff9e6;
+            border: 2px dashed var(--secondary);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        /* Pie de página */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray);
+            margin-top: 50px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Navegación entre secciones */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Iconos decorativos */
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        /* Listas */
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        /* Progreso del cuestionario */
+        .progress {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-database"></i>
+                <span>Bucle creativo</span>
+            </div>
+            <p class="tagline">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+            <div class="theme">Base de datos: Normalización de bases de datos</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Título principal -->
+        <section id="titulo">
+            <h2><i class="fas fa-star"></i> Título del taller</h2>
+            <h1 style="color: var(--primary-dark); font-size: 2.5rem; margin-bottom: 20px;">De Caos a Orden: Domina el Arte de la Normalización en Bases de Datos</h1>
+            <p style="font-size: 1.2rem; color: var(--gray);">Una aventura intelectual para transformar datos confusos en información precisa y valiosa.</p>
+        </section>
+
+        <!-- Objetivo de aprendizaje -->
+        <section id="objetivo">
+            <h2><i class="fas fa-bullseye"></i> Objetivo de aprendizaje</h2>
+            <p>Dominar el proceso de normalización de bases de datos mediante la aplicación sistemática de las formas normales (1FN, 2FN, 3FN) para diseñar estructuras eficientes, libres de redundancias y anomalías, integrando competencias técnicas de modelado relacional, capacidades cognitivas de análisis crítico y abstracción, junto con actitudes de precisión, ética en el manejo de información y colaboración efectiva, con el propósito de desarrollar soluciones de almacenamiento optimizadas que respondan a necesidades reales de gestión de información en contextos personales, académicos y profesionales.</p>
+        </section>
+
+        <!-- Contextualización -->
+        <section id="contexto">
+            <h2><i class="fas fa-globe-americas"></i> Contextualización</h2>
+            <p>Imagina que eres el organizador del próximo evento deportivo más importante de tu colegio. Tienes una hoja de cálculo con información de todos los participantes: nombres, deportes, categorías, entrenadores, horarios de práctica, teléfonos de emergencia y más.</p>
+            
+            <div class="example">
+                <p><strong>Problema:</strong> Cada vez que un participante cambia de número telefónico, debes actualizarlo en todas las filas donde aparece. Si el entrenador "Carlos Pérez" atiende a 30 estudiantes, su nombre está repetido 30 veces. Cuando buscas quiénes están en "Voleibol femenino", los datos están dispersos y algunos aparecen como "Voleibol F", otros como "Voleibol - Femenino".</p>
+                <p><strong>Consecuencia:</strong> Pierdes horas valiosas, cometes errores, y al final, algunos estudiantes reciben información incorrecta sobre sus horarios. La frustración crece mientras el caos de datos consume tu energía.</p>
+            </div>
+            
+            <p>Esta situación refleja exactamente lo que ocurre en una base de datos no normalizada: duplicación, inconsistencia y un mantenimiento agotador. La normalización es el proceso que transforma este caos en un sistema organizado, eficiente y confiable. No es solo teoría de bases de datos; es una habilidad para ordenar el mundo digital que te rodea, desde tu colección de música favorita hasta el sistema de gestión del negocio familiar.</p>
+        </section>
+
+        <!-- Desarrollo de la actividad -->
+        <section id="desarrollo">
+            <h2><i class="fas fa-code"></i> Desarrollo de la actividad</h2>
+            
+            <h3 style="color: var(--primary); margin-top: 20px;">¿Qué es la normalización?</h3>
+            <p>La normalización es un proceso sistemático para organizar los datos en una base de datos relacional, con dos objetivos principales:</p>
+            <ul>
+                <li><strong>Eliminar redundancias:</strong> Evitar la duplicación innecesaria de datos.</li>
+                <li><strong>Minimizar anomalías:</strong> Prevenir errores durante la inserción, actualización o eliminación de datos.</li>
+            </ul>
+            
+            <h3 style="color: var(--primary); margin-top: 20px;">Formas normales en acción</h3>
+            
+            <div class="example">
+                <h4>Tabla NO normalizada (Ejemplo: Registro de inscripciones deportivas)</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID_Est</th>
+                            <th>Nombre</th>
+                            <th>Deporte</th>
+                            <th>Categoría</th>
+                            <th>Entrenador</th>
+                            <th>Tel_Entrenador</th>
+                            <th>Horario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>Ana García</td>
+                            <td>Voleibol, Atletismo</td>
+                            <td>Femenino</td>
+                            <td>Carlos Pérez</td>
+                            <td>0991234567</td>
+                            <td>Lunes 14:00, Miércoles 16:00</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>Luis Mora</td>
+                            <td>Fútbol</td>
+                            <td>Masculino</td>
+                            <td>María Rodríguez</td>
+                            <td>0987654321</td>
+                            <td>Martes 15:00</td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>Sofía Castro</td>
+                            <td>Voleibol</td>
+                            <td>Femenino</td>
+                            <td>Carlos Pérez</td>
+                            <td>0991234567</td>
+                            <td>Lunes 14:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Problemas detectados:</strong> Datos repetidos, atributos multivaluados, dependencias transitivas.</p>
+            </div>
+            
+            <h4>Primera Forma Normal (1FN)</h4>
+            <p><strong>Regla:</strong> Cada columna debe contener valores atómicos (indivisibles) y no debe haber grupos repetitivos.</p>
+            
+            <div class="example">
+                <h5>Tabla en 1FN:</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID_Insc</th>
+                            <th>ID_Est</th>
+                            <th>Nombre</th>
+                            <th>Deporte</th>
+                            <th>Categoría</th>
+                            <th>Entrenador</th>
+                            <th>Tel_Entrenador</th>
+                            <th>Día</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>101</td>
+                            <td>Ana García</td>
+                            <td>Voleibol</td>
+                            <td>Femenino</td>
+                            <td>Carlos Pérez</td>
+                            <td>0991234567</td>
+                            <td>Lunes</td>
+                            <td>14:00</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>101</td>
+                            <td>Ana García</td>
+                            <td>Atletismo</td>
+                            <td>Femenino</td>
+                            <td>Carlos Pérez</td>
+                            <td>0991234567</td>
+                            <td>Miércoles</td>
+                            <td>16:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Logro:</strong> Valores atómicos, pero aún hay redundancia (nombre, entrenador y teléfono se repiten).</p>
+            </div>
+            
+            <h4>Segunda Forma Normal (2FN)</h4>
+            <p><strong>Regla:</strong> Debe estar en 1FN y cada atributo no clave debe depender por completo de la clave primaria.</p>
+            
+            <div class="example">
+                <h5>Descomposición en tablas para cumplir 2FN:</h5>
+                <p><strong>Tabla Estudiantes:</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID_Est</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>Ana García</td>
+                            <td>Femenino</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p><strong>Tabla Entrenadores:</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID_Ent</th>
+                            <th>Entrenador</th>
+                            <th>Tel_Entrenador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>E01</td>
+                            <td>Carlos Pérez</td>
+                            <td>0991234567</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p><strong>Tabla Inscripciones (relación):</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID_Insc</th>
+                            <th>ID_Est</th>
+                            <th>ID_Ent</th>
+                            <th>Deporte</th>
+                            <th>Día</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>101</td>
+                            <td>E01</td>
+                            <td>Voleibol</td>
+                            <td>Lunes</td>
+                            <td>14:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h4>Tercera Forma Normal (3FN)</h4>
+            <p><strong>Regla:</strong> Debe estar en 2FN y ningún atributo no clave debe depender transitivamente de la clave primaria.</p>
+            
+            <div class="example">
+                <h5>Ejemplo de dependencia transitiva:</h5>
+                <p>En la tabla Inscripciones, si agregamos "Deporte" y "Categoría_deporte", donde la categoría depende del deporte (no directamente del ID_Insc), creamos una dependencia transitiva.</p>
+                <p><strong>Solución:</strong> Crear una tabla separada para "Deportes" con sus categorías, y en Inscripciones solo referenciar el ID_Deporte.</p>
+            </div>
+            
+            <h3 style="color: var(--primary); margin-top: 20px;">Reflexión metacognitiva</h3>
+            <p>Piensa en tu propia experiencia con datos: ¿Has tenido que actualizar la misma información en múltiples lugares? ¿Has encontrado inconsistencias en listas o registros? La normalización resuelve estos problemas al establecer relaciones lógicas entre datos, similar a cómo organizamos nuestras ideas cuando estudiamos: primero los conceptos generales, luego los detalles específicos, creando conexiones significativas entre ellos.</p>
+        </section>
+
+        <!-- El reto final -->
+        <section id="reto">
+            <h2><i class="fas fa-trophy"></i> El reto final</h2>
+            <div class="challenge">
+                <h3>Diseño de la Base de Datos para "EcoTienda Escolar"</h3>
+                <p><strong>Contexto:</strong> El gobierno estudiantil de tu colegio ha decidido crear una "EcoTienda" que venda productos ecológicos (libretas recicladas, botellas reutilizables, kits de jardinería) y gestione un sistema de trueque de libros usados. Te han pedido diseñar la base de datos.</p>
+                
+                <h4>Información inicial recolectada (sin normalizar):</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID_Venta</th>
+                            <th>Fecha</th>
+                            <th>Estudiante</th>
+                            <th>Grado</th>
+                            <th>Productos</th>
+                            <th>Categoría</th>
+                            <th>Proveedor</th>
+                            <th>Tel_Proveedor</th>
+                            <th>Precio_Unit</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                </table>
+                
+                <p><strong>El reto:</strong> En equipos de 3 personas, normalicen esta estructura hasta la 3FN. Consideren:</p>
+                <ul>
+                    <li>Un estudiante puede comprar varios productos en una misma venta.</li>
+                    <li>Un producto puede ser suministrado por diferentes proveedores.</li>
+                    <li>Se necesita registrar tanto ventas como trueques (intercambios sin dinero).</li>
+                    <li>Deben poder generarse reportes de ventas por estudiante, por producto y por proveedor.</li>
+                </ul>
+                
+                <h4>Entregable:</h4>
+                <p>Diagrama entidad-relación (puede ser dibujado a mano o con herramienta digital) y el conjunto de tablas normalizadas con sus relaciones, explicando cómo cada forma normal se aplicó para resolver problemas específicos detectados en la estructura inicial.</p>
+                
+                <button class="btn btn-accent" id="retoBtn">¡Acepto el reto!</button>
+                <p id="retoMensaje" style="margin-top: 15px; display: none; font-weight: 600; color: var(--secondary-dark);">¡Excelente! Reúnete con tu equipo y comienza por identificar las dependencias funcionales en los datos. Recuerda: la clave está en determinar qué atributos dependen de qué claves.</p>
+            </div>
+        </section>
+
+        <!-- Evaluación lúdica -->
+        <section id="evaluacion">
+            <h2><i class="fas fa-gamepad"></i> Evaluación lúdica</h2>
+            <p>Demuestra tu comprensión de la normalización con este cuestionario interactivo. ¡Cada respuesta correcta te acerca al dominio de las bases de datos eficientes!</p>
+            
+            <div class="quiz-container">
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                
+                <div id="quizContent">
+                    <!-- Las preguntas se cargarán aquí mediante JavaScript -->
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn" id="prevBtn" style="display: none;"><i class="fas fa-arrow-left"></i> Anterior</button>
+                    <button class="btn btn-secondary" id="nextBtn">Siguiente <i class="fas fa-arrow-right"></i></button>
+                </div>
+                
+                <div class="score" id="scoreDisplay">Puntuación: 0/5</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="container">
+        <p>Diseñado por: Edwin Méndez J.</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">Con el propósito de transformar conceptos técnicos complejos en experiencias de aprendizaje accesibles e inspiradoras.</p>
+        <p style="margin-top: 20px;">
+            <i class="fas fa-heart" style="color: #e74c3c;"></i> 
+            <i class="fas fa-brain" style="color: #3498db; margin-left: 15px;"></i>
+        </p>
+    </footer>
+
+    <script>
+        // Datos del cuestionario
+        const quizData = [
+            {
+                question: "¿Cuál es el principal objetivo de la normalización en bases de datos?",
+                options: [
+                    "Aumentar la velocidad de las consultas",
+                    "Eliminar redundancias y minimizar anomalías",
+                    "Añadir más tablas a la base de datos",
+                    "Hacer la base de datos más compleja"
+                ],
+                correct: 1,
+                explanation: "La normalización tiene como objetivo principal eliminar redundancias (datos duplicados) y minimizar anomalías (errores en operaciones de inserción, actualización o eliminación)."
+            },
+            {
+                question: "¿Cuál de estas tablas está en Primera Forma Normal (1FN)?",
+                options: [
+                    "Tabla con una columna que contiene listas separadas por comas",
+                    "Tabla donde cada celda contiene un solo valor indivisible",
+                    "Tabla con dependencias transitivas entre atributos",
+                    "Tabla donde algunos atributos no dependen completamente de la clave primaria"
+                ],
+                correct: 1,
+                explanation: "Una tabla está en 1FN cuando cada columna contiene valores atómicos (indivisibles) y no hay grupos repetitivos."
+            },
+            {
+                question: "Para cumplir la Segunda Forma Normal (2FN), una tabla debe:",
+                options: [
+                    "Estar en 1FN y tener una sola clave primaria",
+                    "Estar en 1FN y que todos los atributos no clave dependan completamente de la clave primaria",
+                    "Dividirse en al menos tres tablas diferentes",
+                    "Eliminar todas las dependencias funcionales"
+                ],
+                correct: 1,
+                explanation: "La 2FN requiere que la tabla esté en 1FN y que cada atributo no clave dependa por completo de la clave primaria (no solo de parte de ella en el caso de claves compuestas)."
+            },
+            {
+                question: "¿Qué es una dependencia transitiva?",
+                options: [
+                    "Cuando un atributo depende directamente de la clave primaria",
+                    "Cuando un atributo A depende de la clave primaria a través de otro atributo B",
+                    "Cuando dos atributos dependen uno del otro mutuamente",
+                    "Cuando un atributo no tiene ninguna dependencia"
+                ],
+                correct: 1,
+                explanation: "Una dependencia transitiva ocurre cuando un atributo no clave (C) depende de otro atributo no clave (B), que a su vez depende de la clave primaria (A). Es decir, C depende de A a través de B."
+            },
+            {
+                question: "Una base de datos completamente normalizada hasta 3FN:",
+                options: [
+                    "Siempre tiene mejor rendimiento en consultas",
+                    "Puede requerir más operaciones JOIN en consultas complejas",
+                    "Elimina por completo la necesidad de índices",
+                    "Garantiza que no habrá duplicación de datos en ninguna circunstancia"
+                ],
+                correct: 1,
+                explanation: "La normalización hasta 3FN generalmente reduce redundancias, pero puede aumentar la necesidad de operaciones JOIN para recuperar datos relacionados almacenados en tablas separadas. En algunos casos, se aplica desnormalización controlada para optimizar consultas frecuentes."
+            }
+        ];
+
+        // Variables para el estado del cuestionario
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        // Elementos DOM
+        const quizContent = document.getElementById('quizContent');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const progressBar = document.getElementById('progressBar');
+        const retoBtn = document.getElementById('retoBtn');
+        const retoMensaje = document.getElementById('retoMensaje');
+
+        // Función para mostrar la pregunta actual
+        function showQuestion() {
+            const questionData = quizData[currentQuestion];
+            
+            // Actualizar barra de progreso
+            const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            
+            // Construir HTML de la pregunta
+            let html = `
+                <div class="question">Pregunta ${currentQuestion + 1}: ${questionData.question}</div>
+                <div class="options">
+            `;
+            
+            questionData.options.forEach((option, index) => {
+                let optionClass = "option";
+                if (userAnswers[currentQuestion] === index) {
+                    optionClass += " selected";
+                    // Si ya se respondió, mostrar retroalimentación de color
+                    if (index === questionData.correct) {
+                        optionClass += " correct";
+                    } else {
+                        optionClass += " incorrect";
+                    }
+                }
+                
+                html += `<div class="${optionClass}" data-index="${index}">${option}</div>`;
+            });
+            
+            html += `</div>`;
+            
+            // Mostrar retroalimentación si ya se respondió
+            if (userAnswers[currentQuestion] !== null) {
+                const feedbackClass = userAnswers[currentQuestion] === questionData.correct ? "correct" : "incorrect";
+                const feedbackText = userAnswers[currentQuestion] === questionData.correct 
+                    ? `¡Correcto! ${questionData.explanation}` 
+                    : `Incorrecto. La respuesta correcta es: ${questionData.options[questionData.correct]}. ${questionData.explanation}`;
+                
+                html += `<div class="feedback ${feedbackClass}">${feedbackText}</div>`;
+            }
+            
+            quizContent.innerHTML = html;
+            
+            // Configurar botones de navegación
+            prevBtn.style.display = currentQuestion === 0 ? "none" : "inline-block";
+            nextBtn.textContent = currentQuestion === quizData.length - 1 ? "Ver resultados" : "Siguiente";
+            
+            // Agregar eventos a las opciones
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+        }
+
+        // Función para seleccionar una opción
+        function selectOption(e) {
+            // Solo permitir selección si no se ha respondido aún
+            if (userAnswers[currentQuestion] !== null) return;
+            
+            const selectedIndex = parseInt(e.target.getAttribute('data-index'));
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            // Verificar si es correcta y actualizar puntuación
+            if (selectedIndex === quizData[currentQuestion].correct) {
+                score++;
+                scoreDisplay.textContent = `Puntuación: ${score}/${quizData.length}`;
+            }
+            
+            // Volver a mostrar la pregunta con retroalimentación
+            showQuestion();
+        }
+
+        // Función para mostrar resultados finales
+        function showResults() {
+            let resultMessage = "";
+            if (score === quizData.length) {
+                resultMessage = "¡Excelente! Dominas completamente los conceptos de normalización.";
+            } else if (score >= quizData.length * 0.7) {
+                resultMessage = "¡Muy bien! Tienes un buen entendimiento de la normalización.";
+            } else if (score >= quizData.length * 0.5) {
+                resultMessage = "Bien, pero podrías repasar algunos conceptos de normalización.";
+            } else {
+                resultMessage = "Te recomiendo revisar el material sobre normalización nuevamente.";
+            }
+            
+            quizContent.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h3 style="color: var(--primary-dark); margin-bottom: 20px;">¡Cuestionario completado!</h3>
+                    <div style="font-size: 4rem; color: var(--secondary); margin: 20px 0;">${score}/${quizData.length}</div>
+                    <p style="font-size: 1.2rem; margin-bottom: 30px;">${resultMessage}</p>
+                    <button class="btn btn-secondary" id="restartQuiz">Reintentar cuestionario</button>
+                </div>
+            `;
+            
+            document.getElementById('restartQuiz').addEventListener('click', restartQuiz);
+            
+            // Ocultar botones de navegación
+            prevBtn.style.display = "none";
+            nextBtn.style.display = "none";
+        }
+
+        // Función para reiniciar el cuestionario
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers.fill(null);
+            scoreDisplay.textContent = `Puntuación: ${score}/${quizData.length}`;
+            nextBtn.style.display = "inline-block";
+            showQuestion();
+        }
+
+        // Evento para el botón "Siguiente"
+        nextBtn.addEventListener('click', function() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                // Si estamos en la última pregunta, mostrar resultados
+                if (userAnswers[currentQuestion] !== null) {
+                    showResults();
+                } else {
+                    alert("Por favor, responde la pregunta actual antes de continuar.");
+                }
+            }
+        });
+
+        // Evento para el botón "Anterior"
+        prevBtn.addEventListener('click', function() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        });
+
+        // Evento para el botón del reto
+        retoBtn.addEventListener('click', function() {
+            retoMensaje.style.display = "block";
+            retoBtn.style.display = "none";
+        });
+
+        // Inicializar la primera pregunta
+        showQuestion();
+    </script>
+</body>
+</html>

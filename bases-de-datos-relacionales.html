@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo: El Arte de Organizar el Mundo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+        }
+
+        .test-option:hover {
+            border-color: #2563eb;
+            background-color: #f0f7ff;
+        }
+
+        .correct {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+        }
+
+        .incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+        }
+    </style>
+</head>
+
+<body class="line-height-relaxed">
+
+    <!-- Encabezado -->
+    <header class="bg-white border-b border-slate-200 py-6 px-4 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold gradient-text">Bucle Creativo</h1>
+                <p class="text-sm text-slate-500 italic">Taller diseñado con el corazón de un docente y la mente de un
+                    programador.</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <span
+                    class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Tema:
+                    Bases de Datos Relacionales</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+
+        <!-- Título Principal -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">
+                El Arquitecto de Datos: <br>
+                <span class="text-blue-600">Ordenando el Caos con Propósito</span>
+            </h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                Descubre cómo el diseño lógico y la resiliencia técnica transforman la información en sabiduría.
+            </p>
+        </section>
+
+        <!-- Objetivo -->
+        <section class="mb-12">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+                <h3 class="font-bold text-blue-800 mb-2">Objetivo de Aprendizaje</h3>
+                <p class="text-slate-700 leading-relaxed">
+                    Modelar estructuras de información eficientes mediante los principios del modelo relacional y el
+                    lenguaje SQL, integrando la lógica matemática con una ética de orden y precisión, para proponer
+                    soluciones tecnológicas que resuelvan problemas reales de la comunidad ecuatoriana con una visión
+                    crítica y colaborativa.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contextualización -->
+        <section class="mb-16">
+            <h3 class="text-2xl font-bold mb-6 flex items-center">
+                <span class="mr-2">🌱</span> Una historia de orden y comunidad
+            </h3>
+            <div class="prose prose-slate max-w-none text-slate-700 space-y-4">
+                <p>
+                    Imagina que estás en un mercado vibrante en el corazón de Otavalo o Guayaquil. Cientos de
+                    comerciantes, miles de productos y una infinidad de transacciones ocurren cada segundo. ¿Cómo evitar
+                    que todo se convierta en un caos? Los seres humanos, por naturaleza, buscamos patrones.
+                </p>
+                <p>
+                    Al igual que un artesano organiza sus hilos por color y resistencia antes de tejer, nosotros
+                    organizamos la información del mundo digital. Las **Bases de Datos Relacionales** no son solo tablas
+                    frías en una pantalla; son el reflejo de cómo entendemos nuestras conexiones. Cada dato que
+                    guardamos es una pieza de una historia más grande. Aprender a diseñarlas es aprender a construir
+                    cimientos sólidos para cualquier sueño que decidas emprender.
+                </p>
+            </div>
+        </section>
+
+        <!-- Desarrollo de Actividad -->
+        <section class="space-y-12 mb-16">
+            <h3 class="text-2xl font-bold border-b pb-2">Contenido Técnico Maestro</h3>
+
+            <!-- Principios del Modelo Relacional -->
+            <div class="card p-8">
+                <h4 class="text-xl font-bold text-blue-600 mb-4">1. El Corazón del Sistema: El Modelo Relacional</h4>
+                <p class="mb-4">Este modelo se basa en la idea de que los datos se perciben como un conjunto de
+                    <strong>relaciones</strong> (que visualizamos como tablas). La belleza de esto es su simplicidad:
+                    todo se reduce a filas y columnas interconectadas.</p>
+
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="p-4 bg-slate-50 rounded-lg text-center">
+                        <span class="block font-bold text-indigo-600">Tabla</span>
+                        <span class="text-sm">La entidad (Ej: Estudiantes)</span>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg text-center">
+                        <span class="block font-bold text-indigo-600">Registro (Fila)</span>
+                        <span class="text-sm">Un individuo único</span>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg text-center">
+                        <span class="block font-bold text-indigo-600">Atributo (Columna)</span>
+                        <span class="text-sm">Una característica (Nombre, Edad)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claves Primarias y Foráneas -->
+            <div class="card p-8">
+                <h4 class="text-xl font-bold text-blue-600 mb-4">2. Identidad y Conexión: Claves Primarias y Foráneas
+                </h4>
+                <p class="mb-4">Para que no haya confusión en nuestra "biblioteca digital", cada registro debe ser
+                    único.</p>
+                <ul class="list-disc pl-5 space-y-3">
+                    <li><strong>Clave Primaria (PK):</strong> Es el documento de identidad (Cédula) de cada registro. No
+                        se puede repetir y nunca está vacío.</li>
+                    <li><strong>Clave Foránea (FK):</strong> Es el puente. Es una columna en una tabla que apunta a la
+                        PK de otra tabla, creando un vínculo inquebrantable entre ellas.</li>
+                </ul>
+                <div class="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-sm italic">
+                    💡 <strong>Reflexión:</strong> Así como tu nombre y cédula te dan un lugar único en la sociedad, la
+                    PK le da un lugar único al dato en la base.
+                </div>
+            </div>
+
+            <!-- SQL -->
+            <div class="card p-8">
+                <h4 class="text-xl font-bold text-blue-600 mb-4">3. Hablando con los Datos: Lenguaje SQL</h4>
+                <p class="mb-4">SQL (Structured Query Language) es el idioma universal. No es una lista de comandos, es
+                    una forma de preguntar al universo de datos.</p>
+                <div class="bg-slate-900 rounded-lg p-6 text-white code-font text-sm">
+                    <p class="text-emerald-400">-- Ejemplo: Queremos ver los estudiantes de Quito</p>
+                    <p><span class="text-pink-400">SELECT</span> nombre, apellido</p>
+                    <p><span class="text-pink-400">FROM</span> estudiantes</p>
+                    <p><span class="text-pink-400">WHERE</span> ciudad = <span class="text-amber-300">'Quito'</span>;
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reto Final -->
+        <section class="bg-slate-900 text-white p-10 rounded-2xl mb-16 shadow-2xl">
+            <div class="flex items-center mb-6">
+                <div class="bg-indigo-500 p-3 rounded-lg mr-4">🚀</div>
+                <h3 class="text-3xl font-bold uppercase tracking-tight">El Gran Reto: "Emprende Ecuador"</h3>
+            </div>
+            <p class="mb-6 text-slate-300 leading-relaxed">
+                Una asociación de pequeños productores de cacao en la Amazonía necesita organizar sus ventas. No tienen
+                un sistema y todo lo anotan en cuadernos que a veces se pierden.
+            </p>
+            <div class="space-y-4">
+                <h4 class="font-bold text-indigo-300 underline">Tu Misión:</h4>
+                <ol class="list-decimal pl-5 space-y-2 text-slate-200">
+                    <li>Diseña dos tablas en papel o digital: <strong>Productores</strong> y
+                        <strong>EntregasCacao</strong>.</li>
+                    <li>Define los atributos lógicos (Nombres, Kilos, Fecha, Localidad).</li>
+                    <li>Establece la <strong>Clave Primaria</strong> para cada tabla y la <strong>Clave Foránea</strong>
+                        que las une.</li>
+                    <li>Escribe una consulta SQL imaginaria para saber cuánto cacao entregó el productor con ID #10.
+                    </li>
+                </ol>
+            </div>
+            <p class="mt-8 text-sm italic text-indigo-400">
+                "El código es poesía escrita con lógica. Haz que este sistema sea el motor de su progreso."
+            </p>
+        </section>
+
+        <!-- Evaluación Lúdica -->
+        <section class="card p-8 mb-16 border-t-4 border-indigo-500" id="quiz-section">
+            <h3 class="text-2xl font-bold mb-6 text-center">🎯 Desafío de Comprensión</h3>
+
+            <div id="quiz-container">
+                <div id="question-box" class="mb-8">
+                    <p id="question-text" class="text-lg font-medium mb-4 text-slate-800"></p>
+                    <div id="options-container" class="space-y-3">
+                        <!-- Las opciones se generarán aquí -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div class="text-sm font-semibold text-slate-500">
+                        Pregunta <span id="current-q-num">1</span> de 5
+                    </div>
+                    <div class="text-sm font-bold text-indigo-600">
+                        Puntaje: <span id="score">0</span>
+                    </div>
+                    <button id="next-btn" class="btn-primary text-white px-6 py-2 rounded-lg font-bold hidden">
+                        Siguiente Pregunta
+                    </button>
+                </div>
+            </div>
+
+            <div id="result-box" class="hidden text-center py-8">
+                <h4 class="text-3xl font-bold mb-4">¡Taller Completado!</h4>
+                <p class="text-xl mb-6">Tu puntaje final es: <span id="final-score"
+                        class="font-bold text-indigo-600">0</span>/5</p>
+                <button onclick="location.reload()"
+                    class="bg-slate-800 text-white px-8 py-3 rounded-xl hover:bg-slate-700 transition">
+                    Reiniciar Experiencia
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 border-t border-slate-200 py-12 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="text-slate-600 mb-2">"La tecnología es un medio, el propósito eres tú."</p>
+            <p class="font-bold text-slate-800">Diseñado por: Edwin Méndez J.</p>
+            <div class="mt-4 text-xs text-slate-400">© 2024 - Educación con Sentido y Código</div>
+        </div>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "¿Qué elemento del modelo relacional representa un objeto o entidad del mundo real?",
+                options: ["El Atributo", "La Tabla", "La Clave Foránea", "El SQL"],
+                correct: 1,
+                feedback: "¡Exacto! La tabla es la representación de una entidad (como 'Clientes' o 'Productos')."
+            },
+            {
+                question: "¿Cuál es la función principal de una Clave Primaria (Primary Key)?",
+                options: ["Unir dos tablas", "Permitir valores duplicados", "Identificar de forma única cada registro", "Borrar datos automáticamente"],
+                correct: 2,
+                feedback: "Correcto. Como tu huella dactilar, la PK hace que cada fila sea única."
+            },
+            {
+                question: "Si queremos relacionar una tabla de 'Facturas' con una de 'Clientes', ¿qué usamos en 'Facturas'?",
+                options: ["Una Clave Foránea", "Una Clave Triple", "Solo texto", "Un alias"],
+                correct: 0,
+                feedback: "¡Muy bien! La Clave Foránea es el puente que conecta la factura con su dueño."
+            },
+            {
+                question: "¿Qué significa el acrónimo SQL?",
+                options: ["Simple Question Language", "System Query Logic", "Structured Query Language", "Standard Quoting List"],
+                correct: 2,
+                feedback: "¡Así es! Lenguaje de Consulta Estructurado."
+            },
+            {
+                question: "En una tabla de 'Estudiantes', el 'Número de Celular' sería un:",
+                options: ["Registro", "Atributo", "Sistema de Gestión", "Vínculo Foráneo"],
+                correct: 1,
+                feedback: "Correcto. El celular es una característica o propiedad, por tanto es un atributo."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const currentQNum = document.getElementById('current-q-num');
+        const scoreDisplay = document.getElementById('score');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultBox = document.getElementById('result-box');
+        const finalScore = document.getElementById('final-score');
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            questionText.innerText = data.question;
+            optionsContainer.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            answered = false;
+
+            data.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.className = "test-option w-full text-left p-4 border-2 border-slate-200 rounded-xl transition duration-200 font-medium";
+                button.onclick = () => checkAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+
+            currentQNum.innerText = currentQuestion + 1;
+        }
+
+        function checkAnswer(index, button) {
+            if (answered) return;
+            answered = true;
+
+            const data = quizData[currentQuestion];
+            const buttons = optionsContainer.getElementsByTagName('button');
+
+            if (index === data.correct) {
+                score++;
+                button.classList.add('correct');
+                scoreDisplay.innerText = score;
+            } else {
+                button.classList.add('incorrect');
+                buttons[data.correct].classList.add('correct');
+            }
+
+            // Mostrar retroalimentación rápida (podría ser un mensaje debajo)
+            nextBtn.classList.remove('hidden');
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultBox.classList.remove('hidden');
+            finalScore.innerText = score;
+        }
+
+        // Inicializar
+        window.onload = loadQuestion;
+    </script>
+</body>
+
+</html>

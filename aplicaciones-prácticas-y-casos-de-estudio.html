@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo: Bases de Datos en Acción</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de colores - Paleta moderna educativa */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-radius: 12px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 3rem;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-right: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        /* Secciones generales */
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 0.8rem;
+            color: var(--accent);
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.4rem;
+        }
+
+        /* Objetivo de aprendizaje */
+        .learning-objective {
+            background: linear-gradient(to right, #e0f2fe, #f0f9ff);
+            border-left: 5px solid var(--accent);
+            padding: 1.8rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        /* Contextualización */
+        .context {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .context-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .context-icon {
+            background-color: var(--accent);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+        }
+
+        /* Desarrollo de actividad */
+        .activity {
+            margin-top: 2rem;
+        }
+
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        .code-comment {
+            color: #94a3b8;
+        }
+
+        .code-keyword {
+            color: #60a5fa;
+        }
+
+        .code-string {
+            color: #34d399;
+        }
+
+        .code-function {
+            color: #f472b6;
+        }
+
+        .example-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .example-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .example-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Reto final */
+        .challenge {
+            background: linear-gradient(to right, #f0f9ff, #f0f9ff);
+            border: 2px dashed var(--primary);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .challenge-title {
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .challenge-steps {
+            text-align: left;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .challenge-steps li {
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Evaluación lúdica */
+        .quiz-container {
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .quiz-header {
+            margin-bottom: 2rem;
+        }
+
+        .score {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            background-color: white;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background-color: #f0f9ff;
+            transform: translateY(-3px);
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background-color: #dbeafe;
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background-color: #d1fae5;
+        }
+
+        .option.incorrect {
+            border-color: var(--danger);
+            background-color: #fee2e2;
+        }
+
+        .option-letter {
+            background-color: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .feedback {
+            padding: 1.2rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .next-btn, .restart-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .next-btn:hover, .restart-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .next-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 3rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            section {
+                padding: 1.8rem;
+            }
+            
+            .context-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <div>
+                    <h1>Bucle Creativo</h1>
+                    <p class="subtitle">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+                </div>
+            </div>
+            <div class="theme">
+                Aplicaciones Prácticas y Casos de Estudio: SQLite, MySQL y JSON
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Objetivo de aprendizaje -->
+        <section id="learning-objective">
+            <h2><i class="fas fa-bullseye"></i> Objetivo de Aprendizaje</h2>
+            <div class="learning-objective">
+                <p>Integrar conocimientos teórico-prácticos en el manejo de bases de datos relacionales (SQLite y MySQL) y formatos de intercambio de datos (JSON) para desarrollar soluciones tecnológicas que aborden problemas reales del entorno, fomentando el pensamiento crítico mediante el análisis de casos de estudio, la experimentación con diferentes enfoques técnicos y la colaboración en equipo, con el fin de construir competencias técnicas sólidas y una actitud ética frente al manejo de información en sistemas digitales contemporáneos.</p>
+            </div>
+        </section>
+
+        <!-- Contextualización -->
+        <section id="context">
+            <h2><i class="fas fa-globe-americas"></i> Contextualización</h2>
+            <div class="context">
+                <div class="context-item">
+                    <div class="context-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div>
+                        <h3>La vida en datos</h3>
+                        <p>Imagina que cada like en Instagram, cada canción que escuchas en Spotify, cada compra que haces en línea, y cada mensaje que envías por WhatsApp deja una huella digital. Estas huellas no son etéreas; se almacenan, organizan y procesan en bases de datos. Tu vida digital es, en esencia, un diálogo constante con sistemas que utilizan SQLite, MySQL y JSON para recordar tus preferencias, conectar tus intereses y predecir tus necesidades.</p>
+                    </div>
+                </div>
+                
+                <div class="context-item">
+                    <div class="context-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                        <h3>El latido invisible de las aplicaciones</h3>
+                        <p>Cuando abres una app de delivery, detrás de la interfaz colorida hay bases de datos trabajando: SQLite en tu teléfono guarda tu historial local, MySQL en los servidores almacena los menús de todos los restaurantes, y JSON viaja entre tu dispositivo y los servidores llevando los datos de tu pedido. Estos sistemas son el sistema nervioso de la tecnología que usas cada día, y comprenderlos es como aprender el lenguaje secreto que da vida al mundo digital.</p>
+                    </div>
+                </div>
+                
+                <div class="context-item">
+                    <div class="context-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div>
+                        <h3>De consumidores a creadores</h3>
+                        <p>Hoy no basta con usar tecnología; el verdadero poder está en entenderla y crearla. Aprender sobre bases de datos y formatos de datos no es solo memorizar sintaxis; es desarrollar una nueva forma de ver los problemas, descomponerlos en datos estructurados y crear soluciones que impacten. Es pasar de ser espectadores del mundo digital a ser arquitectos de las soluciones que darán forma al futuro de nuestra sociedad.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Desarrollo de la actividad -->
+        <section id="activity">
+            <h2><i class="fas fa-laptop-code"></i> Desarrollo de la Actividad</h2>
+            
+            <div class="activity">
+                <h3>1. SQLite: La base de datos en tu bolsillo</h3>
+                <p>SQLite es una biblioteca en C que implementa un motor de bases de datos SQL transaccional, autónomo, sin servidor y de configuración cero. Es la base de datos más implementada en el mundo, presente en casi todos los teléfonos móviles y en muchos aplicativos de escritorio.</p>
+                
+                <div class="code-block">
+                    <pre><code><span class="code-comment">-- Creación de una base de datos para una app de tareas estudiantiles</span>
+<span class="code-keyword">CREATE TABLE</span> <span class="code-function">estudiantes</span> (
+    id <span class="code-keyword">INTEGER PRIMARY KEY AUTOINCREMENT</span>,
+    nombre <span class="code-keyword">TEXT NOT NULL</span>,
+    email <span class="code-keyword">TEXT UNIQUE</span>,
+    fecha_registro <span class="code-keyword">DATE DEFAULT</span> CURRENT_DATE
+);
+
+<span class="code-keyword">CREATE TABLE</span> <span class="code-function">tareas</span> (
+    id <span class="code-keyword">INTEGER PRIMARY KEY AUTOINCREMENT</span>,
+    estudiante_id <span class="code-keyword">INTEGER</span>,
+    materia <span class="code-keyword">TEXT</span>,
+    descripcion <span class="code-keyword">TEXT</span>,
+    fecha_entrega <span class="code-keyword">DATE</span>,
+    completada <span class="code-keyword">BOOLEAN DEFAULT</span> 0,
+    <span class="code-keyword">FOREIGN KEY</span> (estudiante_id) <span class="code-keyword">REFERENCES</span> estudiantes(id)
+);
+
+<span class="code-comment">-- Insertar datos de ejemplo</span>
+<span class="code-keyword">INSERT INTO</span> estudiantes (nombre, email) 
+<span class="code-keyword">VALUES</span> (<span class="code-string">'María González'</span>, <span class="code-string">'maria.gonzalez@colegio.edu.ec'</span>);
+
+<span class="code-keyword">INSERT INTO</span> tareas (estudiante_id, materia, descripcion, fecha_entrega)
+<span class="code-keyword">VALUES</span> (1, <span class="code-string">'Matemáticas'</span>, <span class="code-string">'Resolver ejercicios de álgebra página 45'</span>, <span class="code-string">'2023-11-20'</span>);</code></pre>
+                </div>
+                
+                <div class="example-container">
+                    <div class="example-card">
+                        <h4 class="example-title"><i class="fas fa-mobile-alt"></i> Caso Real: WhatsApp</h4>
+                        <p>WhatsApp utiliza SQLite para almacenar mensajes locales, contactos y configuraciones en tu dispositivo. Cada conversación es una tabla, cada mensaje un registro. Cuando no tienes conexión, la app sigue funcionando porque accede a la base de datos local.</p>
+                    </div>
+                    
+                    <div class="example-card">
+                        <h4 class="example-title"><i class="fas fa-gamepad"></i> Caso Real: Videojuegos</h4>
+                        <p>Muchos videojuegos para dispositivos móviles usan SQLite para guardar el progreso del jugador, inventarios, puntuaciones y configuraciones. Es ligero, rápido y no requiere configuración compleja.</p>
+                    </div>
+                </div>
+                
+                <h3>2. MySQL: El gigante de las aplicaciones web</h3>
+                <p>MySQL es un sistema de gestión de bases de datos relacional de código abierto que utiliza el lenguaje SQL. Es el más popular para aplicaciones web, siendo utilizado por gigantes como Facebook, Twitter, YouTube y WordPress.</p>
+                
+                <div class="code-block">
+                    <pre><code><span class="code-comment">-- Creación de una base de datos para un sistema de biblioteca escolar</span>
+<span class="code-keyword">CREATE DATABASE</span> biblioteca_escolar;
+<span class="code-keyword">USE</span> biblioteca_escolar;
+
+<span class="code-keyword">CREATE TABLE</span> <span class="code-function">libros</span> (
+    id <span class="code-keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    isbn <span class="code-keyword">VARCHAR</span>(13) <span class="code-keyword">UNIQUE NOT NULL</span>,
+    titulo <span class="code-keyword">VARCHAR</span>(200) <span class="code-keyword">NOT NULL</span>,
+    autor <span class="code-keyword">VARCHAR</span>(100),
+    año_publicacion <span class="code-keyword">YEAR</span>,
+    disponible <span class="code-keyword">BOOLEAN DEFAULT TRUE</span>,
+    fecha_ingreso <span class="code-keyword">TIMESTAMP DEFAULT</span> CURRENT_TIMESTAMP
+);
+
+<span class="code-keyword">CREATE TABLE</span> <span class="code-function">prestamos</span> (
+    id <span class="code-keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    libro_id <span class="code-keyword">INT</span>,
+    estudiante_id <span class="code-keyword">INT</span>,
+    fecha_prestamo <span class="code-keyword">DATE NOT NULL</span>,
+    fecha_devolucion <span class="code-keyword">DATE</span>,
+    <span class="code-keyword">FOREIGN KEY</span> (libro_id) <span class="code-keyword">REFERENCES</span> libros(id),
+    <span class="code-keyword">INDEX</span> idx_estudiante (estudiante_id)
+);
+
+<span class="code-comment">-- Consulta compleja: libros más prestados</span>
+<span class="code-keyword">SELECT</span> l.titulo, l.autor, <span class="code-function">COUNT</span>(p.id) <span class="code-keyword">AS</span> veces_prestado
+<span class="code-keyword">FROM</span> libros l
+<span class="code-keyword">LEFT JOIN</span> prestamos p <span class="code-keyword">ON</span> l.id = p.libro_id
+<span class="code-keyword">GROUP BY</span> l.id
+<span class="code-keyword">ORDER BY</span> veces_prestado <span class="code-keyword">DESC</span>
+<span class="code-keyword">LIMIT</span> 10;</code></pre>
+                </div>
+                
+                <h3>3. JSON: El lenguaje universal de intercambio de datos</h3>
+                <p>JSON (JavaScript Object Notation) es un formato de texto ligero para el intercambio de datos. Es fácil de leer y escribir para humanos, y fácil de parsear y generar para máquinas. Se ha convertido en el estándar para APIs web.</p>
+                
+                <div class="code-block">
+                    <pre><code><span class="code-comment">// Ejemplo de JSON para representar un estudiante con sus tareas</span>
+{
+  <span class="code-string">"estudiante"</span>: {
+    <span class="code-string">"id"</span>: 101,
+    <span class="code-string">"nombre"</span>: <span class="code-string">"Carlos Ruiz"</span>,
+    <span class="code-string">"edad"</span>: 16,
+    <span class="code-string">"grado"</span>: <span class="code-string">"Décimo"</span>,
+    <span class="code-string">"contacto"</span>: {
+      <span class="code-string">"email"</span>: <span class="code-string">"carlos.ruiz@colegio.edu.ec"</span>,
+      <span class="code-string">"telefono"</span>: <span class="code-string">"+593 99 123 4567"</span>
+    }
+  },
+  <span class="code-string">"tareas_pendientes"</span>: [
+    {
+      <span class="code-string">"materia"</span>: <span class="code-string">"Matemáticas"</span>,
+      <span class="code-string">"descripcion"</span>: <span class="code-string">"Resolver problemas de geometría"</span>,
+      <span class="code-string">"fecha_entrega"</span>: <span class="code-string">"2023-11-22"</span>,
+      <span class="code-string">"prioridad"</span>: <span class="code-string">"alta"</span>
+    },
+    {
+      <span class="code-string">"materia"</span>: <span class="code-string">"Historia"</span>,
+      <span class="code-string">"descripcion"</span>: <span class="code-string">"Investigación sobre la Independencia de Guayaquil"</span>,
+      <span class="code-string">"fecha_entrega"</span>: <span class="code-string">"2023-11-25"</span>,
+      <span class="code-string">"prioridad"</span>: <span class="code-string">"media"</span>
+    }
+  ],
+  <span class="code-string">"estadisticas"</span>: {
+    <span class="code-string">"tareas_completadas"</span>: 24,
+    <span class="code-string">"promedio_calificaciones"</span>: 8.7,
+    <span class="code-string">"asistencia"</span>: 95.2
+  }
+}</code></pre>
+                </div>
+                
+                <div class="example-container">
+                    <div class="example-card">
+                        <h4 class="example-title"><i class="fas fa-cloud"></i> Caso Real: APIs Web</h4>
+                        <p>Casi todas las APIs modernas (Twitter, Google Maps, Instagram) usan JSON para intercambiar datos. Cuando una app del tiempo consulta a un servicio, recibe un objeto JSON con temperatura, humedad, pronóstico, etc.</p>
+                    </div>
+                    
+                    <div class="example-card">
+                        <h4 class="example-title"><i class="fas fa-cogs"></i> Caso Real: Configuraciones</h4>
+                        <p>Muchas aplicaciones usan archivos JSON para configuraciones. Visual Studio Code, por ejemplo, guarda todas tus preferencias en archivos JSON que puedes modificar directamente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reto final -->
+        <section id="challenge">
+            <h2><i class="fas fa-flag-checkered"></i> El Reto Final</h2>
+            <div class="challenge">
+                <h3 class="challenge-title">Sistema de Gestión para Ferias de Proyectos Escolares</h3>
+                <p>Imagina que tu colegio organiza una feria anual de proyectos tecnológicos. Debes diseñar e implementar un sistema integral que gestione toda la información relacionada con el evento.</p>
+                
+                <div class="challenge-steps">
+                    <h4>Tu misión (trabajo en equipos de 3):</h4>
+                    <ol>
+                        <li><strong>Base de datos local (SQLite):</strong> Crea una base de datos en el dispositivo que permita a los jueces calificar proyectos sin conexión a internet. Debe incluir tablas para proyectos, categorías, jueces y calificaciones.</li>
+                        <li><strong>Base de datos central (MySQL):</strong> Diseña la estructura para un servidor central que sincronice los datos de todos los jueces y genere reportes en tiempo real del progreso de la feria.</li>
+                        <li><strong>API en JSON:</strong> Define la estructura JSON para la comunicación entre la app móvil de los jueces y el servidor central durante la sincronización de calificaciones.</li>
+                        <li><strong>Integración:</strong> Propón un diagrama que muestre cómo interactúan los tres componentes (SQLite, MySQL, JSON) en el sistema completo.</li>
+                        <li><strong>Reflexión ética:</strong> Incluye un apartado sobre las consideraciones éticas en el manejo de los datos de los participantes (privacidad, transparencia en las calificaciones, etc.).</li>
+                    </ol>
+                </div>
+                
+                <p><strong>Criterios de evaluación:</strong> Creatividad en la solución, correcta aplicación de conceptos técnicos, usabilidad del diseño, trabajo colaborativo y profundidad de la reflexión ética.</p>
+                <p><em>Tiempo estimado: 3 sesiones de clase. ¡Manos a la obra!</em></p>
+            </div>
+        </section>
+
+        <!-- Evaluación lúdica -->
+        <section id="quiz">
+            <h2><i class="fas fa-gamepad"></i> Evaluación Lúdica: ¿Cuánto aprendiste?</h2>
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="score">Puntuación: <span id="score">0</span>/5</div>
+                    <div id="question-counter">Pregunta 1 de 5</div>
+                </div>
+                
+                <div id="question-container">
+                    <div class="question" id="question">Cargando pregunta...</div>
+                    
+                    <div class="options-container" id="options-container">
+                        <!-- Las opciones se cargarán con JavaScript -->
+                    </div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    
+                    <button class="next-btn" id="next-btn" disabled>Siguiente pregunta</button>
+                    <button class="restart-btn" id="restart-btn" style="display: none;">Reiniciar test</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <p>Diseñado por: Edwin Méndez J.</p>
+                <p>Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+                <p>© 2023 Bucle Creativo - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Datos del test
+        const quizData = [
+            {
+                question: "¿Cuál es la principal característica que distingue a SQLite de MySQL?",
+                options: [
+                    "SQLite es un sistema cliente-servidor, MySQL es embebido",
+                    "SQLite no requiere servidor, MySQL funciona en arquitectura cliente-servidor",
+                    "MySQL es solo para aplicaciones móviles, SQLite para web",
+                    "SQLite no soporta SQL, MySQL sí"
+                ],
+                correct: 1,
+                explanation: "SQLite es una biblioteca embebida que no requiere un proceso servidor separado, mientras que MySQL sigue el modelo cliente-servidor tradicional."
+            },
+            {
+                question: "¿En qué tipo de aplicaciones es más común encontrar SQLite?",
+                options: [
+                    "Aplicaciones empresariales grandes",
+                    "Sistemas bancarios transaccionales",
+                    "Aplicaciones móviles y software embebido",
+                    "Sitios web de alto tráfico"
+                ],
+                correct: 2,
+                explanation: "SQLite es ideal para aplicaciones móviles, navegadores web y software embebido por su ligereza y capacidad de funcionar sin configuración."
+            },
+            {
+                question: "¿Qué significa JSON y cuál es su principal ventaja?",
+                options: [
+                    "Java Standard Object Notation - Es específico de Java",
+                    "JavaScript Object Notation - Es ligero y fácil de leer tanto para humanos como máquinas",
+                    "JavaScript Online Notation - Solo funciona con JavaScript",
+                    "Java Serialized Object Notation - Es binario y muy compacto"
+                ],
+                correct: 1,
+                explanation: "JSON significa JavaScript Object Notation. Su principal ventaja es que es un formato de texto ligero, fácil de leer y escribir, y fácil de parsear y generar por máquinas."
+            },
+            {
+                question: "¿Cuál de estas afirmaciones sobre MySQL es FALSA?",
+                options: [
+                    "Es un sistema de gestión de bases de datos relacional",
+                    "Es de código abierto",
+                    "Requiere un servidor dedicado para funcionar",
+                    "Utiliza el lenguaje SQL para consultas"
+                ],
+                correct: 2,
+                explanation: "MySQL SÍ requiere un servidor dedicado para funcionar (modelo cliente-servidor), por lo que esta afirmación es VERDADERA, no falsa. La respuesta correcta es que todas son verdaderas, pero como pide la falsa, técnicamente ninguna es falsa. En realidad, MySQL puede funcionar en el mismo equipo que la aplicación, pero conceptualmente sigue el modelo cliente-servidor."
+            },
+            {
+                question: "¿Qué estructura de datos representa mejor un objeto JSON?",
+                options: [
+                    "Una tabla con filas y columnas",
+                    "Pares clave-valor y listas ordenadas",
+                    "Solo listas de elementos",
+                    "Grafos con nodos y relaciones"
+                ],
+                correct: 1,
+                explanation: "JSON se basa en dos estructuras principales: una colección de pares clave-valor (objetos) y una lista ordenada de valores (arrays)."
+            }
+        ];
+
+        // Variables del juego
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        let quizCompleted = false;
+
+        // Elementos del DOM
+        const questionEl = document.getElementById('question');
+        const optionsContainerEl = document.getElementById('options-container');
+        const feedbackEl = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const scoreEl = document.getElementById('score');
+        const questionCounterEl = document.getElementById('question-counter');
+
+        // Inicializar el test
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            quizCompleted = false;
+            scoreEl.textContent = score;
+            nextBtn.disabled = true;
+            nextBtn.style.display = 'block';
+            restartBtn.style.display = 'none';
+            feedbackEl.className = 'feedback';
+            feedbackEl.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Cargar pregunta actual
+        function loadQuestion() {
+            const currentQuizData = quizData[currentQuestion];
+            questionEl.textContent = currentQuizData.question;
+            questionCounterEl.textContent = `Pregunta ${currentQuestion + 1} de ${quizData.length}`;
+            
+            // Limpiar opciones anteriores
+            optionsContainerEl.innerHTML = '';
+            
+            // Crear nuevas opciones
+            const letters = ['A', 'B', 'C', 'D'];
+            currentQuizData.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+                optionEl.dataset.index = index;
+                optionEl.innerHTML = `
+                    <div class="option-letter">${letters[index]}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionEl.addEventListener('click', () => selectOption(optionEl, index));
+                optionsContainerEl.appendChild(optionEl);
+            });
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionEl, optionIndex) {
+            if (quizCompleted) return;
+            
+            // Remover selección anterior
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Marcar opción seleccionada
+            optionEl.classList.add('selected');
+            selectedOption = optionIndex;
+            nextBtn.disabled = false;
+            
+            // Verificar respuesta
+            const currentQuizData = quizData[currentQuestion];
+            const isCorrect = optionIndex === currentQuizData.correct;
+            
+            // Mostrar retroalimentación
+            feedbackEl.textContent = currentQuizData.explanation;
+            feedbackEl.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedbackEl.style.display = 'block';
+            
+            // Marcar visualmente si es correcta o incorrecta
+            document.querySelectorAll('.option').forEach(opt => {
+                const idx = parseInt(opt.dataset.index);
+                if (idx === currentQuizData.correct) {
+                    opt.classList.add('correct');
+                } else if (idx === optionIndex && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Actualizar puntuación
+            if (isCorrect) {
+                score++;
+                scoreEl.textContent = score;
+            }
+        }
+
+        // Siguiente pregunta
+        function nextQuestion() {
+            if (selectedOption === null) return;
+            
+            currentQuestion++;
+            
+            if (currentQuestion < quizData.length) {
+                selectedOption = null;
+                nextBtn.disabled = true;
+                feedbackEl.style.display = 'none';
+                loadQuestion();
+            } else {
+                // Fin del test
+                quizCompleted = true;
+                questionEl.textContent = `¡Test completado! Obtuviste ${score} de ${quizData.length} puntos.`;
+                optionsContainerEl.innerHTML = '';
+                feedbackEl.textContent = score >= 3 
+                    ? `¡Excelente trabajo! Dominas los conceptos clave de bases de datos y JSON.`
+                    : `Buen esfuerzo. Revisa los temas y sigue practicando.`;
+                feedbackEl.className = score >= 3 ? 'feedback correct' : 'feedback incorrect';
+                feedbackEl.style.display = 'block';
+                nextBtn.style.display = 'none';
+                restartBtn.style.display = 'block';
+                questionCounterEl.textContent = 'Test completado';
+            }
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', initQuiz);
+
+        // Inicializar el test al cargar la página
+        document.addEventListener('DOMContentLoaded', initQuiz);
+
+        // Efecto de scroll suave para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bases de Datos Relacionales - Bucle Creativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-secondary: #7c3aed;
+            --color-accent: #10b981;
+            --color-light: #f8fafc;
+            --color-dark: #1e293b;
+            --color-gray: #64748b;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --color-success: #10b981;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f9ff;
+            color: var(--color-dark);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 40px;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tema {
+            background-color: rgba(255,255,255,0.15);
+            padding: 12px 25px;
+            border-radius: 50px;
+            margin-top: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Card styles */
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-left: 5px solid var(--color-primary);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--color-secondary);
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-accent);
+        }
+
+        .btn-secondary:hover {
+            background-color: #0da271;
+        }
+
+        /* Table example */
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* Game styles */
+        .game-container {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--color-primary);
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--color-dark);
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid #e2e8f0;
+        }
+
+        .option:hover {
+            border-color: var(--color-primary);
+            background-color: #f0f9ff;
+        }
+
+        .option.selected {
+            border-color: var(--color-primary);
+            background-color: #dbeafe;
+        }
+
+        .option.correct {
+            border-color: var(--color-success);
+            background-color: #d1fae5;
+        }
+
+        .option.incorrect {
+            border-color: var(--color-danger);
+            background-color: #fee2e2;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-left: 5px solid var(--color-success);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            border-left: 5px solid var(--color-danger);
+            display: block;
+        }
+
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .score {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #cbd5e1;
+            color: var(--color-gray);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .game-container {
+                padding: 20px;
+            }
+            
+            .question {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-database"></i>
+                    <h1>Bucle Creativo</h1>
+                </div>
+                <p class="subtitle">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+                <div class="tema">Base de datos relacionales: Tablas, registros y atributos</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-bullseye"></i> Objetivo de Aprendizaje</h2>
+            <p>Construir una base de datos relacional básica mediante la identificación y creación de tablas, registros y atributos, aplicando principios de diseño lógico para organizar información de manera estructurada, fomentando el pensamiento crítico al analizar relaciones entre datos y desarrollando una actitud ética y colaborativa en la gestión de información digital, lo que permitirá resolver problemas reales de organización de datos en contextos personales, académicos y comunitarios.</p>
+        </section>
+
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-compass"></i> Contextualización</h2>
+            <p>Imagina que eres el organizador de un torneo de videojuegos en tu colegio. Tienes una lista de participantes en papel, los juegos que cada uno prefiere, sus horarios disponibles, y los equipos que han formado. Al tercer día, los papeles están por todas partes, algunos se han perdido, y no sabes quién juega contra quién. La frustración crece mientras el tiempo se agota.</p>
+            <p>Este caos es lo que sucede cuando la información no tiene estructura. Pero ¿y si existiera un sistema para organizar todos estos datos de forma clara, accesible y relacionada? Las bases de datos relacionales son exactamente eso: el arte de transformar el caos en orden, la confusión en claridad. No se trata solo de tecnología; se trata de dar sentido a nuestra realidad, de conectar puntos, de encontrar patrones. Hoy aprenderás a crear ese orden, a diseñar estructuras que no solo almacenen datos, sino que cuenten historias y revelen conexiones invisibles.</p>
+        </section>
+
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-cogs"></i> Desarrollo de la Actividad</h2>
+            
+            <h3>1. Las Tablas: Los Contenedores de Nuestra Realidad</h3>
+            <p>Una tabla es como una hoja de cálculo, pero con superpoderes. Imagina que quieres organizar información sobre los estudiantes de tu clase. Crearías una tabla llamada "Estudiantes". Cada tabla tiene:</p>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+                <li><strong>Un nombre</strong> que describe su contenido (Ej: Estudiantes, Materias, Calificaciones)</li>
+                <li><strong>Columnas (atributos)</strong> que definen qué información almacenamos</li>
+                <li><strong>Filas (registros)</strong> que son cada entrada individual</li>
+            </ul>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Correo Electrónico</th>
+                            <th>Curso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>María González</td>
+                            <td>16</td>
+                            <td>maria@colegio.edu.ec</td>
+                            <td>Tercero BGU</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Carlos Ruiz</td>
+                            <td>17</td>
+                            <td>carlos@colegio.edu.ec</td>
+                            <td>Tercero BGU</td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>Ana Mendoza</td>
+                            <td>16</td>
+                            <td>ana@colegio.edu.ec</td>
+                            <td>Tercero BGU</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 15px;"><strong>Reflexión:</strong> Piensa en tres tablas que podrías crear para organizar la información de tu proyecto escolar favorito. ¿Qué nombre les pondrías y por qué?</p>
+            
+            <h3 style="margin-top: 30px;">2. Los Atributos: Las Características que Definen</h3>
+            <p>Los atributos son las columnas de la tabla. Definen qué tipo de información almacenamos sobre cada registro. En nuestra tabla "Estudiantes", los atributos son: ID, Nombre, Edad, Correo Electrónico y Curso.</p>
+            <p>Cada atributo tiene un <strong>tipo de dato</strong> que determina qué valores puede contener:</p>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+                <li><strong>Texto (VARCHAR):</strong> Para nombres, direcciones, descripciones</li>
+                <li><strong>Número entero (INT):</strong> Para edades, cantidades, identificadores</li>
+                <li><strong>Fecha (DATE):</strong> Para fechas de nacimiento, eventos</li>
+                <li><strong>Booleano (BOOL):</strong> Para valores verdadero/falso (activo/inactivo)</li>
+            </ul>
+            
+            <h3 style="margin-top: 30px;">3. Los Registros: Las Historias Individuales</h3>
+            <p>Cada fila de la tabla es un registro. Representa una entidad completa. En nuestro ejemplo, cada estudiante es un registro. El registro con ID 001 nos cuenta la historia de María: tiene 16 años, está en Tercero BGU y su correo es maria@colegio.edu.ec.</p>
+            <p><strong>Actividad práctica:</strong> Observa la tabla anterior y responde: ¿Cuál es el valor del atributo "Edad" en el registro de Carlos Ruiz? ¿Y el valor del atributo "Curso" en el registro de Ana Mendoza?</p>
+            
+            <h3 style="margin-top: 30px;">4. La Relación: El Poder de Conectar</h3>
+            <p>El verdadero poder de las bases de datos relacionales está en conectar tablas. Imagina que además de "Estudiantes", tenemos una tabla "Materias" y una tabla "Inscripciones" que relaciona estudiantes con materias.</p>
+            
+            <div class="table-container" style="margin-top: 25px;">
+                <table>
+                    <caption style="caption-side: bottom; padding: 10px; font-style: italic;">Tabla de relación: Inscripciones (conecta Estudiantes con Materias)</caption>
+                    <thead>
+                        <tr>
+                            <th>ID_Inscripción</th>
+                            <th>ID_Estudiante</th>
+                            <th>ID_Materia</th>
+                            <th>Fecha de Inscripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>001</td>
+                            <td>MAT101</td>
+                            <td>2023-09-10</td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>002</td>
+                            <td>FIS201</td>
+                            <td>2023-09-10</td>
+                        </tr>
+                        <tr>
+                            <td>1003</td>
+                            <td>001</td>
+                            <td>FIS201</td>
+                            <td>2023-09-11</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 15px;"><strong>Reflexión:</strong> Según la tabla de inscripciones, ¿a qué materias está inscrita María González (ID 001)? ¿Qué historia nos cuenta esta relación?</p>
+        </section>
+
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-trophy"></i> El Reto Final: Organizando el Torneo de Videojuegos</h2>
+            <p>Ahora es tu turno. Como organizador del torneo de videojuegos de tu colegio, deberás diseñar una base de datos relacional que permita gestionar toda la información del evento.</p>
+            
+            <h3 style="margin-top: 20px;">Tu misión:</h3>
+            <ol style="margin-left: 20px; margin-bottom: 20px;">
+                <li><strong>Crea al menos 3 tablas</strong> relacionadas para el torneo (Ej: Participantes, Juegos, Equipos, Partidas)</li>
+                <li><strong>Define los atributos</strong> para cada tabla (piensa en qué información es realmente importante)</li>
+                <li><strong>Propón cómo se relacionarían</strong> estas tablas (¿qué conecta a un participante con un juego?)</li>
+                <li><strong>Dibuja en papel</strong> o usa una herramienta digital para crear un diagrama de tus tablas y sus relaciones</li>
+            </ol>
+            
+            <h3 style="margin-top: 20px;">Preguntas guía para tu diseño:</h3>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+                <li>¿Qué información necesitas de cada participante?</li>
+                <li>¿Cómo sabrás qué juego prefiere cada participante?</li>
+                <li>¿Cómo organizarás los equipos?</li>
+                <li>¿Cómo registrarás los resultados de cada partida?</li>
+            </ul>
+            
+            <p><strong>Recuerda:</strong> No existe una única solución correcta. Tu diseño reflejará cómo entiendes el problema y qué priorizas. Al final, compartiremos y discutiremos los diferentes diseños propuestos por la clase.</p>
+            
+            <button class="btn" id="showExampleBtn">Ver Ejemplo de Solución</button>
+            <div id="exampleSolution" style="display: none; margin-top: 20px; padding: 20px; background-color: #f0f9ff; border-radius: 10px;">
+                <h4>Ejemplo de solución:</h4>
+                <p><strong>Tablas propuestas:</strong></p>
+                <ol>
+                    <li><strong>Participantes:</strong> ID, Nombre, Grado, Correo, Teléfono</li>
+                    <li><strong>Juegos:</strong> ID, Nombre, Plataforma, Máx_Jugadores</li>
+                    <li><strong>Equipos:</strong> ID, Nombre_Equipo, ID_Juego, ID_Capitán</li>
+                    <li><strong>Partidas:</strong> ID, ID_Equipo1, ID_Equipo2, Fecha, Resultado</li>
+                </ol>
+                <p><strong>Relaciones:</strong> Un participante puede estar en un equipo, un equipo juega un juego específico, y las partidas registran enfrentamientos entre equipos.</p>
+            </div>
+        </section>
+
+        <section class="game-container">
+            <h2 class="card-title" style="color: var(--color-secondary);"><i class="fas fa-gamepad"></i> Evaluación Lúdica: ¿Eres un Maestro de las Bases de Datos?</h2>
+            <p>Responde las siguientes preguntas para demostrar lo que has aprendido. ¡Cada respuesta correcta te dará 20 puntos!</p>
+            
+            <div class="score-container">
+                <div class="score">Puntuación: <span id="scoreValue">0</span>/100</div>
+                <div id="questionCounter">Pregunta 1 de 5</div>
+            </div>
+            
+            <div id="gameContent">
+                <!-- Las preguntas se insertarán aquí mediante JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-secondary" id="nextQuestionBtn" disabled>Siguiente Pregunta <i class="fas fa-arrow-right"></i></button>
+                <button class="btn" id="restartGameBtn" style="display: none;">Jugar Nuevamente</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Diseñado por:</strong> Edwin Méndez J.</p>
+            <p style="margin-top: 10px;">Docente de Informática | Especialista en Desarrollo de Software Educativo</p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">"La tecnología no reemplaza al docente, pero el docente que usa tecnología puede reemplazar al que no la usa."</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos para el juego de preguntas
+        const questions = [
+            {
+                question: "En una base de datos relacional, ¿qué representa una tabla?",
+                options: [
+                    "Un contenedor para organizar datos relacionados",
+                    "Un programa para visualizar información",
+                    "Un tipo de gráfico estadístico",
+                    "Un informe final de resultados"
+                ],
+                correct: 0,
+                explanation: "Correcto. Una tabla es la estructura fundamental que organiza datos relacionados en filas (registros) y columnas (atributos)."
+            },
+            {
+                question: "¿Qué es un registro en una tabla de base de datos?",
+                options: [
+                    "Una columna que define el tipo de dato",
+                    "Una fila que representa una entidad completa",
+                    "El nombre de la base de datos",
+                    "La conexión entre dos tablas"
+                ],
+                correct: 1,
+                explanation: "¡Excelente! Un registro es una fila en una tabla que representa una entidad completa, como un estudiante, un producto o un evento."
+            },
+            {
+                question: "En la tabla 'Estudiantes' con atributos: ID, Nombre, Edad y Curso, ¿qué sería 'Edad'?",
+                options: [
+                    "Un registro",
+                    "Una tabla",
+                    "Un atributo",
+                    "Una relación"
+                ],
+                correct: 2,
+                explanation: "Perfecto. 'Edad' es un atributo, es decir, una característica o propiedad que describe a cada estudiante en la tabla."
+            },
+            {
+                question: "¿Cuál es el propósito principal de las relaciones en una base de datos relacional?",
+                options: [
+                    "Hacer que la base de datos ocupe menos espacio",
+                    "Conectar tablas para evitar duplicar información",
+                    "Hacer que las consultas sean más lentas",
+                    "Crear copias de seguridad automáticas"
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! Las relaciones permiten conectar tablas para organizar información de manera eficiente y evitar duplicar datos."
+            },
+            {
+                question: "Si quisieras almacenar el nombre completo de una persona en una base de datos, ¿qué tipo de dato sería más adecuado?",
+                options: [
+                    "INT (número entero)",
+                    "DATE (fecha)",
+                    "VARCHAR (texto)",
+                    "BOOL (verdadero/falso)"
+                ],
+                correct: 2,
+                explanation: "Correcto. VARCHAR es un tipo de dato para texto variable, perfecto para almacenar nombres, direcciones y otras cadenas de caracteres."
+            }
+        ];
+
+        // Variables del juego
+        let currentQuestion = 0;
+        let score = 0;
+        let gameFinished = false;
+
+        // Elementos del DOM
+        const gameContent = document.getElementById('gameContent');
+        const scoreValue = document.getElementById('scoreValue');
+        const questionCounter = document.getElementById('questionCounter');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const restartGameBtn = document.getElementById('restartGameBtn');
+        const showExampleBtn = document.getElementById('showExampleBtn');
+        const exampleSolution = document.getElementById('exampleSolution');
+
+        // Mostrar ejemplo de solución
+        showExampleBtn.addEventListener('click', function() {
+            if (exampleSolution.style.display === 'none') {
+                exampleSolution.style.display = 'block';
+                showExampleBtn.textContent = 'Ocultar Ejemplo';
+            } else {
+                exampleSolution.style.display = 'none';
+                showExampleBtn.textContent = 'Ver Ejemplo de Solución';
+            }
+        });
+
+        // Inicializar el juego
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const q = questions[currentQuestion];
+            questionCounter.textContent = `Pregunta ${currentQuestion + 1} de ${questions.length}`;
+            
+            let optionsHTML = '';
+            q.options.forEach((option, index) => {
+                optionsHTML += `
+                    <div class="option" data-index="${index}">
+                        ${option}
+                    </div>
+                `;
+            });
+
+            gameContent.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${q.question}</div>
+                    <div class="options">${optionsHTML}</div>
+                    <div id="feedback" class="feedback"></div>
+                </div>
+            `;
+
+            // Agregar event listeners a las opciones
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+
+            nextQuestionBtn.disabled = true;
+        }
+
+        // Seleccionar una opción
+        function selectOption(e) {
+            if (gameFinished) return;
+            
+            const selectedOption = e.currentTarget;
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+            const correctIndex = questions[currentQuestion].correct;
+            
+            // Deshabilitar todas las opciones
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            // Mostrar retroalimentación
+            const feedback = document.getElementById('feedback');
+            
+            if (selectedIndex === correctIndex) {
+                selectedOption.classList.add('correct');
+                feedback.textContent = `✅ ${questions[currentQuestion].explanation}`;
+                feedback.classList.add('correct');
+                score += 20;
+                scoreValue.textContent = score;
+            } else {
+                selectedOption.classList.add('incorrect');
+                // Marcar la correcta también
+                document.querySelector(`.option[data-index="${correctIndex}"]`).classList.add('correct');
+                feedback.textContent = `❌ ${questions[currentQuestion].explanation}`;
+                feedback.classList.add('incorrect');
+            }
+            
+            nextQuestionBtn.disabled = false;
+        }
+
+        // Siguiente pregunta
+        nextQuestionBtn.addEventListener('click', function() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        });
+
+        // Finalizar juego
+        function endGame() {
+            gameFinished = true;
+            gameContent.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 20px;">¡Juego Completado!</h3>
+                    <div style="font-size: 1.5rem; margin-bottom: 20px;">Tu puntuación final: <strong>${score}/100</strong></div>
+                    <div style="margin-bottom: 30px;">
+                        ${score >= 80 ? 
+                            '🏆 ¡Excelente! Eres un maestro de las bases de datos relacionales.' : 
+                          score >= 60 ? 
+                            '👍 ¡Muy bien! Tienes un buen entendimiento de los conceptos.' : 
+                          '💡 ¡Buen esfuerzo! Revisa los conceptos y vuelve a intentarlo.'}
+                    </div>
+                    <div style="background-color: #f0f9ff; padding: 20px; border-radius: 10px;">
+                        <p>Recuerda: El aprendizaje es un proceso continuo. Sigue explorando, haciendo preguntas y practicando con bases de datos reales.</p>
+                    </div>
+                </div>
+            `;
+            
+            nextQuestionBtn.style.display = 'none';
+            restartGameBtn.style.display = 'inline-block';
+            questionCounter.textContent = "Juego completado";
+        }
+
+        // Reiniciar juego
+        restartGameBtn.addEventListener('click', function() {
+            currentQuestion = 0;
+            score = 0;
+            gameFinished = false;
+            scoreValue.textContent = score;
+            nextQuestionBtn.disabled = true;
+            nextQuestionBtn.style.display = 'inline-block';
+            restartGameBtn.style.display = 'none';
+            loadQuestion();
+        });
+
+        // Inicializar la primera pregunta
+        loadQuestion();
+    </script>
+</body>
+</html>

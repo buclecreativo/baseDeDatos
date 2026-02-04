@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo - Taller de SQLite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .code-block {
+            font-family: 'Fira+Code', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            filter: brightness(110%);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+        .quiz-container {
+            background: #ffffff;
+            border: 2px solid var(--primary);
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .option-btn:hover {
+            background: #f1f5f9;
+        }
+        .correct { background: #dcfce7 !important; border-color: #22c55e !important; }
+        .incorrect { background: #fee2e2 !important; border-color: #ef4444 !important; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Encabezado -->
+    <header class="max-w-4xl mx-auto text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-blue-700 mb-2">Bucle Creativo</h1>
+        <p class="text-lg text-slate-600 italic">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+        <div class="h-1 w-24 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+        <!-- Título del Tema -->
+        <section class="mb-10 text-center">
+            <h2 class="text-3xl font-extrabold text-slate-800 uppercase tracking-tight">
+                SQLite: Arquitectos de lo Invisible
+            </h2>
+            <p class="text-slate-500 mt-2 font-medium">Tema: Dominio de Bases de Datos Locales</p>
+        </section>
+
+        <!-- Objetivo -->
+        <div class="card bg-blue-50 border-blue-600">
+            <h3 class="text-xl font-bold text-blue-800 mb-3">Objetivo de Aprendizaje</h3>
+            <p class="text-slate-700">
+                Implementar soluciones de almacenamiento local mediante el dominio técnico de SQLite, analizando su arquitectura y aplicando operaciones CRUD con rigor lógico y ético, para desarrollar aplicaciones eficientes y resilientes que respondan a necesidades reales del entorno ecuatoriano, fortaleciendo así la capacidad de autogestión y el pensamiento creativo del estudiante.
+            </p>
+        </div>
+
+        <!-- Contextualización -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold text-slate-800 mb-4 flex items-center">
+                <span class="mr-2">🌱</span> Una semilla que sostiene mundos
+            </h3>
+            <div class="prose prose-slate max-w-none text-slate-600">
+                <p>
+                    Imagina que estás en medio del centro histórico de Quito, capturando datos para un proyecto escolar, o tal vez en una finca en Manabí donde la señal de internet es apenas un susurro. En esos momentos, la "nube" parece muy lejana. ¿Cómo hacemos que nuestra aplicación siga siendo útil, rápida y confiable sin depender de un servidor gigante al otro lado del mundo?
+                </p>
+                <p>
+                    Aquí es donde aparece <strong>SQLite</strong>. No es un servidor; es un fiel compañero que vive dentro de tu propia aplicación. Es la base de datos que usa tu celular para guardar tus mensajes de WhatsApp y la que usa tu navegador para recordar tus favoritos. Aprender SQLite es aprender a ser autónomo, a construir estructuras sólidas que funcionan incluso en el silencio de la desconexión.
+                </p>
+            </div>
+        </section>
+
+        <!-- Desarrollo de la Actividad -->
+        <section class="space-y-12">
+            <div>
+                <h4 class="text-xl font-bold text-blue-700 mb-4">1. Características y Arquitectura</h4>
+                <p class="mb-4">SQLite es "Serverless" (sin servidor). A diferencia de MySQL o Oracle, no necesitas instalar un programa aparte. Todo vive en un <strong>único archivo</strong> en tu disco duro.</p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>Zero Configuration:</strong> No hay que configurar puertos ni usuarios complejos al inicio.</li>
+                    <li><strong>Transaccional:</strong> Cumple con ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad). Si se va la luz, tus datos no se corrompen.</li>
+                    <li><strong>Portátil:</strong> Puedes copiar el archivo de tu base de datos y pegarlo en otra computadora, ¡y funcionará!</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-bold text-blue-700 mb-4">2. Tipos de Datos: La simplicidad es poder</h4>
+                <p>En SQLite, los tipos de datos son flexibles (Tipado Dinámico), pero nos enfocaremos en los 5 pilares:</p>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
+                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>NULL</strong><br><small>Vacío</small></div>
+                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>INTEGER</strong><br><small>Enteros</small></div>
+                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>REAL</strong><br><small>Decimales</small></div>
+                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>TEXT</strong><br><small>Cadenas</small></div>
+                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>BLOB</strong><br><small>Binarios</small></div>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-bold text-blue-700 mb-4">3. Operaciones CRUD: El Ciclo de la Vida</h4>
+                <p>CRUD significa: Create (Crear), Read (Leer), Update (Actualizar) y Delete (Borrar).</p>
+                <div class="code-block">
+<span class="text-green-400">-- 1. Crear una tabla de estudiantes</span>
+CREATE TABLE estudiantes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    edad INTEGER,
+    ciudad TEXT DEFAULT 'Guayaquil'
+);
+
+<span class="text-green-400">-- 2. Insertar datos (Create)</span>
+INSERT INTO estudiantes (nombre, edad) VALUES ('Maria Jaramillo', 17);
+
+<span class="text-green-400">-- 3. Consultar (Read)</span>
+SELECT * FROM estudiantes WHERE edad > 15;
+
+<span class="text-green-400">-- 4. Actualizar (Update)</span>
+UPDATE estudiantes SET ciudad = 'Cuenca' WHERE id = 1;
+
+<span class="text-green-400">-- 5. Eliminar (Delete)</span>
+DELETE FROM estudiantes WHERE id = 1;
+                </div>
+            </div>
+        </section>
+
+        <!-- El Reto Final -->
+        <section class="my-16 p-8 bg-slate-900 text-white rounded-2xl">
+            <h3 class="text-2xl font-bold mb-4 text-accent">🚀 El Desafío: "Guardianes del Emprendimiento"</h3>
+            <p class="mb-6">
+                Imagina que un grupo de artesanos en Otavalo necesita una aplicación para gestionar su inventario de textiles sin depender de internet. Tu misión es diseñar la base de datos `inventario.db` que permita:
+            </p>
+            <ul class="list-decimal pl-6 space-y-3 text-slate-300">
+                <li>Crear una tabla <strong>productos</strong> con campos para: nombre, precio, stock y categoría.</li>
+                <li>Insertar al menos 3 productos representativos (ej. Poncho de Alpaca).</li>
+                <li>Realizar una consulta que muestre solo los productos que tienen menos de 5 unidades en stock (alerta de reabastecimiento).</li>
+                <li>Simular una venta actualizando el stock de un producto.</li>
+            </ul>
+            <p class="mt-6 italic text-sm text-slate-400">Recuerda: Un buen diseño de datos es el primer paso para un negocio resiliente.</p>
+        </section>
+
+        <!-- Evaluación Lúdica -->
+        <section class="mb-20">
+            <h3 class="text-2xl font-bold text-slate-800 mb-6 text-center">Comprueba tu Sabiduría</h3>
+            <div id="quiz" class="quiz-container shadow-xl">
+                <div id="question-area">
+                    <p id="question-text" class="text-lg font-semibold mb-4">Cargando pregunta...</p>
+                    <div id="options-area"></div>
+                </div>
+                <div id="feedback" class="mt-4 p-3 rounded hidden font-medium"></div>
+                <div class="mt-6 flex justify-between items-center">
+                    <span id="score-display" class="font-bold text-blue-600">Puntos: 0</span>
+                    <button id="next-btn" class="hidden bg-blue-600 text-white px-6 py-2 rounded-lg font-bold btn-hover">Siguiente Pregunta</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de Página -->
+    <footer class="max-w-4xl mx-auto text-center py-8 border-t border-slate-200">
+        <p class="text-slate-500 font-medium">Diseñado por: Edwin Méndez J.</p>
+        <p class="text-xs text-slate-400 mt-1">© 2026 - Educación Transformadora</p>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                q: "¿Qué significa que SQLite sea 'Serverless'?",
+                o: ["Que no tiene bases de datos", "Que no requiere un proceso de servidor separado para funcionar", "Que solo funciona en la nube", "Que es gratis"],
+                a: 1
+            },
+            {
+                q: "¿En cuántos archivos se guarda normalmente una base de datos de SQLite?",
+                o: ["Uno por cada tabla", "Cientos de archivos", "En un solo archivo", "No usa archivos"],
+                a: 2
+            },
+            {
+                q: "¿Qué comando SQL se usa para modificar datos existentes?",
+                o: ["MODIFY", "CHANGE", "UPDATE", "ALTER"],
+                a: 2
+            },
+            {
+                q: "¿Cuál de estos es un tipo de dato válido en SQLite?",
+                o: ["VARCHAR2", "INTEGER", "ARRAY", "OBJECT"],
+                a: 1
+            },
+            {
+                q: "¿Qué propiedad asegura que los datos no se corrompan si la app se cierra inesperadamente?",
+                o: ["Velocidad", "Portabilidad", "Propiedades ACID", "Diseño Web"],
+                a: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionText = document.getElementById('question-text');
+        const optionsArea = document.getElementById('options-area');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionText.innerText = `${currentQuestion + 1}. ${q.q}`;
+            optionsArea.innerHTML = '';
+            feedback.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+
+            q.o.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = option;
+                btn.classList.add('option-btn');
+                btn.onclick = () => checkAnswer(index);
+                optionsArea.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(idx) {
+            const correct = quizData[currentQuestion].a;
+            const buttons = optionsArea.querySelectorAll('button');
+            
+            // Deshabilitar todos los botones
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (idx === correct) {
+                score++;
+                buttons[idx].classList.add('correct');
+                feedback.innerText = "¡Excelente! Respuesta correcta. 🌟";
+                feedback.className = "mt-4 p-3 rounded font-medium bg-green-100 text-green-700";
+            } else {
+                buttons[idx].classList.add('incorrect');
+                buttons[correct].classList.add('correct');
+                feedback.innerText = "No te preocupes, de los errores se aprende. La respuesta correcta era la indicada en verde.";
+                feedback.className = "mt-4 p-3 rounded font-medium bg-red-100 text-red-700";
+            }
+            
+            feedback.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            scoreDisplay.innerText = `Puntos: ${score}`;
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerText = "Finalizar Test";
+            }
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showFinalScore();
+            }
+        };
+
+        function showFinalScore() {
+            questionText.innerText = "¡Felicidades por completar el taller!";
+            optionsArea.innerHTML = `<p class="text-xl">Tu puntaje final es: <strong>${score} / ${quizData.length}</strong></p>
+            <p class="mt-4 text-slate-600">Recuerda: El conocimiento es una base de datos que siempre debe estar en crecimiento.</p>`;
+            nextBtn.classList.add('hidden');
+            feedback.classList.add('hidden');
+        }
+
+        // Iniciar
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>

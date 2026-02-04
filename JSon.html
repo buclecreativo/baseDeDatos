@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bases de Datos JSON - Bucle Creativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --secondary-dark: #27ae60;
+            --accent: #e74c3c;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --light-gray: #ecf0f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .tema {
+            background-color: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Navegación */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .nav-btn {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Contenido principal */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        section:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+            display: inline-block;
+        }
+
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Estilos para ejemplos de código */
+        .code-container {
+            background-color: var(--light-gray);
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            overflow-x: auto;
+        }
+
+        .code-title {
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        pre {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: var(--accent);
+        }
+
+        /* Comparación */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        /* Juego interactivo */
+        .game-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .question-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .option-btn {
+            padding: 1rem;
+            background-color: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            background-color: var(--light-gray);
+            border-color: var(--primary);
+        }
+
+        .option-btn.selected {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--secondary-dark);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--accent);
+            display: block;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .next-btn {
+            padding: 0.8rem 2rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .next-btn:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-3px);
+        }
+
+        .next-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .game-container {
+                padding: 1.5rem;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Elementos decorativos */
+        .icon {
+            color: var(--primary);
+        }
+
+        .highlight {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--secondary);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="header-content">
+            <h1>Bucle creativo</h1>
+            <p class="tagline">Taller diseñado con el corazón de un docente y la mente de un programador</p>
+            <div class="tema">Bases de Datos en Formato JSON: Almacenando el mundo en objetos</div>
+        </div>
+    </header>
+
+    <!-- Navegación -->
+    <nav>
+        <button class="nav-btn" onclick="scrollToSection('contexto')">
+            <i class="fas fa-book-open"></i> Contexto
+        </button>
+        <button class="nav-btn" onclick="scrollToSection('objetivo')">
+            <i class="fas fa-bullseye"></i> Objetivo
+        </button>
+        <button class="nav-btn" onclick="scrollToSection('desarrollo')">
+            <i class="fas fa-code"></i> Desarrollo
+        </button>
+        <button class="nav-btn" onclick="scrollToSection('reto')">
+            <i class="fas fa-trophy"></i> Reto Final
+        </button>
+        <button class="nav-btn" onclick="scrollToSection('juego')">
+            <i class="fas fa-gamepad"></i> Juego Interactivo
+        </button>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main>
+        <!-- Contextualización -->
+        <section id="contexto">
+            <h2><i class="fas fa-map-marker-alt icon"></i> Contextualización</h2>
+            <p>Imagina que tienes una aplicación de música en tu teléfono. Cada canción que escuchas tiene un título, un artista, un álbum, una duración, un género, y tal vez hasta la letra. Si tuvieras que organizar esta información en una tabla tradicional, te encontrarías con muchas columnas y tal vez incluso necesitarías varias tablas relacionadas entre sí.</p>
+            
+            <p>Ahora piensa en las redes sociales: cada publicación tiene texto, imágenes, videos, comentarios, reacciones, etiquetas... La información no siempre encaja perfectamente en filas y columnas rígidas. Aquí es donde entran las bases de datos no relacionales, especialmente aquellas que usan JSON, un formato que se parece mucho a cómo organizamos información en la vida real.</p>
+            
+            <div class="quote">
+                "JSON no es solo un formato de datos; es una forma de pensar la información como objetos interconectados, tal como funciona nuestra mente cuando organizamos ideas."
+            </div>
+            
+            <p>En este taller, exploraremos cómo JSON nos permite almacenar datos de manera flexible, escalable y cercana a cómo realmente pensamos y organizamos información en el mundo digital actual.</p>
+        </section>
+
+        <!-- Objetivo de aprendizaje -->
+        <section id="objetivo">
+            <h2><i class="fas fa-flag icon"></i> Objetivo de Aprendizaje</h2>
+            <p>Comprender y aplicar los principios fundamentales de las bases de datos no relacionales utilizando el formato JSON, desarrollando la capacidad para diseñar estructuras de datos flexibles que reflejen problemas del mundo real, manipular información mediante operaciones básicas de creación, lectura, actualización y eliminación, y analizar críticamente cuándo es más apropiado utilizar bases de datos basadas en documentos frente a las relacionales, fomentando la curiosidad técnica, el pensamiento lógico-estructural y la toma de decisiones fundamentadas en el desarrollo de soluciones informáticas.</p>
+        </section>
+
+        <!-- Desarrollo de la actividad -->
+        <section id="desarrollo">
+            <h2><i class="fas fa-cogs icon"></i> Desarrollo de la Actividad</h2>
+            
+            <h3>1. Bases de datos no relacionales: Libertad más allá de las tablas</h3>
+            <p>Las bases de datos no relacionales (NoSQL) surgieron como respuesta a las limitaciones de las bases de datos relacionales cuando trabajamos con datos que no encajan bien en tablas o que cambian constantemente. A diferencia de las tablas con filas y columnas fijas, las bases NoSQL usan diversos modelos: documentos, grafos, clave-valor o columnas anchas.</p>
+            
+            <div class="code-container">
+                <div class="code-title"><i class="fas fa-database"></i> Ejemplo conceptual: Base de datos de documentos</div>
+                <p>Imagina que estás guardando información sobre estudiantes. En una base relacional necesitarías tablas separadas para datos personales, cursos, calificaciones, etc. En una base de documentos, toda la información de un estudiante puede estar en un solo documento:</p>
+            </div>
+            
+            <h3>2. JSON: El lenguaje universal de los datos</h3>
+            <p>JSON (JavaScript Object Notation) es un formato de intercambio de datos ligero y fácil de leer tanto para humanos como para máquinas. Se basa en dos estructuras fundamentales:</p>
+            <ul>
+                <li><span class="highlight">Objetos</span>: Colecciones no ordenadas de pares clave-valor, entre llaves {}</li>
+                <li><span class="highlight">Arrays</span>: Listas ordenadas de valores, entre corchetes []</li>
+            </ul>
+            
+            <div class="code-container">
+                <div class="code-title"><i class="fas fa-code"></i> Estructura básica de JSON</div>
+                <pre>{
+  "estudiante": {
+    "nombre": "María González",
+    "edad": 17,
+    "activo": true,
+    "cursos": ["Matemáticas", "Física", "Programación"],
+    "contacto": {
+      "email": "maria@ejemplo.edu.ec",
+      "telefono": "0991234567"
+    },
+    "calificaciones": [
+      {"materia": "Matemáticas", "nota": 9.5},
+      {"materia": "Física", "nota": 8.7}
+    ]
+  }
+}</pre>
+            </div>
+            
+            <h3>3. Almacenamiento y manipulación de datos en JSON</h3>
+            <p>Las bases de datos como MongoDB almacenan documentos JSON (llamados BSON internamente). Podemos realizar las operaciones básicas CRUD:</p>
+            <ul>
+                <li><span class="highlight">Create</span>: Insertar nuevos documentos</li>
+                <li><span class="highlight">Read</span>: Consultar documentos existentes</li>
+                <li><span class="highlight">Update</span>: Modificar documentos</li>
+                <li><span class="highlight">Delete</span>: Eliminar documentos</li>
+            </ul>
+            
+            <div class="code-container">
+                <div class="code-title"><i class="fas fa-tasks"></i> Ejemplo de operaciones en MongoDB</div>
+                <pre>// Insertar un documento
+db.estudiantes.insertOne({
+  nombre: "Carlos Pérez",
+  grado: "Tercero de Bachillerato",
+  especialidad: "Informática"
+});
+
+// Buscar estudiantes de informática
+db.estudiantes.find({ especialidad: "Informática" });
+
+// Actualizar un documento
+db.estudiantes.updateOne(
+  { nombre: "Carlos Pérez" },
+  { $set: { promedio: 8.9 } }
+);
+
+// Eliminar un documento
+db.estudiantes.deleteOne({ nombre: "Carlos Pérez" });</pre>
+            </div>
+            
+            <h3>4. Comparación: Relacional vs JSON</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspecto</th>
+                        <th>Bases Relacionales (SQL)</th>
+                        <th>Bases Documentales (JSON)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Estructura</strong></td>
+                        <td>Tablas con filas y columnas fijas</td>
+                        <td>Documentos flexibles, sin esquema fijo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Escalabilidad</strong></td>
+                        <td>Escalabilidad vertical (más poder en un servidor)</td>
+                        <td>Escalabilidad horizontal (más servidores)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Relaciones</strong></td>
+                        <td>Joins entre tablas</td>
+                        <td>Documentos anidados o referencias</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mejor para</strong></td>
+                        <td>Datos estructurados, transacciones complejas</td>
+                        <td>Datos semi-estructurados, crecimiento rápido</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ejemplos</strong></td>
+                        <td>Sistemas bancarios, facturación</td>
+                        <td>Redes sociales, catálogos de productos, IoT</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>5. Casos de uso del mundo real</h3>
+            <p>Las bases de datos JSON son ideales para:</p>
+            <ul>
+                <li><span class="highlight">Aplicaciones de redes sociales</span>: Cada publicación puede tener estructura única (texto, imagen, video, encuesta, etc.)</li>
+                <li><span class="highlight">Sistemas de recomendación</strong>: Perfiles de usuario con preferencias complejas y cambiantes</li>
+                <li><span class="highlight">Plataformas de comercio electrónico</span>: Productos con atributos variables (tamaño, color, material, etc.)</li>
+                <li><span class="highlight">Aplicaciones de IoT</span>: Dispositivos que generan datos en diferentes formatos y frecuencias</li>
+                <li><span class="highlight">Contenido multimedia</span>: Catálogos de películas, música o libros con metadatos complejos</li>
+            </ul>
+        </section>
+
+        <!-- Reto final -->
+        <section id="reto">
+            <h2><i class="fas fa-trophy icon"></i> El Reto Final: Construye Tu Propia Base de Datos JSON</h2>
+            <p>Imagina que has sido contratado para desarrollar una aplicación de gestión para el "Festival de Talentos Estudiantiles" de tu colegio. La aplicación debe permitir registrar participantes, sus talentos, los eventos en los que participarán y los jueces asignados.</p>
+            
+            <h3>Tu misión:</h3>
+            <ol>
+                <li><strong>Diseña la estructura JSON</strong> para almacenar toda la información del festival. Piensa en qué datos serían documentos completos y cuáles podrían ser subdocumentos anidados.</li>
+                <li><strong>Crea al menos 5 documentos de ejemplo</strong> que representen participantes con diferentes talentos (música, deporte, arte, ciencia, etc.).</li>
+                <li><strong>Plantea 3 consultas</strong> que serían útiles para los organizadores (ej: "mostrar todos los participantes de música", "encontrar participantes que compiten en más de un evento").</li>
+                <li><strong>Reflexiona y justifica</strong> por qué una base de datos JSON es más apropiada para este caso que una base de datos relacional tradicional.</li>
+            </ol>
+            
+            <div class="code-container">
+                <div class="code-title"><i class="fas fa-lightbulb"></i> Pistas para comenzar</div>
+                <p>Considera que cada participante podría tener: datos personales, talento principal, eventos en los que participa (cada evento con fecha, hora y lugar), y resultados preliminares. Los jueces podrían ser documentos separados que se referencian desde los eventos.</p>
+            </div>
+            
+            <p><strong>Evaluación:</strong> Serás evaluado por la creatividad en el diseño de datos, la coherencia estructural, la utilidad de las consultas planteadas y la profundidad de tu reflexión sobre la elección tecnológica.</p>
+        </section>
+
+        <!-- Juego interactivo -->
+        <section id="juego">
+            <div class="game-container">
+                <h2><i class="fas fa-gamepad icon"></i> Evaluación Lúdica: ¿Cuánto Sabes de JSON?</h2>
+                <p>Responde las siguientes preguntas para poner a prueba tu comprensión del tema. ¡Intenta conseguir la máxima puntuación!</p>
+                
+                <div class="question-container">
+                    <h3 id="question-text">Cargando pregunta...</h3>
+                    <div class="options-container" id="options-container">
+                        <!-- Las opciones se cargarán con JavaScript -->
+                    </div>
+                    <div id="feedback" class="feedback"></div>
+                </div>
+                
+                <div class="game-controls">
+                    <div class="score">Puntuación: <span id="score">0</span>/5</div>
+                    <button id="next-btn" class="next-btn" onclick="nextQuestion()" disabled>
+                        Siguiente Pregunta <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div id="game-result" style="display: none; margin-top: 2rem;">
+                    <h3 id="result-title"></h3>
+                    <p id="result-message"></p>
+                    <button onclick="restartGame()" class="next-btn" style="margin-top: 1rem;">
+                        <i class="fas fa-redo"></i> Volver a Jugar
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="footer-content">
+            <p>Diseñado por: Edwin Méndez J.</p>
+            <p style="margin-top: 1rem; opacity: 0.8;">Taller de Bases de Datos JSON - Bucle Creativo</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Para estudiantes ecuatorianos de bachillerato</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos para el juego interactivo
+        const questions = [
+            {
+                question: "¿Cuál es la principal característica de las bases de datos NoSQL como las que usan JSON?",
+                options: [
+                    "Usan tablas con relaciones fijas entre ellas",
+                    "Tienen un esquema fijo y predeterminado",
+                    "Permiten almacenar datos en formatos flexibles como documentos",
+                    "Solo pueden almacenar datos numéricos y de texto simple"
+                ],
+                correct: 2,
+                explanation: "Las bases NoSQL permiten formatos flexibles como documentos JSON, que no requieren un esquema fijo predeterminado."
+            },
+            {
+                question: "En JSON, ¿cómo se representa una lista ordenada de valores?",
+                options: [
+                    "Entre llaves {}",
+                    "Entre paréntesis ()",
+                    "Entre corchetes []",
+                    "Entre comillas \"\""
+                ],
+                correct: 2,
+                explanation: "En JSON, los arrays (listas ordenadas) se representan con corchetes [], mientras que los objetos usan llaves {}."
+            },
+            {
+                question: "¿Cuál de estos NO sería un caso de uso ideal para una base de datos JSON?",
+                options: [
+                    "Una red social donde cada publicación tiene estructura variable",
+                    "Un sistema bancario que requiere transacciones ACID estrictas",
+                    "Un catálogo de productos de comercio electrónico con atributos variables",
+                    "Una aplicación IoT que recibe datos de diferentes tipos de sensores"
+                ],
+                correct: 1,
+                explanation: "Los sistemas bancarios suelen usar bases relacionales por su necesidad de transacciones ACID estrictas y datos altamente estructurados."
+            },
+            {
+                question: "¿Qué operación CRUD se utiliza para modificar un documento existente en una base de datos JSON?",
+                options: [
+                    "Create",
+                    "Read",
+                    "Update",
+                    "Delete"
+                ],
+                correct: 2,
+                explanation: "La operación Update se utiliza para modificar documentos existentes en una base de datos."
+            },
+            {
+                question: "¿Qué ventaja principal tienen las bases de datos basadas en documentos sobre las relacionales cuando los datos cambian frecuentemente?",
+                options: [
+                    "Mayor velocidad en operaciones matemáticas complejas",
+                    "No requieren esquema fijo, permitiendo flexibilidad ante cambios",
+                    "Son más fáciles de instalar en cualquier servidor",
+                    "Consumen menos espacio en disco siempre"
+                ],
+                correct: 1,
+                explanation: "La flexibilidad de esquema permite adaptarse a cambios en la estructura de datos sin necesidad de migraciones complejas."
+            }
+        ];
+
+        // Variables del juego
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        let gameCompleted = false;
+
+        // Función para cargar la pregunta actual
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = `Pregunta ${currentQuestion + 1}: ${question.question}`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = () => selectOption(index, button);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('next-btn').disabled = true;
+            selectedOption = null;
+        }
+
+        // Función para seleccionar una opción
+        function selectOption(index, buttonElement) {
+            if (gameCompleted) return;
+            
+            // Resetear todas las opciones
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Marcar la opción seleccionada
+            buttonElement.classList.add('selected');
+            selectedOption = index;
+            
+            const question = questions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            
+            // Verificar si es correcta
+            if (index === question.correct) {
+                buttonElement.classList.add('correct');
+                feedback.textContent = `¡Correcto! ${question.explanation}`;
+                feedback.classList.add('correct');
+            } else {
+                buttonElement.classList.add('incorrect');
+                // También mostrar cuál era la correcta
+                document.querySelectorAll('.option-btn')[question.correct].classList.add('correct');
+                feedback.textContent = `Incorrecto. ${question.explanation}`;
+                feedback.classList.add('incorrect');
+            }
+            
+            // Actualizar puntuación si es correcta
+            if (index === question.correct) {
+                score++;
+                document.getElementById('score').textContent = score;
+            }
+            
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        // Función para pasar a la siguiente pregunta
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        // Función para terminar el juego
+        function endGame() {
+            gameCompleted = true;
+            document.getElementById('question-text').textContent = "¡Juego completado!";
+            document.getElementById('options-container').innerHTML = '';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+            
+            const resultContainer = document.getElementById('game-result');
+            const resultTitle = document.getElementById('result-title');
+            const resultMessage = document.getElementById('result-message');
+            
+            resultContainer.style.display = 'block';
+            
+            // Determinar mensaje según puntuación
+            if (score === 5) {
+                resultTitle.textContent = "¡Excelente! 🎉";
+                resultMessage.textContent = `Obtuviste ${score} de 5 puntos. ¡Dominas completamente los conceptos de bases de datos JSON!`;
+            } else if (score >= 3) {
+                resultTitle.textContent = "¡Muy bien! 👍";
+                resultMessage.textContent = `Obtuviste ${score} de 5 puntos. Tienes un buen entendimiento del tema, pero hay aspectos que podrías repasar.`;
+            } else {
+                resultTitle.textContent = "¡Sigue practicando! 💪";
+                resultMessage.textContent = `Obtuviste ${score} de 5 puntos. Te recomendamos revisar los conceptos principales del taller.`;
+            }
+        }
+
+        // Función para reiniciar el juego
+        function restartGame() {
+            currentQuestion = 0;
+            score = 0;
+            gameCompleted = false;
+            document.getElementById('score').textContent = '0';
+            document.getElementById('game-result').style.display = 'none';
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+            document.getElementById('next-btn').disabled = true;
+            loadQuestion();
+        }
+
+        // Función para desplazarse a las secciones
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Inicializar el juego cuando la página cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuestion();
+            
+            // Añadir efecto de desplazamiento suave a todos los enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    if (targetId) {
+                        document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

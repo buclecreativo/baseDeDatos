@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo | Tecnologías de Bases de Datos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de color y estilos globales */
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #1ABC9C;
+            --accent-color: #E74C3C;
+            --light-color: #ECF0F1;
+            --dark-color: #2C3E50;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "{ }";
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.05;
+            top: -30px;
+            left: -30px;
+            font-weight: bold;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .theme {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            display: inline-block;
+            font-weight: 600;
+            margin-top: 10px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        /* Contenido principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+            display: inline-block;
+        }
+        
+        h3 {
+            color: var(--dark-color);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Listas y elementos especiales */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: rgba(26, 188, 156, 0.1);
+            padding: 1rem;
+            border-left: 4px solid var(--secondary-color);
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .example {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        /* Tarjetas de comparación */
+        .comparison-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border-top: 4px solid;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .sqlite-card {
+            border-top-color: #003B57;
+        }
+        
+        .json-card {
+            border-top-color: #F7DF1E;
+        }
+        
+        .mysql-card {
+            border-top-color: #00758F;
+        }
+        
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+        }
+        
+        .card-icon {
+            font-size: 1.5rem;
+        }
+        
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+        }
+        
+        /* Juego de evaluación */
+        #quiz-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .question {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .options {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .option {
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            border-color: var(--secondary-color);
+        }
+        
+        .option.selected {
+            background-color: rgba(26, 188, 156, 0.2);
+            border-color: var(--secondary-color);
+        }
+        
+        .option.correct {
+            background-color: rgba(40, 167, 69, 0.2);
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2);
+            border-color: #dc3545;
+        }
+        
+        .feedback {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .correct-feedback {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .incorrect-feedback {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .score-container {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        /* Pie de página */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-highlight {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .comparison-cards {
+                flex-direction: column;
+            }
+            
+            .card {
+                min-width: 100%;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        
+        /* Navegación interna */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        /* Elementos interactivos adicionales */
+        .interactive-element {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .toggle-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .toggle-content.active {
+            max-height: 1000px;
+        }
+        
+        .toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-infinity"></i>
+            <h1>Bucle creativo</h1>
+        </div>
+        <p class="subtitle">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+        <div class="theme fade-in">
+            Integración y Comparación de Tecnologías de Bases de Datos
+        </div>
+    </header>
+    
+    <!-- Navegación interna -->
+    <div class="container">
+        <div class="nav-links">
+            <a href="#introduction" class="btn">Introducción</a>
+            <a href="#comparison" class="btn">Comparación</a>
+            <a href="#selection" class="btn">Criterios</a>
+            <a href="#interoperability" class="btn">Interoperabilidad</a>
+            <a href="#challenge" class="btn">Reto Final</a>
+            <a href="#quiz" class="btn btn-secondary">Evaluación</a>
+        </div>
+    </div>
+    
+    <!-- Contenido principal -->
+    <main class="container">
+        <!-- Introducción y objetivos -->
+        <section id="introduction" class="fade-in">
+            <h2><i class="fas fa-bullseye"></i> Objetivo de Aprendizaje</h2>
+            <p>Desarrollar la capacidad para <strong>analizar, comparar y seleccionar</strong> sistemas de gestión de bases de datos según necesidades específicas, integrando conocimientos técnicos sobre SQLite, JSON y MySQL con criterios de interoperabilidad y contexto de aplicación, para resolver problemas reales mediante el pensamiento crítico, la toma de decisiones fundamentadas y la colaboración ética en equipos de desarrollo.</p>
+            
+            <div class="highlight">
+                <h3><i class="fas fa-map-signs"></i> Contextualización</h3>
+                <p>Imagina que estás desarrollando una aplicación para gestionar el inventario de una pequeña librería en tu comunidad. Al principio, todo parece simple: guardas los datos en archivos de texto. Pero cuando la aplicación crece, aparecen las preguntas: ¿cómo organizar eficientemente cientos de libros? ¿cómo permitir búsquedas rápidas? ¿cómo asegurar que los datos no se pierdan?</p>
+                <p>Esta es la encrucijada que enfrentan desarrolladores en todo el mundo. No se trata solo de tecnología, sino de <strong>tomar decisiones que afectan la eficiencia, seguridad y escalabilidad</strong> de nuestras soluciones. Como un arquitecto que elige entre diferentes materiales de construcción, tú elegirás entre SQLite, JSON y MySQL para construir soluciones digitales sólidas y adaptadas a cada necesidad.</p>
+            </div>
+        </section>
+        
+        <!-- Desarrollo de la actividad: Comparación -->
+        <section id="comparison" class="fade-in delay-1">
+            <h2><i class="fas fa-balance-scale"></i> Diferencias entre SQLite, JSON y MySQL</h2>
+            <p>Cada tecnología de base de datos tiene su personalidad, sus fortalezas y sus momentos ideales de uso. Conocerlas es como tener un equipo diverso donde cada miembro aporta lo mejor de sí según la situación.</p>
+            
+            <div class="comparison-cards">
+                <!-- Tarjeta SQLite -->
+                <div class="card sqlite-card">
+                    <h3><i class="fas fa-database card-icon"></i> SQLite</h3>
+                    <p><strong>La biblioteca portátil</strong> que llevas contigo a todas partes. SQLite es un motor de base de datos embebido, lo que significa que funciona como parte de tu aplicación sin necesidad de un servidor separado.</p>
+                    <ul>
+                        <li><strong>Arquitectura:</strong> Sin servidor, archivo único</li>
+                        <li><strong>Concurrencia:</strong> Escritura bloqueante</li>
+                        <li><strong>Escalabilidad:</strong> Ideal para pequeños a medianos volúmenes</li>
+                        <li><strong>Configuración:</strong> Cero configuración</li>
+                    </ul>
+                    <div class="example">
+                        // Conexión en Python<br>
+                        import sqlite3<br>
+                        conn = sqlite3.connect('mi_libreria.db')
+                    </div>
+                    <p><strong>Contexto ideal:</strong> Aplicaciones móviles, software de escritorio, prototipos rápidos, sistemas embebidos.</p>
+                </div>
+                
+                <!-- Tarjeta JSON -->
+                <div class="card json-card">
+                    <h3><i class="fas fa-file-code card-icon"></i> JSON</h3>
+                    <p><strong>El mensajero universal</strong> que todos entienden. JSON no es una base de datos en sí mismo, sino un formato de intercambio de datos ligero y legible por humanos.</p>
+                    <ul>
+                        <li><strong>Estructura:</strong> Texto plano, formato clave-valor</li>
+                        <li><strong>Esquema:</strong> Flexible, sin esquema fijo</li>
+                        <li><strong>Búsquedas:</strong> Limitadas sin herramientas adicionales</li>
+                        <li><strong>Portabilidad:</strong> Excelente, compatible con todos los lenguajes</li>
+                    </ul>
+                    <div class="example">
+                        // Ejemplo de estructura JSON<br>
+                        {<br>
+                          "libro": {<br>
+                            "titulo": "Cien años de soledad",<br>
+                            "autor": "Gabriel García Márquez",<br>
+                            "año": 1967<br>
+                          }<br>
+                        }
+                    </div>
+                    <p><strong>Contexto ideal:</strong> APIs web, configuración de aplicaciones, intercambio de datos entre sistemas, almacenamiento simple.</p>
+                </div>
+                
+                <!-- Tarjeta MySQL -->
+                <div class="card mysql-card">
+                    <h3><i class="fas fa-server card-icon"></i> MySQL</h3>
+                    <p><strong>El motor industrial</strong> para grandes proyectos. MySQL es un sistema de gestión de bases de datos relacional cliente-servidor, robusto y lleno de características.</p>
+                    <ul>
+                        <li><strong>Arquitectura:</strong> Cliente-servidor</li>
+                        <li><strong>Concurrencia:</strong> Múltiples usuarios simultáneos</li>
+                        <li><strong>Seguridad:</strong> Avanzada con usuarios y permisos</li>
+                        <li><strong>Escalabilidad:</strong> Alta, para grandes volúmenes</li>
+                    </ul>
+                    <div class="example">
+                        // Conexión con autenticación<br>
+                        mysql -h localhost -u usuario -p<br>
+                        Contraseña: ********<br>
+                        USE mi_base_datos;
+                    </div>
+                    <p><strong>Contexto ideal:</strong> Aplicaciones web, sistemas empresariales, e-commerce, cuando hay múltiples usuarios concurrentes.</p>
+                </div>
+            </div>
+            
+            <div class="highlight">
+                <h4><i class="fas fa-lightbulb"></i> Reflexión consciente</h4>
+                <p>Piensa en tres aplicaciones que uses diariamente en tu teléfono. ¿Cuál crees que utiliza cada tipo de almacenamiento? ¿Qué ventajas tendría cambiar de tecnología en cada caso?</p>
+            </div>
+        </section>
+        
+        <!-- Criterios de selección -->
+        <section id="selection" class="fade-in delay-1">
+            <h2><i class="fas fa-clipboard-check"></i> Criterios para la Selección de un Sistema de Base de Datos</h2>
+            <p>Elegir una tecnología de base de datos es una <strong>decisión estratégica</strong> que impacta el presente y futuro de tu proyecto. Estos son los criterios clave que debes considerar:</p>
+            
+            <div class="toggle-content" id="criteria-content">
+                <h3>1. Volumen y Escalabilidad</h3>
+                <p>¿Cuántos datos manejarás? ¿Crecerán rápidamente? SQLite es excelente hasta unos pocos GB, MySQL puede manejar terabytes.</p>
+                
+                <h3>2. Concurrencia de Usuarios</h3>
+                <p>¿Cuántas personas accederán simultáneamente? Para un usuario único o pocos, SQLite es suficiente. Para cientos concurrentes, necesitas MySQL.</p>
+                
+                <h3>3. Complejidad de las Consultas</h3>
+                <p>¿Necesitas JOINs complejos, transacciones, procedimientos almacenados? MySQL ofrece capacidades avanzadas, mientras que JSON requiere programación adicional.</p>
+                
+                <h3>4. Portabilidad y Distribución</h3>
+                <p>¿Tu aplicación debe funcionar offline? ¿Se distribuirá como un solo archivo? SQLite gana en portabilidad, JSON en simplicidad de intercambio.</p>
+                
+                <h3>5. Recursos Disponibles</h3>
+                <p>¿Tienes capacidad para administrar un servidor? MySQL requiere mantenimiento, mientras que SQLite y JSON son más "autónomos".</p>
+                
+                <h3>6. Velocidad de Desarrollo</h3>
+                <p>¿Necesitas un prototipo rápido? SQLite y JSON permiten comenzar casi inmediatamente, mientras que MySQL requiere configuración inicial.</p>
+                
+                <div class="highlight">
+                    <h4><i class="fas fa-project-diagram"></i> Diagrama de Decisión</h4>
+                    <p>Pregúntate en este orden:</p>
+                    <ol>
+                        <li>¿Mis datos son simples y el volumen es bajo? → Considera JSON o SQLite</li>
+                        <li>¿Necesito múltiples usuarios simultáneos? → MySQL es obligatorio</li>
+                        <li>¿Mi aplicación será móvil/desktop? → SQLite tiene ventajas</li>
+                        <li>¿Necesito intercambiar datos entre sistemas? → JSON es ideal</li>
+                        <li>¿Es un sistema web con muchos usuarios? → MySQL es la opción</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="toggle-btn interactive-element" id="toggle-criteria">
+                <span>Ver todos los criterios en detalle</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+        
+        <!-- Interoperabilidad -->
+        <section id="interoperabilidad" class="fade-in delay-2">
+            <h2><i class="fas fa-sync-alt"></i> Interoperabilidad entre Bases de Datos</h2>
+            <p>En el mundo real, los sistemas rara vez viven aislados. La <strong>interoperabilidad</strong> es la capacidad de diferentes sistemas para trabajar juntos, intercambiando datos y complementándose.</p>
+            
+            <h3>Escenarios comunes de interoperabilidad:</h3>
+            
+            <div class="comparison-cards">
+                <div class="card">
+                    <h3><i class="fas fa-mobile-alt"></i> Móvil + Servidor</h3>
+                    <p>Una aplicación móvil usa SQLite localmente y sincroniza con un servidor MySQL a través de JSON. Ejemplo: Una app de tareas que funciona offline y se sincroniza al tener conexión.</p>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-cloud"></i> Migración Escalonada</h3>
+                    <p>Comenzar con SQLite para prototipar, luego migrar a MySQL cuando el crecimiento lo exija. Muchas startups exitosas siguieron este camino.</p>
+                </div>
+            </div>
+            
+            <div class="example">
+                // Flujo típico de interoperabilidad<br>
+                // 1. App móvil (SQLite) → genera datos localmente<br>
+                // 2. Al tener conexión → convierte a JSON<br>
+                // 3. Envía JSON → Servidor web (MySQL)<br>
+                // 4. Servidor procesa → responde con JSON<br>
+                // 5. App móvil recibe → actualiza SQLite local
+            </div>
+            
+            <h3>Herramientas para la interoperabilidad:</h3>
+            <ul>
+                <li><strong>APIs REST:</strong> El puente universal que usa JSON para comunicar sistemas</li>
+                <li><strong>ORM (Mapeo Objeto-Relacional):</strong> Permite usar el mismo código con diferentes bases de datos</li>
+                <li><strong>Scripts de migración:</strong> Convierten datos entre formatos cuando es necesario</li>
+                <li><strong>Formatos intermedios:</strong> Como CSV o XML para intercambio temporal</li>
+            </ul>
+            
+            <div class="highlight">
+                <h4><i class="fas fa-hands-helping"></i> Ejercicio de exploración</h4>
+                <p>Investiga cómo funcionan las aplicaciones bancarias en tu teléfono. ¿Crees que usan solo una tecnología de base de datos? ¿O combinan varias? ¿Qué ventajas tiene esta combinación?</p>
+            </div>
+        </section>
+        
+        <!-- Reto final -->
+        <section id="challenge" class="fade-in delay-2">
+            <h2><i class="fas fa-flag-checkered"></i> El Reto Final: Sistema de Gestión para Ferias de Emprendimiento</h2>
+            <p>Imagina que tu colegio organiza una feria de emprendimiento donde 50 estudiantes presentarán sus proyectos. Necesitan un sistema para:</p>
+            
+            <ul>
+                <li>Registrar proyectos (nombre, descripción, categoría, estudiante responsable)</li>
+                <li>Llevar control de votación del público</li>
+                <li>Mostrar resultados en tiempo real en una pantalla</li>
+                <li>Permitir que los jueces califiquen desde sus tablets</li>
+                <li>Funcionar aunque falle el Internet momentáneamente</li>
+            </ul>
+            
+            <div class="highlight">
+                <h4><i class="fas fa-tasks"></i> Tu misión:</h4>
+                <p>Diseña la arquitectura completa del sistema, especificando:</p>
+                <ol>
+                    <li>¿Qué tecnología usarías para cada componente y por qué?</li>
+                    <li>¿Cómo se comunicarían entre sí los diferentes componentes?</li>
+                    <li>¿Qué ventajas tiene tu diseño sobre otras alternativas?</li>
+                    <li>¿Qué desafíos podrían presentarse y cómo los resolverías?</li>
+                </ol>
+                
+                <p><strong>Entrega:</strong> Un documento técnico que incluya diagramas de arquitectura, justificación de tecnologías seleccionadas y un prototipo funcional básico (puede ser en pseudo-código).</p>
+            </div>
+            
+            <div class="toggle-content" id="challenge-hints">
+                <h4><i class="fas fa-lightbulb"></i> Pistas para comenzar:</h4>
+                <ul>
+                    <li>Considera que los jueces necesitan trabajar offline con sus tablets</li>
+                    <li>El sistema de votación debe ser rápido y confiable</li>
+                    <li>La pantalla de resultados debe actualizarse automáticamente</li>
+                    <li>Los datos de proyectos deben estar disponibles desde el inicio</li>
+                </ul>
+                
+                <p><strong>Reflexión adicional:</strong> ¿Cómo afectaría tu diseño si la feria crece a 500 proyectos el próximo año? ¿Y si se realiza simultáneamente en tres ciudades?</p>
+            </div>
+            
+            <div class="toggle-btn interactive-element" id="toggle-hints">
+                <span>Ver pistas para el reto</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn" id="solution-toggle">Ver una posible solución</button>
+            </div>
+            
+            <div class="toggle-content" id="solution-content">
+                <h4><i class="fas fa-check-circle"></i> Posible solución:</h4>
+                <p><strong>Arquitectura propuesta:</strong></p>
+                <ul>
+                    <li><strong>Tablets de jueces:</strong> SQLite local + sincronización periódica vía JSON</li>
+                    <li><strong>Sistema de votación:</strong> MySQL para manejar alta concurrencia</li>
+                    <li><strong>Pantalla de resultados:</strong> Consulta directa a MySQL + caché en memoria</li>
+                    <li><strong>App móvil para registro:</strong> SQLite para trabajo offline, JSON para enviar al servidor</li>
+                    <li><strong>API central:</strong> REST con JSON para integrar todos los componentes</li>
+                </ul>
+                <p><strong>Justificación:</strong> Esta combinación aprovecha las fortalezas de cada tecnología: portabilidad de SQLite, rendimiento de MySQL, y flexibilidad de JSON para intercambio.</p>
+            </div>
+        </section>
+        
+        <!-- Evaluación lúdica -->
+        <section id="quiz-section" class="fade-in delay-3">
+            <h2 style="text-align: center;"><i class="fas fa-gamepad"></i> Evaluación Lúdica: ¿Cuánto has aprendido?</h2>
+            <p style="text-align: center;">Completa este test interactivo para evaluar tu comprensión de los conceptos. ¡Demuestra tus conocimientos!</p>
+            
+            <div class="quiz-container">
+                <div class="score-container">
+                    <p>Tu puntaje: <span class="score" id="score">0</span>/5</p>
+                </div>
+                
+                <div id="quiz-container"></div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn" id="next-btn" style="display: none;">Siguiente pregunta →</button>
+                    <button class="btn btn-secondary" id="restart-btn" style="display: none;">Reiniciar evaluación</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <p><span class="footer-highlight">Bucle creativo</span></p>
+            <p>Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+            <p style="margin-top: 1.5rem;">Tema: Integración y Comparación de Tecnologías de Bases de Datos</p>
+            <p style="margin-top: 1.5rem; font-style: italic; opacity: 0.9;">Diseñado por: <span class="footer-highlight">Edwin Méndez J.</span></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Datos del cuestionario
+        const quizQuestions = [
+            {
+                question: "¿Cuál es la principal ventaja de SQLite sobre MySQL para aplicaciones móviles?",
+                options: [
+                    "No requiere un servidor separado y es portable",
+                    "Permite mayor concurrencia de usuarios",
+                    "Tiene mejor seguridad integrada",
+                    "Soporta consultas más complejas"
+                ],
+                correct: 0,
+                explanation: "SQLite es embebido y se distribuye como parte de la aplicación, ideal para móviles donde no siempre hay conexión."
+            },
+            {
+                question: "¿En qué escenario sería más apropiado usar JSON como almacenamiento principal?",
+                options: [
+                    "Una aplicación bancaria con miles de transacciones diarias",
+                    "Un sistema de configuración para una aplicación de escritorio",
+                    "Una red social con millones de usuarios",
+                    "Un sistema de reservas de aerolíneas"
+                ],
+                correct: 1,
+                explanation: "JSON es ideal para configuración y datos simples que no requieren consultas complejas."
+            },
+            {
+                question: "¿Qué característica hace de MySQL la mejor opción para aplicaciones web con muchos usuarios?",
+                options: [
+                    "Su capacidad para funcionar sin configuración",
+                    "Su arquitectura cliente-servidor que maneja concurrencia",
+                    "Que se almacena en un solo archivo",
+                    "Su formato de texto legible por humanos"
+                ],
+                correct: 1,
+                explanation: "La arquitectura cliente-servidor de MySQL está diseñada para manejar múltiples conexiones simultáneas eficientemente."
+            },
+            {
+                question: "¿Cuál es el formato más común para intercambiar datos entre un cliente móvil con SQLite y un servidor con MySQL?",
+                options: [
+                    "SQL",
+                    "CSV",
+                    "JSON",
+                    "XML"
+                ],
+                correct: 2,
+                explanation: "JSON se ha convertido en el estándar para APIs web por su ligereza y facilidad de procesamiento en JavaScript."
+            },
+            {
+                question: "Si estás desarrollando un prototipo rápido y necesitas tomar una decisión rápida sobre el almacenamiento, ¿cuál elegirías inicialmente?",
+                options: [
+                    "MySQL por ser la opción más robusta",
+                    "JSON por ser el más simple de implementar",
+                    "SQLite por balance entre simplicidad y funcionalidad",
+                    "Esperar a ver cómo crece la aplicación antes de decidir"
+                ],
+                correct: 2,
+                explanation: "SQLite ofrece un buen balance: es simple como JSON pero con capacidades de consulta SQL, y es fácil migrar a MySQL después."
+            }
+        ];
+        
+        // Variables del juego
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        
+        // Elementos DOM
+        const quizContainer = document.getElementById('quiz-container');
+        const scoreElement = document.getElementById('score');
+        const nextButton = document.getElementById('next-btn');
+        const restartButton = document.getElementById('restart-btn');
+        
+        // Funciones para el juego
+        function showQuestion() {
+            if (currentQuestion >= quizQuestions.length) {
+                showResults();
+                return;
+            }
+            
+            const question = quizQuestions[currentQuestion];
+            
+            let html = `
+                <div class="question">
+                    <h3>Pregunta ${currentQuestion + 1} de ${quizQuestions.length}</h3>
+                    <p>${question.question}</p>
+                    <div class="options">
+            `;
+            
+            question.options.forEach((option, index) => {
+                html += `
+                    <div class="option" data-index="${index}">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="feedback" id="feedback"></div>
+                </div>
+            `;
+            
+            quizContainer.innerHTML = html;
+            
+            // Agregar eventos a las opciones
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+            
+            // Ocultar botón siguiente inicialmente
+            nextButton.style.display = 'none';
+            restartButton.style.display = 'none';
+        }
+        
+        function selectOption(e) {
+            const selectedOption = e.currentTarget;
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+            const question = quizQuestions[currentQuestion];
+            
+            // Deshabilitar todas las opciones
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            // Marcar la opción seleccionada
+            selectedOption.classList.add('selected');
+            
+            // Verificar respuesta
+            const isCorrect = selectedIndex === question.correct;
+            const feedback = document.getElementById('feedback');
+            
+            if (isCorrect) {
+                selectedOption.classList.add('correct');
+                feedback.textContent = "¡Correcto! " + question.explanation;
+                feedback.className = "feedback correct-feedback";
+                score++;
+                scoreElement.textContent = score;
+            } else {
+                selectedOption.classList.add('incorrect');
+                // Marcar la correcta
+                document.querySelectorAll('.option')[question.correct].classList.add('correct');
+                feedback.textContent = "Incorrecto. " + question.explanation;
+                feedback.className = "feedback incorrect-feedback";
+            }
+            
+            feedback.style.display = 'block';
+            
+            // Guardar respuesta del usuario
+            userAnswers[currentQuestion] = {
+                selected: selectedIndex,
+                correct: isCorrect
+            };
+            
+            // Mostrar botón siguiente
+            nextButton.style.display = 'inline-block';
+        }
+        
+        function showResults() {
+            let html = `
+                <div class="question">
+                    <h3>¡Evaluación completada!</h3>
+                    <p>Has respondido ${score} de ${quizQuestions.length} preguntas correctamente.</p>
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <div style="font-size: 3rem; color: ${score >= 4 ? '#1ABC9C' : (score >= 3 ? '#F39C12' : '#E74C3C')};">
+                            ${score >= 4 ? '¡Excelente!' : (score >= 3 ? '¡Buen trabajo!' : '¡Sigue practicando!')}
+                        </div>
+                    </div>
+                    <h4>Resumen de respuestas:</h4>
+            `;
+            
+            userAnswers.forEach((answer, index) => {
+                const question = quizQuestions[index];
+                const userOption = question.options[answer.selected];
+                const correctOption = question.options[question.correct];
+                
+                html += `
+                    <div style="margin: 1rem 0; padding: 1rem; background-color: ${answer.correct ? 'rgba(40, 167, 69, 0.1)' : 'rgba(220, 53, 69, 0.1)'}; border-radius: ${var('--border-radius')};">
+                        <p><strong>Pregunta ${index + 1}:</strong> ${question.question}</p>
+                        <p>Tu respuesta: ${userOption} ${answer.correct ? '✅' : '❌'}</p>
+                        ${!answer.correct ? `<p>Respuesta correcta: ${correctOption}</p>` : ''}
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            quizContainer.innerHTML = html;
+            
+            // Mostrar botón reiniciar
+            nextButton.style.display = 'none';
+            restartButton.style.display = 'inline-block';
+        }
+        
+        // Funciones para elementos interactivos
+        function toggleContent(contentId, buttonId) {
+            const content = document.getElementById(contentId);
+            const button = document.getElementById(buttonId);
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                button.classList.remove('active');
+                if (contentId === 'criteria-content') {
+                    button.innerHTML = '<span>Ver todos los criterios en detalle</span><i class="fas fa-chevron-down"></i>';
+                } else if (contentId === 'challenge-hints') {
+                    button.innerHTML = '<span>Ver pistas para el reto</span><i class="fas fa-chevron-down"></i>';
+                }
+            } else {
+                content.classList.add('active');
+                button.classList.add('active');
+                if (contentId === 'criteria-content') {
+                    button.innerHTML = '<span>Ocultar criterios</span><i class="fas fa-chevron-up"></i>';
+                } else if (contentId === 'challenge-hints') {
+                    button.innerHTML = '<span>Ocultar pistas</span><i class="fas fa-chevron-up"></i>';
+                }
+            }
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar primera pregunta
+            showQuestion();
+            
+            // Evento para botón siguiente
+            nextButton.addEventListener('click', function() {
+                currentQuestion++;
+                showQuestion();
+            });
+            
+            // Evento para botón reiniciar
+            restartButton.addEventListener('click', function() {
+                currentQuestion = 0;
+                score = 0;
+                userAnswers = [];
+                scoreElement.textContent = score;
+                showQuestion();
+            });
+            
+            // Eventos para elementos interactivos
+            document.getElementById('toggle-criteria').addEventListener('click', function() {
+                toggleContent('criteria-content', 'toggle-criteria');
+            });
+            
+            document.getElementById('toggle-hints').addEventListener('click', function() {
+                toggleContent('challenge-hints', 'toggle-hints');
+            });
+            
+            document.getElementById('solution-toggle').addEventListener('click', function() {
+                toggleContent('solution-content', 'solution-toggle');
+                const btn = document.getElementById('solution-toggle');
+                if (btn.textContent === 'Ver una posible solución') {
+                    btn.textContent = 'Ocultar solución';
+                } else {
+                    btn.textContent = 'Ver una posible solución';
+                }
+            });
+            
+            // Smooth scroll para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Efecto de aparición al hacer scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar todas las secciones
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

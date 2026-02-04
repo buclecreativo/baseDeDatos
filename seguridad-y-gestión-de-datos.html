@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo - Seguridad y Gestión de Datos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #3498DB;
+            --accent: #1ABC9C;
+            --light: #ECF0F1;
+            --dark: #2C3E50;
+            --warning: #E74C3C;
+            --success: #27AE60;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .theme-tag {
+            display: inline-block;
+            background-color: var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-btn:hover {
+            color: var(--secondary);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover::after {
+            width: 80%;
+        }
+        
+        .nav-btn.active {
+            color: var(--secondary);
+        }
+        
+        .nav-btn.active::after {
+            width: 80%;
+        }
+        
+        /* Secciones principales */
+        section {
+            background-color: white;
+            margin: 2rem 0;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .highlight {
+            background-color: rgba(26, 188, 156, 0.1);
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent);
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .code {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        /* Botones generales */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #16a085;
+        }
+        
+        /* Juego de evaluación */
+        .game-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .question-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .option {
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            padding: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+        
+        .option:hover {
+            border-color: var(--secondary);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .option.selected {
+            border-color: var(--accent);
+            background-color: rgba(26, 188, 156, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--warning);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .feedback {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 5px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--warning);
+            display: block;
+        }
+        
+        .score-container {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .nav-container {
+                justify-content: space-around;
+            }
+            
+            .nav-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container header-content">
+            <h1>Bucle Creativo</h1>
+            <p class="subtitle">Taller diseñado con el corazón de un docente y la mente de un programador</p>
+            <div class="theme-tag">Seguridad y Gestión de Datos</div>
+        </div>
+    </header>
+    
+    <!-- Navegación -->
+    <nav>
+        <div class="container nav-container">
+            <button class="nav-btn active" data-target="introduccion">Introducción</button>
+            <button class="nav-btn" data-target="contexto">Contexto</button>
+            <button class="nav-btn" data-target="actividad">Actividad</button>
+            <button class="nav-btn" data-target="reto">Reto Final</button>
+            <button class="nav-btn" data-target="evaluacion">Evaluación</button>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <main class="container">
+        <!-- Sección 1: Introducción y Objetivos -->
+        <section id="introduccion" class="content-section">
+            <h2>Proteger lo invaluable: El arte de custodiar datos en la era digital</h2>
+            
+            <div class="highlight">
+                <h3>Objetivo de aprendizaje</h3>
+                <p>Dominar los principios fundamentales de seguridad y gestión de datos mediante la implementación práctica de controles de acceso, sistemas de respaldo, transacciones seguras y buenas prácticas administrativas, desarrollando así competencias técnicas para diseñar entornos de datos confiables, habilidades cognitivas para analizar riesgos y tomar decisiones informadas, y actitudes profesionales como la responsabilidad ética, la meticulosidad y la resiliencia operacional, con el propósito de transformar a los estudiantes en custodios conscientes de la información en un mundo digital interconectado.</p>
+            </div>
+        </section>
+        
+        <!-- Sección 2: Contextualización -->
+        <section id="contexto" class="content-section hidden">
+            <h2>Cuando los datos tienen vida propia</h2>
+            
+            <p>Imagina por un momento que eres el administrador del sistema de tu colegio. Cada mañana, cientos de estudiantes confían en que sus calificaciones, asistencias y datos personales estarán seguros. Un día, sin previo aviso, el servidor falla. Las calificaciones del último quimestre desaparecen, los horarios se mezclan, y el caos parece instalarse. ¿Qué harías?</p>
+            
+            <p>Esta situación, aunque ficticia, refleja una realidad cotidiana en organizaciones de todo el mundo. Los datos no son simples bits en un disco duro; son historias, esfuerzos, identidades y confianzas depositadas en sistemas digitales. Cada vez que publicas una foto, realizas una compra en línea o envías un mensaje, estás confiando en que alguien, en algún lugar, está cuidando esos datos con la misma seriedad con la que tú los compartes.</p>
+            
+            <div class="highlight">
+                <p>La seguridad y gestión de datos no es solo un tema técnico; es un acto de responsabilidad humana. Se trata de entender que detrás de cada registro hay una persona, detrás de cada transacción hay una necesidad, y detrás de cada error puede haber una consecuencia real en la vida de alguien.</p>
+            </div>
+            
+            <p>En este taller, no solo aprenderás comandos SQL o configuraciones de seguridad. Aprenderás a pensar como un custodio de información, a anticipar problemas antes de que ocurran, y a construir sistemas que no solo funcionen, sino que también protejan y respeten la confianza que los usuarios depositan en ellos.</p>
+        </section>
+        
+        <!-- Sección 3: Desarrollo de la actividad -->
+        <section id="actividad" class="content-section hidden">
+            <h2>Los cuatro pilares de la gestión segura de datos</h2>
+            
+            <h3>1. Control de acceso y permisos</h3>
+            <p>El control de acceso es como dar llaves específicas de una casa: no todos deben entrar a todas las habitaciones. En bases de datos, esto se traduce en permisos granulares que definen quién puede ver, modificar o eliminar información.</p>
+            
+            <div class="example-box">
+                <p><span class="code">Ejemplo práctico:</span> En el sistema de biblioteca del colegio, los estudiantes pueden ver los libros disponibles, los bibliotecarios pueden registrar préstamos, y solo el administrador puede agregar nuevos libros o eliminar registros.</p>
+                <p><span class="code">SQL para crear usuarios con permisos diferentes:</span></p>
+                <pre>-- Estudiante (solo lectura)
+CREATE USER 'estudiante'@'localhost' IDENTIFIED BY 'claveSegura123';
+GRANT SELECT ON biblioteca.* TO 'estudiante'@'localhost';
+
+-- Bibliotecario (lectura e inserción)
+CREATE USER 'bibliotecario'@'localhost' IDENTIFIED BY 'claveMasSegura456';
+GRANT SELECT, INSERT ON biblioteca.prestamos TO 'bibliotecario'@'localhost';
+GRANT SELECT ON biblioteca.* TO 'bibliotecario'@'localhost';
+
+-- Administrador (todos los permisos)
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'claveSuperSegura789';
+GRANT ALL PRIVILEGES ON biblioteca.* TO 'admin'@'localhost';</pre>
+            </div>
+            
+            <h3>2. Copias de seguridad y recuperación de datos</h3>
+            <p>Las copias de seguridad son el seguro de vida de tus datos. Imagina que trabajas meses en un proyecto y tu computadora falla. Sin respaldo, ese esfuerzo desaparece. Con respaldo, es solo un inconveniente temporal.</p>
+            
+            <div class="example-box">
+                <p><span class="code">Estrategia 3-2-1:</span> Mantén al menos 3 copias de tus datos, en 2 medios diferentes, con 1 copia fuera del sitio principal.</p>
+                <p><span class="code">Backup automático en MySQL:</span></p>
+                <pre># Comando para backup completo desde terminal
+mysqldump -u root -p --all-databases > respaldo_completo_$(date +%Y%m%d).sql
+
+# Backup de una base de datos específica
+mysqldump -u root -p nombre_base_datos > respaldo_$(date +%Y%m%d).sql
+
+# Restaurar desde backup
+mysql -u root -p nombre_base_datos < respaldo_20231015.sql</pre>
+            </div>
+            
+            <h3>3. Manejo de transacciones</h3>
+            <p>Las transacciones aseguran que las operaciones en la base de datos se completen totalmente o no se apliquen en absoluto. Es como transferir dinero: el monto debe descontarse de una cuenta y acreditarse en la otra; si algo falla en medio, todo debe revertirse.</p>
+            
+            <div class="example-box">
+                <p><span class="code">Ejemplo de transacción bancaria:</span></p>
+                <pre>START TRANSACTION;
+
+-- Paso 1: Descontar del remitente
+UPDATE cuentas SET saldo = saldo - 100 
+WHERE id_cuenta = 12345;
+
+-- Paso 2: Acreditar al destinatario
+UPDATE cuentas SET saldo = saldo + 100 
+WHERE id_cuenta = 67890;
+
+-- Verificar que ambas operaciones fueron exitosas
+-- Si todo está bien, confirmar los cambios
+COMMIT;
+
+-- Si algo salió mal, revertir todo
+ROLLBACK;</pre>
+            </div>
+            
+            <h3>4. Buenas prácticas en la administración de bases de datos</h3>
+            <p>Más allá de las herramientas técnicas, la administración efectiva requiere hábitos consistentes y una mentalidad proactiva.</p>
+            
+            <div class="highlight">
+                <p><strong>Las 7 buenas prácticas esenciales:</strong></p>
+                <ol>
+                    <li><strong>Documenta todo:</strong> Cada cambio, cada usuario creado, cada backup realizado.</li>
+                    <li><strong>Monitorea el rendimiento:</strong> Identifica cuellos de botella antes de que se conviertan en problemas.</li>
+                    <li><strong>Actualiza regularmente:</strong> Parches de seguridad y mejoras de rendimiento.</li>
+                    <li><strong>Prueba tus respaldos:</strong> Un backup no verificado es tan útil como no tener backup.</li>
+                    <li><strong>Minimiza privilegios:</strong> Dale a cada usuario solo los permisos que realmente necesita.</li>
+                    <li><strong>Audita periódicamente:</strong> Revisa logs, accesos y cambios no autorizados.</li>
+                    <li><strong>Planifica para desastres:</strong> Ten un protocolo claro para recuperación ante fallos.</li>
+                </ol>
+            </div>
+            
+            <div class="example-box">
+                <p><span class="code">Actividad de reflexión:</span> Imagina que eres el administrador de datos de una clínica. Los registros médicos son altamente sensibles. ¿Cómo aplicarías estos cuatro pilares para proteger la información de los pacientes mientras aseguras que los médicos puedan acceder a lo que necesitan durante una emergencia?</p>
+            </div>
+        </section>
+        
+        <!-- Sección 4: Reto final -->
+        <section id="reto" class="content-section hidden">
+            <h2>Reto Final: El custodio digital</h2>
+            
+            <p>Te han contratado como administrador de bases de datos para "EcoShop", una cadena de supermercados ecuatoriana que está digitalizando sus operaciones. Tu misión es diseñar e implementar un sistema seguro para gestionar su información.</p>
+            
+            <div class="highlight">
+                <h3>Escenario</h3>
+                <p>EcoShop tiene 5 sucursales en diferentes ciudades. Cada sucursal tiene:</p>
+                <ul>
+                    <li>Datos de empleados (cajeros, supervisores, gerentes)</li>
+                    <li>Inventario de productos</li>
+                    <li>Registros de ventas</li>
+                    <li>Información de proveedores</li>
+                    <li>Datos de clientes del programa de fidelidad</li>
+                </ul>
+            </div>
+            
+            <h3>Tu misión (a desarrollar en clase)</h3>
+            
+            <div class="example-box">
+                <p><strong>Fase 1: Diseño del sistema de permisos</strong></p>
+                <p>Crea al menos 4 roles de usuario con diferentes niveles de acceso:</p>
+                <ol>
+                    <li><strong>Cajero:</strong> Solo puede registrar ventas y ver precios de productos.</li>
+                    <li><strong>Supervisor:</strong> Puede ver reportes de ventas y ajustar inventario.</li>
+                    <li><strong>Gerente de sucursal:</strong> Puede ver todo de su sucursal, incluyendo datos de empleados.</li>
+                    <li><strong>Administrador central:</strong> Acceso completo a todas las sucursales.</li>
+                </ol>
+                
+                <p><strong>Fase 2: Estrategia de respaldo</strong></p>
+                <p>Diseña un plan de respaldo que considere:</p>
+                <ul>
+                    <li>Frecuencia de backups (diarios, semanales, mensuales)</li>
+                    <li>Tipo de backups (completos, diferenciales, incrementales)</li>
+                    <li>Almacenamiento (local, en la nube, off-site)</li>
+                    <li>Procedimiento de recuperación ante desastre</li>
+                </ul>
+                
+                <p><strong>Fase 3: Transacciones críticas</strong></p>
+                <p>Identifica al menos 3 procesos que requieren manejo transaccional y diseña cómo los implementarías:</p>
+                <ol>
+                    <li>Proceso de venta (descuento de inventario + registro de venta + actualización de puntos de fidelidad)</li>
+                    <li>Transferencia de inventario entre sucursales</li>
+                    <li>Ajuste de precios masivo</li>
+                </ol>
+                
+                <p><strong>Fase 4: Protocolo de buenas prácticas</strong></p>
+                <p>Crea un manual de 10 buenas prácticas específicas para EcoShop que todos los administradores deben seguir.</p>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>Entrega:</strong> Deberás presentar un documento técnico con tus propuestas y simular (con código SQL comentado) la implementación de al menos un elemento de cada fase. Trabaja en equipos de 3 personas, asignando roles específicos a cada integrante.</p>
+            </div>
+            
+            <button class="btn btn-accent" id="reto-btn">¡Acepto el Reto!</button>
+            <div id="reto-message" class="hidden" style="margin-top: 1rem; padding: 1rem; background-color: rgba(26, 188, 156, 0.1); border-radius: 5px;">
+                <p>¡Excelente decisión! Recuerda que en el mundo real, la seguridad de los datos no es un lujo, es una responsabilidad. Trabaja meticulosamente, documenta cada decisión y piensa siempre en el impacto humano detrás de cada bit de información.</p>
+            </div>
+        </section>
+        
+        <!-- Sección 5: Evaluación lúdica -->
+        <section id="evaluacion" class="content-section hidden">
+            <h2>Evaluación Lúdica: El guardian de los datos</h2>
+            
+            <p>Demuestra lo que has aprendido resolviendo este test interactivo. Cada respuesta correcta te acerca a convertirte en un auténtico custodio digital.</p>
+            
+            <div class="game-container">
+                <div class="score-container">
+                    Puntuación: <span id="score">0</span>/5
+                </div>
+                
+                <div id="question-container" class="question-container">
+                    <!-- Las preguntas se cargarán aquí mediante JavaScript -->
+                </div>
+                
+                <div class="options-container" id="options-container">
+                    <!-- Las opciones se cargarán aquí mediante JavaScript -->
+                </div>
+                
+                <div id="feedback" class="feedback">
+                    <!-- La retroalimentación aparecerá aquí -->
+                </div>
+                
+                <button class="btn" id="next-btn" disabled>Siguiente Pregunta</button>
+                <button class="btn btn-accent" id="restart-btn" style="display: none;">Reiniciar Juego</button>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Pie de página -->
+    <footer>
+        <div class="container footer-content">
+            <p>Taller de Seguridad y Gestión de Datos</p>
+            <p>Diseñado por: Edwin Méndez J.</p>
+            <p>Bucle Creativo - 2023</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Navegación entre secciones
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            // Mostrar la primera sección por defecto
+            document.getElementById('introduccion').classList.remove('hidden');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Actualizar botones activos
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar sección objetivo
+                    contentSections.forEach(section => {
+                        section.classList.add('hidden');
+                        section.classList.remove('fade-in');
+                    });
+                    
+                    const targetSection = document.getElementById(targetId);
+                    targetSection.classList.remove('hidden');
+                    setTimeout(() => {
+                        targetSection.classList.add('fade-in');
+                    }, 10);
+                    
+                    // Si la sección es la evaluación, iniciar el juego
+                    if (targetId === 'evaluacion') {
+                        initGame();
+                    }
+                });
+            });
+            
+            // Botón del reto
+            const retoBtn = document.getElementById('reto-btn');
+            if (retoBtn) {
+                retoBtn.addEventListener('click', function() {
+                    document.getElementById('reto-message').classList.remove('hidden');
+                    this.style.display = 'none';
+                });
+            }
+            
+            // Inicializar el juego si la evaluación está activa
+            if (window.location.hash === '#evaluacion') {
+                document.querySelector('[data-target="evaluacion"]').click();
+            }
+        });
+        
+        // Juego de evaluación
+        const questions = [
+            {
+                question: "En el principio de mínimo privilegio, ¿qué significa en la práctica para un sistema de bases de datos?",
+                options: [
+                    "Dar a cada usuario todos los permisos posibles para facilitar su trabajo",
+                    "Otorgar solo los permisos necesarios para realizar las tareas específicas de cada rol",
+                    "Permitir acceso completo a los usuarios de confianza y limitado a los nuevos",
+                    "No establecer permisos para que el sistema sea más ágil"
+                ],
+                correct: 1,
+                explanation: "El principio de mínimo privilegio establece que cada usuario debe tener solo los permisos necesarios para realizar sus tareas específicas, reduciendo así el riesgo de acceso no autorizado o modificaciones accidentales."
+            },
+            {
+                question: "Según la estrategia 3-2-1 de backups, ¿cuál es la configuración recomendada?",
+                options: [
+                    "1 copia en 3 medios diferentes, con 2 copias en la nube",
+                    "3 copias en total, 2 en medios diferentes, 1 fuera del sitio",
+                    "3 copias diarias, 2 semanales, 1 mensual",
+                    "3 tipos de backup, 2 verificaciones, 1 restauración de prueba"
+                ],
+                correct: 1,
+                explanation: "La regla 3-2-1 recomienda mantener al menos 3 copias de los datos, en 2 medios diferentes, con 1 copia almacenada fuera del sitio principal. Esto garantiza resiliencia ante diferentes tipos de fallos."
+            },
+            {
+                question: "¿Qué garantiza el manejo de transacciones ACID en una base de datos?",
+                options: [
+                    "Que las consultas se ejecuten a máxima velocidad",
+                    "Que las operaciones sean Atómicas, Consistentes, Aisladas y Duraderas",
+                    "Que los datos esten siempre encriptados durante la transmisión",
+                    "Que se realicen automáticamente copias de seguridad"
+                ],
+                correct: 1,
+                explanation: "ACID es un conjunto de propiedades que garantizan que las transacciones de base de datos sean procesadas de manera confiable: Atomicidad (todo o nada), Consistencia (los datos siguen reglas de integridad), Aislamiento (las transacciones no interfieren) y Durabilidad (los cambios persisten)."
+            },
+            {
+                question: "En el contexto de bases de datos, ¿qué es la inyección SQL y cómo se previene?",
+                options: [
+                    "Un método para optimizar consultas que debe usarse siempre",
+                    "Una técnica de backup que inyecta datos de respaldo en la base principal",
+                    "Una vulnerabilidad donde código malicioso se inserta en consultas, previniéndose con consultas parametrizadas",
+                    "Un tipo de transacción especial para operaciones críticas"
+                ],
+                correct: 2,
+                explanation: "La inyección SQL es una vulnerabilidad que permite a un atacante insertar código SQL malicioso en las consultas de una aplicación. Se previene usando consultas parametrizadas, stored procedures y validando estrictamente la entrada del usuario."
+            },
+            {
+                question: "Como administrador de bases de datos, ¿cuál es la práctica MÁS importante para garantizar la recuperación ante desastres?",
+                options: [
+                    "Tener hardware de última generación",
+                    "Contratar un equipo de administradores muy experimentado",
+                    "Probar regularmente la restauración de backups",
+                    "Mantener la base de datos en un solo servidor poderoso"
+                ],
+                correct: 2,
+                explanation: "La práctica más importante es probar regularmente la restauración de backups. Un backup no verificado puede no ser útil cuando realmente se necesita. Las pruebas periódicas garantizan que los procedimientos de recuperación funcionen correctamente."
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let gameActive = false;
+        
+        function initGame() {
+            currentQuestion = 0;
+            score = 0;
+            gameActive = true;
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('next-btn').disabled = true;
+            document.getElementById('restart-btn').style.display = 'none';
+            
+            showQuestion();
+        }
+        
+        function showQuestion() {
+            if (!gameActive) return;
+            
+            const question = questions[currentQuestion];
+            const questionContainer = document.getElementById('question-container');
+            const optionsContainer = document.getElementById('options-container');
+            const feedback = document.getElementById('feedback');
+            
+            // Mostrar pregunta
+            questionContainer.innerHTML = `<h3>Pregunta ${currentQuestion + 1} de ${questions.length}</h3><p>${question.question}</p>`;
+            
+            // Mostrar opciones
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.dataset.index = index;
+                optionElement.addEventListener('click', selectOption);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Limpiar retroalimentación
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+            
+            // Actualizar estado del botón siguiente
+            document.getElementById('next-btn').disabled = true;
+        }
+        
+        function selectOption(e) {
+            if (!gameActive) return;
+            
+            const selectedOption = e.currentTarget;
+            const selectedIndex = parseInt(selectedOption.dataset.index);
+            const question = questions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            const feedback = document.getElementById('feedback');
+            
+            // Deshabilitar todas las opciones
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Marcar la respuesta correcta
+            options[question.correct].classList.add('correct');
+            
+            // Verificar si la respuesta es correcta
+            if (selectedIndex === question.correct) {
+                selectedOption.classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+                feedback.textContent = `¡Correcto! ${question.explanation}`;
+                feedback.classList.add('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+                feedback.textContent = `Incorrecto. ${question.explanation}`;
+                feedback.classList.add('incorrect');
+            }
+            
+            // Habilitar botón siguiente
+            document.getElementById('next-btn').disabled = false;
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                endGame();
+            }
+        }
+        
+        function endGame() {
+            gameActive = false;
+            
+            const questionContainer = document.getElementById('question-container');
+            const optionsContainer = document.getElementById('options-container');
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            // Mostrar resultados finales
+            let message = '';
+            if (score === questions.length) {
+                message = `¡Excelente! Obtuviste ${score} de ${questions.length}. Eres un verdadero custodio digital.`;
+            } else if (score >= questions.length * 0.7) {
+                message = `¡Muy bien! Obtuviste ${score} de ${questions.length}. Tienes un buen dominio de los conceptos.`;
+            } else {
+                message = `Obtuviste ${score} de ${questions.length}. Revisa los conceptos y vuelve a intentarlo.`;
+            }
+            
+            questionContainer.innerHTML = `<h3>¡Juego Completado!</h3><p>${message}</p>`;
+            optionsContainer.innerHTML = '';
+            feedback.textContent = 'Haz clic en "Reiniciar Juego" para volver a intentarlo.';
+            feedback.classList.add('correct');
+            
+            nextBtn.style.display = 'none';
+            restartBtn.style.display = 'inline-block';
+        }
+        
+        // Inicializar eventos del juego
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+            document.getElementById('restart-btn').addEventListener('click', initGame);
+            
+            // Inicializar el juego si estamos en la sección de evaluación
+            if (document.querySelector('.nav-btn.active').getAttribute('data-target') === 'evaluacion') {
+                initGame();
+            }
+        });
+    </script>
+</body>
+</html>

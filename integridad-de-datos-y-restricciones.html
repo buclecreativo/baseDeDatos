@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integridad de Datos: Los Guardianes de la Información</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #8b5cf6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f1f5f9;
+            background-image: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 30px 0;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            color: var(--secondary);
+        }
+
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .topic {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        main {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 992px) {
+            main {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .content-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            margin-bottom: 25px;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--gray-light);
+            padding-bottom: 10px;
+        }
+
+        .card-title i {
+            margin-right: 15px;
+            color: var(--accent);
+        }
+
+        .section-content {
+            font-size: 1.05rem;
+        }
+
+        .section-content p {
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .example-box {
+            background-color: #f8fafc;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .sql-keyword {
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+
+        .sql-table {
+            color: var(--secondary-dark);
+        }
+
+        .sql-column {
+            color: var(--accent);
+        }
+
+        .challenge-card {
+            background: linear-gradient(to right, #f0f9ff, #e0f2fe);
+            border: 2px dashed var(--primary);
+        }
+
+        /* Sidebar */
+        .sidebar-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 25px;
+            position: sticky;
+            top: 30px;
+        }
+
+        .sidebar-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .concept-list {
+            list-style-type: none;
+        }
+
+        .concept-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+        }
+
+        .concept-item:hover {
+            background-color: #e0f2fe;
+            transform: translateX(5px);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-accent:hover {
+            background-color: #7c3aed;
+            box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            display: none;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-top: 20px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .score-container {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            background-color: #e0f2fe;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background-color: #f0f9ff;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background-color: #e0f2fe;
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: var(--error);
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: var(--gray-light);
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: bold;
+            color: var(--dark);
+            flex-shrink: 0;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success-dark);
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--error);
+            color: #b91c1c;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 50px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .designed-by {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                flex-direction: column;
+            }
+            
+            .logo-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .content-card, .sidebar-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <div class="logo-text">Bucle creativo</div>
+            </div>
+            <div class="tagline">Taller diseñado con el corazón de un docente y la mente de un programador</div>
+            <div class="topic">Base de datos: Integridad de datos y restricciones</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- Main Content Column -->
+            <div class="main-content">
+                <!-- Title Card -->
+                <section class="content-card">
+                    <h1 class="card-title">
+                        <i class="fas fa-shield-alt"></i>
+                        Los Guardianes de la Información: Construyendo Confianza en un Mundo Digital
+                    </h1>
+                    <div class="section-content">
+                        <p>Imagina un mundo donde tus datos personales pueden cambiar sin control, donde tu edad en el sistema de salud es diferente a la de tu cédula, o donde tu historial académico tiene notas que nunca recibiste. La integridad de datos es el escudo invisible que protege la veracidad y confiabilidad de la información en nuestro entorno digital.</p>
+                    </div>
+                </section>
+
+                <!-- Learning Objective -->
+                <section class="content-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-bullseye"></i>
+                        Objetivo de aprendizaje
+                    </h2>
+                    <div class="section-content">
+                        <p><strong>Dominar el diseño e implementación de restricciones de integridad en bases de datos</strong> mediante la exploración práctica de sus fundamentos teóricos, aplicando técnicas de programación SQL para garantizar la precisión, consistencia y confiabilidad de la información, con el propósito de desarrollar sistemas robustos que respondan a necesidades reales del entorno ecuatoriano, fomentando una actitud ética, curiosa y colaborativa en el manejo responsable de datos sensibles.</p>
+                    </div>
+                </section>
+
+                <!-- Contextualization -->
+                <section class="content-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-globe-americas"></i>
+                        Contextualización
+                    </h2>
+                    <div class="section-content">
+                        <p>Estás en el registro civil de tu ciudad, gestionando tu cédula de identidad. Imagina que el sistema permitiera registrar a una persona con dos fechas de nacimiento diferentes, o que aceptara un número de cédula ya asignado a otra persona. El caos sería inmediato. La integridad de datos es lo que evita estos escenarios, asegurando que cada dato en un sistema sea único, válido y consistente.</p>
+                        
+                        <div class="highlight">
+                            <p>En Ecuador, con sistemas como el SRI, IESS, y registros académicos, la integridad de datos no es solo un concepto técnico, sino un compromiso ético con la ciudadanía. Cada restricción que implementamos es un pacto de confianza con las personas cuyos datos protegemos.</p>
+                        </div>
+                        
+                        <p>Como futuros profesionales de la tecnología, ustedes serán los arquitectos de estos sistemas de confianza. Cada línea de código que escriban puede fortalecer o debilitar la integridad de información crítica para nuestra sociedad.</p>
+                    </div>
+                </section>
+
+                <!-- Activity Development -->
+                <section class="content-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-code"></i>
+                        Desarrollo de la actividad
+                    </h2>
+                    <div class="section-content">
+                        <p>La integridad de datos se refiere a la precisión, consistencia y confiabilidad de los datos durante todo su ciclo de vida. Se implementa mediante <strong>restricciones (constraints)</strong> que el sistema de base de datos aplica automáticamente.</p>
+                        
+                        <h3>1. Integridad de Entidad: La Clave Primaria</h3>
+                        <p>Asegura que cada registro en una tabla sea único e identificable.</p>
+                        
+                        <div class="example-box">
+                            <span class="sql-keyword">CREATE TABLE</span> Estudiantes (<br>
+                            &nbsp;&nbsp;id_estudiante <span class="sql-keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;cedula <span class="sql-keyword">VARCHAR</span>(10) <span class="sql-keyword">UNIQUE NOT NULL</span>,<br>
+                            &nbsp;&nbsp;nombres <span class="sql-keyword">VARCHAR</span>(50) <span class="sql-keyword">NOT NULL</span>,<br>
+                            &nbsp;&nbsp;fecha_nacimiento <span class="sql-keyword">DATE</span><br>
+                            );
+                        </div>
+                        
+                        <p><strong>Reflexión:</strong> ¿Por qué es crucial que la cédula sea UNIQUE y NOT NULL en un sistema ecuatoriano? Piensa en las implicaciones legales y administrativas.</p>
+                        
+                        <h3>2. Integridad Referencial: Las Claves Foráneas</h3>
+                        <p>Mantiene las relaciones lógicas entre tablas, evitando registros huérfanos.</p>
+                        
+                        <div class="example-box">
+                            <span class="sql-keyword">CREATE TABLE</span> Matriculas (<br>
+                            &nbsp;&nbsp;id_matricula <span class="sql-keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;id_estudiante <span class="sql-keyword">INT</span>,<br>
+                            &nbsp;&nbsp;id_materia <span class="sql-keyword">INT</span>,<br>
+                            &nbsp;&nbsp;fecha_matricula <span class="sql-keyword">DATE DEFAULT</span> CURDATE(),<br>
+                            &nbsp;&nbsp;<span class="sql-keyword">FOREIGN KEY</span> (id_estudiante) <span class="sql-keyword">REFERENCES</span> Estudiantes(id_estudiante)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="sql-keyword">ON DELETE CASCADE</span>,<br>
+                            &nbsp;&nbsp;<span class="sql-keyword">FOREIGN KEY</span> (id_materia) <span class="sql-keyword">REFERENCES</span> Materias(id_materia)<br>
+                            );
+                        </div>
+                        
+                        <p><strong>Experimento:</strong> Si eliminamos un estudiante, ¿qué pasa con sus matrículas? La cláusula ON DELETE CASCADE automáticamente elimina las matrículas relacionadas, manteniendo la integridad.</p>
+                        
+                        <h3>3. Integridad de Dominio: Validando los Valores</h3>
+                        <p>Garantiza que solo se almacenen valores válidos en cada campo.</p>
+                        
+                        <div class="example-box">
+                            <span class="sql-keyword">CREATE TABLE</span> Productos (<br>
+                            &nbsp;&nbsp;id_producto <span class="sql-keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;nombre <span class="sql-keyword">VARCHAR</span>(100),<br>
+                            &nbsp;&nbsp;precio <span class="sql-keyword">DECIMAL</span>(10,2) <span class="sql-keyword">CHECK</span> (precio > 0),<br>
+                            &nbsp;&nbsp;categoria <span class="sql-keyword">VARCHAR</span>(50) <span class="sql-keyword">CHECK</span> (categoria IN ('Electrónica', 'Ropa', 'Alimentos', 'Libros')),<br>
+                            &nbsp;&nbsp;stock <span class="sql-keyword">INT DEFAULT</span> 0<br>
+                            );
+                        </div>
+                        
+                        <p><strong>Exploración:</strong> Intenta insertar un producto con precio -10. ¿Qué sucede? La restricción CHECK protege contra datos ilógicos.</p>
+                    </div>
+                </section>
+
+                <!-- Final Challenge -->
+                <section class="content-card challenge-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-flag-checkered"></i>
+                        El Reto Final: Sistema de Biblioteca Comunitaria
+                    </h2>
+                    <div class="section-content">
+                        <p><strong>Contexto:</strong> Tu municipio te ha contratado para diseñar la base de datos de una nueva biblioteca comunitaria. El sistema debe manejar información de libros, socios, préstamos y multas.</p>
+                        
+                        <p><strong>Tu misión:</strong> Diseña e implementa las tablas con todas las restricciones de integridad necesarias, considerando:</p>
+                        
+                        <ul style="margin-left: 20px; margin-bottom: 20px;">
+                            <li>Un libro no puede ser prestado si ya está prestado</li>
+                            <li>Un socio no puede tener más de 3 libros prestados simultáneamente</li>
+                            <li>La fecha de devolución debe ser posterior a la fecha de préstamo</li>
+                            <li>Las multas deben calcularse automáticamente por retraso</li>
+                            <li>Un socio debe ser mayor de 5 años para registrarse</li>
+                        </ul>
+                        
+                        <p><strong>Preguntas para tu reflexión crítica:</strong></p>
+                        <ol style="margin-left: 20px; margin-bottom: 20px;">
+                            <li>¿Qué restricciones implementarías para garantizar la unicidad de los libros?</li>
+                            <li>¿Cómo manejarías la situación cuando un libro se pierde?</li>
+                            <li>¿Qué políticas de integridad referencial aplicarías entre socios y préstamos?</li>
+                        </ol>
+                        
+                        <button class="btn btn-accent" id="startQuizBtn">
+                            <i class="fas fa-play-circle"></i> ¿Listo para el desafío? Primero verifica tus conocimientos
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="quiz-container" id="quizContainer">
+                    <div class="quiz-header">
+                        <h2 class="card-title" style="border: none; padding: 0; margin: 0;">
+                            <i class="fas fa-gamepad"></i>
+                            Evaluación Lúdica: Verifica tu Comprensión
+                        </h2>
+                        <div class="score-container">
+                            Puntaje: <span id="score">0</span>/5
+                        </div>
+                    </div>
+                    
+                    <div id="questionContainer">
+                        <!-- Las preguntas se cargarán aquí mediante JavaScript -->
+                    </div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn" id="prevBtn" disabled>
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button class="btn btn-secondary" id="nextBtn">
+                            Siguiente <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-lightbulb"></i>
+                        Conceptos Clave
+                    </h3>
+                    <ul class="concept-list">
+                        <li class="concept-item">
+                            <strong>Integridad de Datos</strong><br>
+                            Garantía de precisión y consistencia de los datos durante su ciclo de vida
+                        </li>
+                        <li class="concept-item">
+                            <strong>Restricción (Constraint)</strong><br>
+                            Regla aplicada a los datos para mantener su integridad
+                        </li>
+                        <li class="concept-item">
+                            <strong>Clave Primaria (PRIMARY KEY)</strong><br>
+                            Identifica de forma única cada registro en una tabla
+                        </li>
+                        <li class="concept-item">
+                            <strong>Clave Foránea (FOREIGN KEY)</strong><br>
+                            Establece y mantiene relaciones entre tablas
+                        </li>
+                        <li class="concept-item">
+                            <strong>Restricción UNIQUE</strong><br>
+                            Garantiza que todos los valores en una columna sean diferentes
+                        </li>
+                        <li class="concept-item">
+                            <strong>Restricción CHECK</strong><br>
+                            Valida que los valores cumplan una condición específica
+                        </li>
+                        <li class="concept-item">
+                            <strong>Restricción NOT NULL</strong><br>
+                            Impide que una columna tenga valores nulos
+                        </li>
+                        <li class="concept-item">
+                            <strong>Valor por DEFECTO (DEFAULT)</strong><br>
+                            Establece un valor automático cuando no se proporciona uno
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-database"></i>
+                        Ejemplo en Contexto Ecuatoriano
+                    </h3>
+                    <div class="example-box" style="margin: 0; font-size: 0.9rem;">
+                        <span class="sql-keyword">CREATE TABLE</span> <span class="sql-table">Ciudadanos</span> (<br>
+                        &nbsp;&nbsp;<span class="sql-column">cedula</span> <span class="sql-keyword">CHAR</span>(10) <span class="sql-keyword">PRIMARY KEY</span>,<br>
+                        &nbsp;&nbsp;<span class="sql-column">nombres</span> <span class="sql-keyword">VARCHAR</span>(50) <span class="sql-keyword">NOT NULL</span>,<br>
+                        &nbsp;&nbsp;<span class="sql-column">fecha_nacimiento</span> <span class="sql-keyword">DATE</span> <span class="sql-keyword">NOT NULL</span>,<br>
+                        &nbsp;&nbsp;<span class="sql-column">provincia</span> <span class="sql-keyword">VARCHAR</span>(30) <span class="sql-keyword">DEFAULT</span> 'Pichincha',<br>
+                        &nbsp;&nbsp;<span class="sql-column">votante</span> <span class="sql-keyword">BOOLEAN</span> <span class="sql-keyword">DEFAULT</span> TRUE,<br>
+                        &nbsp;&nbsp;<span class="sql-keyword">CHECK</span> (LENGTH(cedula) = 10),<br>
+                        &nbsp;&nbsp;<span class="sql-keyword">CHECK</span> (fecha_nacimiento &lt; CURDATE())<br>
+                        );
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.9rem;">Este ejemplo muestra cómo las restricciones garantizan que cada ciudadano tenga una cédula única y válida, con datos consistentes.</p>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="designed-by">Diseñado por: Edwin Méndez J.</div>
+            <div class="footer-tagline">Taller diseñado con el corazón de un docente y la mente de un programador</div>
+            <div class="footer-tagline">Base de datos: Integridad de datos y restricciones</div>
+        </div>
+    </footer>
+
+    <script>
+        // Datos del cuestionario
+        const quizData = [
+            {
+                question: "¿Cuál es el propósito principal de la integridad referencial en una base de datos?",
+                options: [
+                    "Asegurar que cada tabla tenga una clave primaria única",
+                    "Mantener relaciones lógicas entre tablas y evitar datos huérfanos",
+                    "Garantizar que los datos se respalden regularmente",
+                    "Validar que los valores en una columna cumplan un formato específico"
+                ],
+                correct: 1,
+                explanation: "La integridad referencial se asegura mediante claves foráneas que mantienen relaciones consistentes entre tablas, evitando que existan registros en una tabla hija que no tengan correspondencia en la tabla padre."
+            },
+            {
+                question: "En el contexto ecuatoriano, si estamos diseñando una tabla para estudiantes, ¿qué restricción es más importante para el campo 'cédula'?",
+                options: [
+                    "DEFAULT '0000000000'",
+                    "PRIMARY KEY y UNIQUE",
+                    "CHECK (cedula LIKE '______')",
+                    "FOREIGN KEY REFERENCES Ciudadanos(cedula)"
+                ],
+                correct: 1,
+                explanation: "En Ecuador, la cédula es el identificador único de cada ciudadano, por lo que debe ser PRIMARY KEY (identificador único en la tabla) y UNIQUE (sin duplicados en toda la columna)."
+            },
+            {
+                question: "¿Qué sucede si intentamos eliminar un registro en una tabla padre que tiene registros relacionados en una tabla hija con restricción FOREIGN KEY ON DELETE RESTRICT?",
+                options: [
+                    "Se elimina el registro padre y automáticamente todos los registros hijos",
+                    "La operación se cancela y se muestra un error de integridad referencial",
+                    "Se elimina el registro padre y los registros hijos quedan con valores NULL",
+                    "El sistema pregunta al usuario qué acción tomar"
+                ],
+                correct: 1,
+                explanation: "ON DELETE RESTRICT impide la eliminación del registro padre si existen registros relacionados en la tabla hija, protegiendo así la integridad referencial."
+            },
+            {
+                question: "¿Cuál de las siguientes situaciones violaría la integridad de dominio?",
+                options: [
+                    "Insertar un producto con precio negativo",
+                    "Tener dos estudiantes con la misma cédula",
+                    "Eliminar un profesor que tiene materias asignadas",
+                    "Cambiar el ID de un departamento sin actualizar a los empleados"
+                ],
+                correct: 0,
+                explanation: "La integridad de dominio asegura que los valores en una columna cumplan condiciones específicas. Un precio negativo violaría una restricción CHECK que probablemente exigiría precios mayores a cero."
+            },
+            {
+                question: "En el diseño de un sistema de biblioteca, ¿cómo garantizarías que un libro no pueda ser prestado si ya está prestado?",
+                options: [
+                    "Usando una restricción UNIQUE en el ID del libro",
+                    "Implementando un trigger que verifique el estado antes del préstamo",
+                    "Creando una restricción CHECK en la tabla de libros",
+                    "Usando ON DELETE CASCADE en la relación préstamo-libro"
+                ],
+                correct: 1,
+                explanation: "Un trigger (disparador) es un objeto de base de datos que se ejecuta automáticamente antes o después de un evento, permitiendo validaciones complejas como verificar el estado actual de un libro antes de permitir un nuevo préstamo."
+            }
+        ];
+
+        // Variables del cuestionario
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        // Elementos del DOM
+        const quizContainer = document.getElementById('quizContainer');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const questionContainer = document.getElementById('questionContainer');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Iniciar cuestionario
+        startQuizBtn.addEventListener('click', () => {
+            quizContainer.style.display = 'block';
+            startQuizBtn.style.display = 'none';
+            loadQuestion();
+        });
+
+        // Cargar pregunta
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            
+            // Actualizar número de pregunta
+            scoreElement.textContent = score;
+            
+            // Construir HTML de la pregunta
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                const isSelected = userAnswers[currentQuestion] === index;
+                const optionClass = isSelected ? 'option selected' : 'option';
+                
+                optionsHTML += `
+                    <div class="${optionClass}" data-index="${index}">
+                        <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                        <div>${option}</div>
+                    </div>
+                `;
+            });
+            
+            questionContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Pregunta ${currentQuestion + 1} de ${quizData.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            // Configurar botones de navegación
+            prevBtn.disabled = currentQuestion === 0;
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerHTML = 'Ver resultados <i class="fas fa-chart-bar"></i>';
+            } else {
+                nextBtn.innerHTML = 'Siguiente <i class="fas fa-arrow-right"></i>';
+            }
+            
+            // Agregar event listeners a las opciones
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', () => {
+                    // Deseleccionar todas las opciones
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Seleccionar la opción clickeada
+                    option.classList.add('selected');
+                    
+                    // Guardar respuesta
+                    const selectedIndex = parseInt(option.getAttribute('data-index'));
+                    userAnswers[currentQuestion] = selectedIndex;
+                    
+                    // Mostrar retroalimentación
+                    showFeedback(selectedIndex);
+                });
+            });
+            
+            // Ocultar retroalimentación anterior
+            feedbackElement.style.display = 'none';
+        }
+
+        // Mostrar retroalimentación
+        function showFeedback(selectedIndex) {
+            const question = quizData[currentQuestion];
+            const isCorrect = selectedIndex === question.correct;
+            
+            feedbackElement.textContent = question.explanation;
+            feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedbackElement.style.display = 'block';
+            
+            // Resaltar opciones correctas/incorrectas
+            document.querySelectorAll('.option').forEach((option, index) => {
+                option.classList.remove('correct', 'incorrect');
+                
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Actualizar puntaje si es la primera vez que responde
+            if (userAnswers[currentQuestion] === selectedIndex && isCorrect && !question.answered) {
+                score++;
+                question.answered = true;
+                scoreElement.textContent = score;
+            }
+        }
+
+        // Navegación entre preguntas
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                // Mostrar resultados
+                showResults();
+            }
+        });
+
+        // Mostrar resultados finales
+        function showResults() {
+            const percentage = Math.round((score / quizData.length) * 100);
+            let message = '';
+            
+            if (percentage >= 80) {
+                message = `¡Excelente! Obtuviste ${score} de ${quizData.length} puntos. Dominas los conceptos clave de integridad de datos y estás listo para el reto final.`;
+            } else if (percentage >= 60) {
+                message = `Buen trabajo. Obtuviste ${score} de ${quizData.length} puntos. Tienes una base sólida, pero revisa los conceptos antes del reto final.`;
+            } else {
+                message = `Obtuviste ${score} de ${quizData.length} puntos. Te recomiendo repasar los conceptos clave antes de enfrentar el reto final.`;
+            }
+            
+            questionContainer.innerHTML = `
+                <div class="question-container" style="text-align: center;">
+                    <div class="question-text" style="font-size: 2rem; color: var(--primary); margin-bottom: 20px;">
+                        <i class="fas fa-trophy"></i> Resultados del Cuestionario
+                    </div>
+                    <div style="font-size: 5rem; color: var(--secondary); margin: 20px 0;">
+                        ${score}/${quizData.length}
+                    </div>
+                    <div style="font-size: 1.2rem; margin-bottom: 30px;">
+                        ${percentage}% de aciertos
+                    </div>
+                    <div style="font-size: 1.3rem; margin-bottom: 40px; padding: 20px; background-color: #f0f9ff; border-radius: var(--border-radius);">
+                        ${message}
+                    </div>
+                    <button class="btn btn-accent" id="restartQuizBtn">
+                        <i class="fas fa-redo"></i> Reintentar cuestionario
+                    </button>
+                </div>
+            `;
+            
+            nextBtn.style.display = 'none';
+            prevBtn.style.display = 'none';
+            
+            // Agregar event listener al botón de reintentar
+            document.getElementById('restartQuizBtn').addEventListener('click', () => {
+                currentQuestion = 0;
+                score = 0;
+                userAnswers = new Array(quizData.length).fill(null);
+                quizData.forEach(q => q.answered = false);
+                nextBtn.style.display = 'inline-block';
+                prevBtn.style.display = 'inline-block';
+                loadQuestion();
+            });
+        }
+
+        // Efecto hover para botones adicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar efecto hover a todos los botones
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Agregar efecto hover a los elementos de concepto
+            const conceptItems = document.querySelectorAll('.concept-item');
+            conceptItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

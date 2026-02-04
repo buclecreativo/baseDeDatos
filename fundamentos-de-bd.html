@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo - Fundamentos de Bases de Datos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+            transform: scale(1.05);
+        }
+
+        .quiz-option {
+            border: 2px solid #e2e2e2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background-color: #f1f5f9;
+        }
+
+        .correct {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+        }
+
+        .incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #4f46e5, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-5xl mx-auto mb-12 text-center">
+        <h1 class="text-4xl font-extrabold mb-2 text-indigo-700">Bucle Creativo</h1>
+        <p class="text-lg text-slate-600 italic">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
+        <div class="h-1 w-24 bg-indigo-500 mx-auto mt-4 rounded-full"></div>
+    </header>
+
+    <main class="max-w-4xl mx-auto space-y-12">
+        
+        <!-- Sección 1: Título y Objetivo -->
+        <section class="glass-card p-8 bg-white shadow-sm">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Arquitectos de la Memoria Digital: El Arte de Organizar el Mundo</h2>
+            <div class="bg-indigo-50 border-l-4 border-indigo-500 p-6">
+                <p class="text-indigo-900 font-medium">
+                    Comprender los principios fundamentales de los sistemas de bases de datos mediante el análisis de su evolución histórica y estructural, para diseñar esquemas lógicos que resuelvan necesidades de información reales con criterios de eficiencia, ética y pensamiento crítico.
+                </p>
+            </div>
+        </section>
+
+        <!-- Sección 2: Contextualización -->
+        <section class="glass-card p-8 bg-white shadow-sm">
+            <h3 class="text-2xl font-semibold mb-4 text-slate-800">¿Dónde guardas tus recuerdos?</h3>
+            <div class="space-y-4 text-slate-700">
+                <p>Imaginen por un momento que intentan organizar la biblioteca de su colegio, pero no tienen estantes, ni etiquetas, ni una lista de libros. Solo una pila gigante de papel en medio del patio. Buscar un poema de Medardo Ángel Silva sería una misión imposible, ¿verdad?</p>
+                <p>En nuestra vida diaria, constantemente estamos "consultando" bases de datos: cuando revisas el saldo de tu tarjeta de bus, cuando buscas un contacto en WhatsApp o cuando eliges una serie en Netflix. Las bases de datos son el <strong>corazón silencioso</strong> que late detrás de cada aplicación que amamos. No son solo tablas y cables; son la memoria colectiva de nuestra civilización digital.</p>
+            </div>
+        </section>
+
+        <!-- Sección 3: Desarrollo de Contenidos -->
+        <section class="space-y-8">
+            <div class="glass-card p-8 bg-white">
+                <h3 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">📂</span>
+                    ¿Qué es realmente una Base de Datos?
+                </h3>
+                <p class="mb-4">Es una colección organizada de información estructurada que permite el acceso, la gestión y la actualización eficiente. El <strong>SGBD (Sistema de Gestión de Bases de Datos)</strong> es el software que actúa como intermediario entre tú y los datos (como MySQL, PostgreSQL o MongoDB).</p>
+                
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                    <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-indigo-600 mb-2">Relacionales (SQL)</h4>
+                        <p class="text-sm">Como una hoja de Excel gigante pero inteligente. Los datos se guardan en tablas con filas y columnas. <br><strong>Ejemplo:</strong> El sistema de notas de tu colegio.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-emerald-600 mb-2">No Relacionales (NoSQL)</h4>
+                        <p class="text-sm">Flexibles como carpetas con documentos variados. Ideales para redes sociales o Big Data. <br><strong>Ejemplo:</strong> El feed de fotos de Instagram.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 bg-white">
+                <h3 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="bg-amber-100 p-2 rounded-lg mr-3">⏳</span>
+                    La Evolución: Del Papel a la Nube
+                </h3>
+                <ul class="list-disc ml-6 space-y-3 text-slate-700">
+                    <li><strong>Años 60:</strong> Modelos jerárquicos y de red (rígidos y complejos).</li>
+                    <li><strong>Años 70:</strong> Nace el modelo Relacional (Edgar Codd). La revolución de las tablas.</li>
+                    <li><strong>Años 90/2000:</strong> El auge de la Web y SQL como estándar absoluto.</li>
+                    <li><strong>Actualidad:</strong> Bases NoSQL, Cloud Databases y bases orientadas a grafos.</li>
+                </ul>
+            </div>
+
+            <div class="glass-card p-8 bg-white">
+                <h3 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="bg-red-100 p-2 rounded-lg mr-3">⚖️</span>
+                    Ventajas y Desafíos
+                </h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-green-600">Ventajas</h4>
+                        <p class="text-sm">Independencia de datos, integridad (los datos no se corrompen fácilmente) y seguridad multiusuario.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-red-600">Desventajas</h4>
+                        <p class="text-sm">Costo de implementación inicial, complejidad técnica y necesidad de mantenimiento constante.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: El Reto Final -->
+        <section class="glass-card p-8 bg-indigo-900 text-white shadow-xl">
+            <h3 class="text-3xl font-bold mb-6">El Reto: "Emprendimiento Solidario"</h3>
+            <p class="mb-6 opacity-90 text-lg">En grupos de tres, deben diseñar el esquema conceptual para un banco de alimentos en su comunidad ecuatoriana.</p>
+            <div class="bg-white/10 p-6 rounded-lg border border-white/20 space-y-4">
+                <p>1. Identifiquen las entidades (¿Qué datos necesitamos? ¿Donantes? ¿Alimentos? ¿Familias?).</p>
+                <p>2. Decidan: ¿Usarían una base relacional o no relacional? Justifiquen su elección pensando en la escalabilidad.</p>
+                <p>3. Dibujen el boceto de las tablas y cómo se conectan. <strong>¡No tengan miedo a equivocarse, la innovación nace del error consciente!</strong></p>
+            </div>
+        </section>
+
+        <!-- Sección 5: Evaluación Lúdica (Quiz) -->
+        <section id="quiz-container" class="glass-card p-8 bg-white shadow-md border-t-8 border-indigo-500">
+            <h3 class="text-2xl font-bold mb-6 text-center">Desafío de Conocimiento 🧠</h3>
+            
+            <div id="quiz-content">
+                <div id="question-box" class="mb-8 text-xl font-semibold text-slate-800">
+                    <!-- Pregunta dinámica -->
+                </div>
+                <div id="options-box" class="grid gap-4">
+                    <!-- Opciones dinámicas -->
+                </div>
+                <div id="feedback" class="mt-6 p-4 rounded-lg hidden text-center font-bold">
+                </div>
+                <div class="mt-8 flex justify-between items-center">
+                    <p class="text-slate-500 font-medium">Pregunta <span id="current-q">1</span> de 5</p>
+                    <button id="next-btn" class="btn-primary px-8 py-3 rounded-full font-bold hidden">Continuar</button>
+                    <button id="restart-btn" class="btn-secondary px-8 py-3 rounded-full font-bold hidden">Reiniciar</button>
+                </div>
+            </div>
+
+            <div id="result-screen" class="hidden text-center py-8">
+                <h4 class="text-4xl font-bold mb-4 text-indigo-600">¡Reto Completado!</h4>
+                <p class="text-2xl mb-6">Tu puntuación: <span id="final-score" class="font-extrabold text-emerald-600">0</span>/5</p>
+                <p id="result-msg" class="text-slate-600 italic mb-8"></p>
+                <button onclick="location.reload()" class="btn-primary px-10 py-4 rounded-full font-bold">Volver a empezar</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 border-t border-slate-200 py-10 text-center max-w-5xl mx-auto">
+        <p class="font-bold text-slate-800">Tema: Fundamentos de Bases de Datos</p>
+        <p class="text-slate-500 text-sm mt-2">Diseñado por: Edwin Méndez J.</p>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "¿Cuál es la función principal de un SGBD?",
+                options: [
+                    "Crear diseños visuales para la web.",
+                    "Actuar como intermediario entre el usuario y los datos.",
+                    "Limpiar el hardware de la computadora.",
+                    "Aumentar la velocidad del internet."
+                ],
+                correct: 1,
+                explanation: "¡Exacto! El SGBD (Sistema de Gestión de Bases de Datos) es el software que gestiona la estructura y el acceso a la información."
+            },
+            {
+                question: "¿En qué década nació el modelo relacional gracias a Edgar Codd?",
+                options: [
+                    "En los años 90.",
+                    "En los años 80.",
+                    "En los años 70.",
+                    "Ayer por la tarde."
+                ],
+                correct: 2,
+                explanation: "¡Correcto! Los 70 marcaron el inicio de la organización de datos en tablas relacionadas."
+            },
+            {
+                question: "¿Qué tipo de base de datos es ideal para esquemas flexibles como redes sociales?",
+                options: [
+                    "Base de datos Relacional (SQL).",
+                    "Base de datos No Relacional (NoSQL).",
+                    "Ficheros de texto plano.",
+                    "Cintas magnéticas."
+                ],
+                correct: 1,
+                explanation: "¡Así es! Las bases NoSQL permiten almacenar datos sin una estructura rígida previa."
+            },
+            {
+                question: "¿Cuál es una ventaja clave del uso de bases de datos?",
+                options: [
+                    "Reducción del consumo de electricidad.",
+                    "Integridad e independencia de los datos.",
+                    "Que no necesitan ser respaldadas nunca.",
+                    "Hacen que el café sepa mejor."
+                ],
+                correct: 1,
+                explanation: "¡Bien pensado! La integridad garantiza que los datos sean precisos y consistentes."
+            },
+            {
+                question: "¿Qué significa que una base de datos sea 'multiusuario'?",
+                options: [
+                    "Que solo una persona puede usarla a la vez.",
+                    "Que muchas personas pueden acceder a los datos simultáneamente.",
+                    "Que requiere de varios teclados para funcionar.",
+                    "Que se puede vender a muchos clientes."
+                ],
+                correct: 1,
+                explanation: "¡Excelente! El control de concurrencia permite que muchos usuarios trabajen sin estropearse el trabajo mutuo."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionBox = document.getElementById('question-box');
+        const optionsBox = document.getElementById('options-box');
+        const feedbackBox = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const currentQText = document.getElementById('current-q');
+        const quizContent = document.getElementById('quiz-content');
+        const resultScreen = document.getElementById('result-screen');
+        const finalScoreText = document.getElementById('final-score');
+        const resultMsg = document.getElementById('result-msg');
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            questionBox.textContent = data.question;
+            optionsBox.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            currentQText.textContent = currentQuestion + 1;
+
+            data.options.forEach((option, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'quiz-option p-4 rounded-xl font-medium shadow-sm';
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index);
+                optionsBox.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(index) {
+            const data = quizData[currentQuestion];
+            const options = optionsBox.children;
+            
+            // Bloquear otras opciones
+            for(let opt of options) opt.onclick = null;
+
+            if(index === data.correct) {
+                options[index].classList.add('correct');
+                feedbackBox.textContent = "✅ " + data.explanation;
+                feedbackBox.className = "mt-6 p-4 rounded-lg text-emerald-700 bg-emerald-50 text-center font-bold";
+                score++;
+            } else {
+                options[index].classList.add('incorrect');
+                options[data.correct].classList.add('correct');
+                feedbackBox.textContent = "❌ No te preocupes, el aprendizaje es un proceso. " + data.explanation;
+                feedbackBox.className = "mt-6 p-4 rounded-lg text-red-700 bg-red-50 text-center font-bold";
+            }
+            
+            feedbackBox.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if(currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            quizContent.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreText.textContent = score;
+
+            if(score === 5) {
+                resultMsg.textContent = "¡Eres un maestro de los datos! Tu resiliencia y curiosidad te llevarán lejos.";
+            } else if(score >= 3) {
+                resultMsg.textContent = "¡Muy buen trabajo! Tienes las bases sólidas, sigue explorando.";
+            } else {
+                resultMsg.textContent = "Cada gran experto fue una vez un principiante que no se rindió. ¡Repasa y vuelve a intentarlo!";
+            }
+        }
+
+        // Iniciar
+        loadQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle Creativo: El Corazón de los Datos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            scroll-behavior: smooth;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 20%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+
+        .btn-hover:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            color: #ef4444;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.4rem;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* Quiz animations */
+        .fade-in {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .Ecuadorian-accent {
+            border-left: 6px solid #fbbf24;
+            /* Amber-400 for better visibility/contrast than yellow */
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Header -->
+    <header class="glass sticky top-0 z-50 border-b border-slate-200/50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center transition-all duration-300">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-10 w-10 bg-gradient-to-br from-blue-600 to-violet-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    B</div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold gradient-text leading-none">Bucle Creativo</h1>
+                    <p class="text-xs text-slate-500 font-medium">Docencia & Código</p>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <span
+                    class="bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-blue-100 shadow-sm">
+                    Tema: Servidores de Bases de Datos
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 max-w-4xl">
+
+        <!-- Título Principal -->
+        <section class="text-center mb-20 fade-in">
+            <div
+                class="inline-block mb-4 px-4 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-semibold tracking-wide uppercase border border-slate-200">
+                Fundamentos Técnicos
+            </div>
+            <h2 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight text-slate-900">
+                Guardianes del Orden
+                <span class="block text-3xl md:text-5xl mt-2 gradient-text font-bold">Arquitectos de la Memoria
+                    Digital</span>
+            </h2>
+            <div
+                class="w-32 h-2 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full shadow-lg opacity-80">
+            </div>
+        </section>
+
+        <!-- Objetivo de Aprendizaje -->
+        <section class="card p-8 md:p-10 mb-16 Ecuadorian-accent relative overflow-hidden group">
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -translate-y-1/2 translate-x-1/2">
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6 flex items-center text-slate-800 relative z-10">
+                <span class="mr-3 text-3xl">🎯</span> Nuestro Norte
+            </h3>
+            <p class="text-lg md:text-xl text-slate-600 leading-relaxed relative z-10">
+                Implementar y gestionar servidores de bases de datos mediante el análisis de su arquitectura y
+                funcionamiento transaccional, integrando habilidades técnicas de configuración con una postura ética y
+                resiliente frente al manejo de la información, con el fin de proveer soluciones tecnológicas sólidas que
+                respondan a las necesidades reales de nuestra comunidad y el entorno productivo del país.
+            </p>
+        </section>
+
+        <!-- Contextualización -->
+        <section class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="h-px bg-slate-200 flex-1"></div>
+                <h3 class="text-3xl font-bold text-slate-800">La Biblioteca que nunca duerme</h3>
+                <div class="h-px bg-slate-200 flex-1"></div>
+            </div>
+
+            <div class="prose prose-lg prose-slate max-w-none text-slate-600">
+                <p class="mb-6 leading-relaxed">
+                    Imagina que eres el bibliotecario de la biblioteca más grande de Guayaquil o Quito. Pero no es una
+                    biblioteca común: recibe miles de personas por segundo, todas pidiendo libros diferentes,
+                    devolviendo otros y haciendo anotaciones al mismo tiempo. Si no tuvieras un sistema de orden, un
+                    equipo de asistentes (procesadores) y estanterías inteligentes (almacenamiento), la biblioteca
+                    colapsaría en minutos.
+                </p>
+                <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 md:p-8">
+                    <p class="mb-0 font-medium text-slate-700">
+                        En el mundo digital, ese bibliotecario es el <strong class="text-blue-700">Servidor de Base de
+                            Datos</strong>. No es solo
+                        un programa; es el guardián de la verdad de una aplicación. Desde el saldo en tu cuenta del
+                        banco
+                        hasta el último mensaje que enviaste por WhatsApp, todo depende de que este servidor sea
+                        resiliente,
+                        rápido y, sobre todo, honesto (lo que en ingeniería llamamos <em
+                            class="text-purple-600 font-semibold">integridad de datos</em>).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Desarrollo de la Actividad -->
+        <section class="grid md:grid-cols-2 gap-8 mb-20">
+            <!-- Card 1 -->
+            <div class="card p-8 border-t-4 border-t-blue-500 h-full flex flex-col">
+                <div class="mb-6 bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center text-2xl">🧠</div>
+                <h4 class="text-2xl font-bold mb-4 text-slate-800">1. SQL vs NoSQL</h4>
+                <p class="mb-6 text-slate-600 flex-grow">Un servidor es software especializado (SGBD). Podemos elegir
+                    entre
+                    la estructura firme del <strong>SQL</strong> (orden perfecto) o la flexibilidad del
+                    <strong>NoSQL</strong> (agilidad dinámica).
+                </p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm">
+                    <strong class="text-blue-600 block mb-1">Ejemplo Ecuatoriano:</strong>
+                    <span class="text-slate-600">SRI = SQL (Exactitud).<br>Noticias Locales = NoSQL (Variedad).</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card p-8 border-t-4 border-t-purple-500 h-full flex flex-col">
+                <div class="mb-6 bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center text-2xl">🛡️</div>
+                <h4 class="text-2xl font-bold mb-4 text-slate-800">2. Propiedades ACID</h4>
+                <p class="mb-6 text-slate-600">Para ser confiable, el servidor debe ser <em>Estoico</em>. Las reglas de
+                    oro:</p>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-center"><span
+                            class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span><strong>Atomicidad:</strong> Todo o
+                        nada.</li>
+                    <li class="flex items-center"><span
+                            class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span><strong>Consistencia:</strong> Reglas
+                        claras.</li>
+                    <li class="flex items-center"><span
+                            class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span><strong>Aislamiento:</strong> Orden
+                        en el caos.</li>
+                    <li class="flex items-center"><span
+                            class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span><strong>Durabilidad:</strong> Memoria
+                        eterna.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- El Reto Final -->
+        <section
+            class="bg-slate-900 text-white p-10 md:p-14 rounded-3xl mb-20 shadow-2xl relative overflow-hidden group">
+            <!-- Decoration -->
+            <div
+                class="absolute top-0 right-0 p-0 opacity-10 transform translate-x-12 -translate-y-8 group-hover:scale-110 transition-transform duration-700">
+                <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-8">
+                    <span
+                        class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Actividad
+                        Práctica</span>
+                </div>
+
+                <h3 class="text-3xl md:text-4xl font-bold mb-6">🚀 El Desafío: "Data Resiliente"</h3>
+                <p class="text-slate-300 mb-10 text-lg leading-relaxed max-w-2xl">
+                    Se te ha encomendado diseñar la estrategia de datos para una nueva red de emprendimientos locales en
+                    tu
+                    provincia. El sistema debe soportar un alto tráfico durante ferias cantonales.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:bg-slate-800 transition-colors">
+                        <div class="text-blue-400 font-bold text-xl mb-3">01</div>
+                        <p class="text-slate-300 text-sm">Propón el servidor (PostgreSQL, Mongo, etc) y justifica por
+                            seguridad y velocidad.</p>
+                    </div>
+                    <div
+                        class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:bg-slate-800 transition-colors">
+                        <div class="text-blue-400 font-bold text-xl mb-3">02</div>
+                        <p class="text-slate-300 text-sm">Dibuja el flujo de una "Transacción" segura ante fallos de
+                            conexión.</p>
+                    </div>
+                    <div
+                        class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 hover:bg-slate-800 transition-colors">
+                        <div class="text-blue-400 font-bold text-xl mb-3">03</div>
+                        <p class="text-slate-300 text-sm">Define una política de respaldo (backup) infalible para los
+                            datos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluación Lúdica -->
+        <section id="quiz-section" class="card p-8 md:p-12 bg-white relative overflow-hidden">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-slate-800 mb-2">Comprueba tu Sabiduría</h3>
+                <p class="text-slate-500">Demuestra que eres un maestro de los servidores</p>
+            </div>
+
+            <div id="quiz-container" class="max-w-2xl mx-auto">
+                <!-- El contenido del quiz se carga con JS -->
+                <div id="question-box" class="fade-in">
+                    <p id="question-text"
+                        class="text-xl md:text-2xl font-semibold mb-8 text-center text-slate-800 leading-snug"></p>
+                    <div id="options-container" class="grid gap-4"></div>
+                </div>
+
+                <div id="feedback" class="mt-8 hidden"></div>
+
+                <div
+                    class="mt-10 border-t border-slate-100 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Puntaje Actual</span>
+                        <span id="score" class="text-2xl font-bold text-blue-600">0</span>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button id="next-btn"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold btn-hover hidden shadow-lg shadow-blue-200">
+                            Siguiente Pregunta
+                        </button>
+                        <button id="restart-btn"
+                            class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold btn-hover hidden shadow-lg shadow-slate-200">
+                            Reiniciar Taller
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-12 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-slate-600 font-medium mb-2">Diseñado por: <span class="text-blue-600 font-bold">Edwin Méndez
+                    J.</span></p>
+            <p class="text-slate-400 text-sm">© 2024 - Educación con Propósito y Resiliencia</p>
+        </div>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "¿Qué propiedad de ACID asegura que una transacción se realice por completo o no se realice nada?",
+                options: ["Consistencia", "Aislamiento", "Atomicidad", "Durabilidad"],
+                correct: 2,
+                feedback: "¡Exacto! Como un compromiso estoico: todo o nada."
+            },
+            {
+                question: "¿Cuál es la función principal de un Sistema de Gestión de Bases de Datos (SGBD)?",
+                options: ["Solo guardar archivos de texto", "Administrar y facilitar el acceso a los datos", "Hacer que el internet sea más rápido", "Dibujar diagramas"],
+                correct: 1,
+                feedback: "¡Correcto! Es el director de la orquesta de datos."
+            },
+            {
+                question: "Si necesitas guardar datos muy flexibles y cambiantes, ¿qué tipo de base de datos es preferible?",
+                options: ["Relacional (SQL)", "No Relacional (NoSQL)", "Un archivo de Excel", "Cinta magnética"],
+                correct: 1,
+                feedback: "¡Muy bien! El NoSQL se adapta como el agua a diferentes recipientes."
+            },
+            {
+                question: "¿Qué significa la 'D' en ACID?",
+                options: ["Datos", "Dirección", "Durabilidad", "Dinamismo"],
+                correct: 2,
+                feedback: "¡Así es! Los datos deben persistir incluso ante fallos críticos."
+            },
+            {
+                question: "¿En qué situación es crítica una transacción de base de datos?",
+                options: ["Al leer un post de blog", "Al cambiar el color de fondo de una web", "Al transferir dinero entre cuentas bancarias", "Al mover el mouse"],
+                correct: 2,
+                feedback: "¡Perfecto! Sin transacciones seguras, el sistema financiero colapsaría."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionText.innerText = q.question;
+            optionsContainer.innerHTML = '';
+            feedback.classList.add('hidden');
+            feedback.className = "mt-8 hidden"; // Reset class
+            nextBtn.classList.add('hidden');
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.className = "text-left p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 hover:shadow-md transition-all duration-200 font-medium text-slate-700 w-full relative overflow-hidden";
+                btn.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected) {
+            const q = quizData[currentQuestion];
+            const buttons = optionsContainer.querySelectorAll('button');
+
+            // Deshabilitar botones
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-blue-50/50', 'hover:border-blue-400', 'hover:shadow-md');
+                btn.classList.add('cursor-default', 'opacity-70');
+            });
+
+            if (selected === q.correct) {
+                score++;
+                scoreDisplay.innerText = score;
+                feedback.innerHTML = `<div class="flex items-center gap-3"><span class="text-2xl">🎉</span> <span>${q.feedback}</span></div>`;
+                feedback.className = "mt-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 font-medium fade-in shadow-sm";
+
+                buttons[selected].className = "text-left p-5 rounded-xl border border-green-500 bg-green-50 font-bold text-green-900 w-full shadow-md scale-[1.02] transition-transform";
+                buttons[selected].classList.remove('opacity-70');
+            } else {
+                feedback.innerHTML = `<div class="flex items-center gap-3"><span class="text-2xl">💪</span> <span>Sigue intentando. El error es una oportunidad de aprendizaje.</span></div>`;
+                feedback.className = "mt-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 font-medium fade-in shadow-sm";
+
+                buttons[selected].className = "text-left p-5 rounded-xl border border-red-400 bg-red-50 font-medium text-red-900 w-full";
+
+                // Show correct answer
+                buttons[q.correct].className = "text-left p-5 rounded-xl border border-green-500 bg-green-50 font-medium text-green-900 w-full shadow-sm";
+                buttons[q.correct].classList.remove('opacity-70');
+            }
+
+            feedback.classList.remove('hidden');
+
+            if (currentQuestion < quizData.length - 1) {
+                nextBtn.classList.remove('hidden');
+            } else {
+                showFinalResult();
+            }
+        }
+
+        function showFinalResult() {
+            setTimeout(() => {
+                questionText.innerHTML = "<span class='gradient-text'>¡Taller Completado!</span>";
+                let message = "";
+                if (score === quizData.length) message = "¡Perfecto! Eres un Arquitecto de Datos Supremo.";
+                else if (score > quizData.length / 2) message = "¡Buen trabajo! Tienes bases sólidas.";
+                else message = "¡Sigue practicando! La resiliencia es clave.";
+
+                optionsContainer.innerHTML = `
+                    <div class="text-center py-8 fade-in">
+                        <div class="text-6xl mb-4">🏆</div>
+                        <p class="text-slate-600 text-lg mb-2">Has demostrado gran dedicación.</p>
+                        <p class="text-xl font-bold text-slate-800 mb-6">${message}</p>
+                        <div class="inline-block bg-slate-100 px-6 py-3 rounded-full text-slate-800 font-bold border border-slate-200">
+                            Puntaje Final: <span class="text-blue-600">${score} / ${quizData.length}</span>
+                        </div>
+                    </div>
+                `;
+                restartBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+            }, 500);
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            loadQuestion();
+        };
+
+        restartBtn.onclick = () => {
+            currentQuestion = 0;
+            score = 0;
+            scoreDisplay.innerText = score;
+            restartBtn.classList.add('hidden');
+            loadQuestion();
+        };
+
+        // Iniciar el quiz al cargar la página
+        window.onload = loadQuestion;
+    </script>
+</body>
+
+</html>

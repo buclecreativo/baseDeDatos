@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo Entidad-Relación | Bucle Creativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #ff9e00;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .theme {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--accent);
+        }
+
+        .theme h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            color: var(--secondary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        .card {
+            background-color: #f8f9ff;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--primary);
+        }
+
+        .card.warning {
+            border-left-color: var(--warning);
+            background-color: #fff9f0;
+        }
+
+        .card.success {
+            border-left-color: var(--success);
+            background-color: #f0fdff;
+        }
+
+        .highlight {
+            background-color: #e9ecef;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .example-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #e11570;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #2fbde0;
+        }
+
+        /* Quiz Section */
+        #quiz-container {
+            display: none;
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            background-color: #f8f9ff;
+            padding: 15px;
+            border-radius: var(--radius);
+            border: 2px solid #e0e3ff;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            background-color: #e0e3ff;
+            border-color: var(--primary);
+        }
+
+        .quiz-option.selected {
+            background-color: #d0f4ff;
+            border-color: var(--success);
+        }
+
+        .quiz-option.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #f5c6cb;
+        }
+
+        .score-container {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .signature {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Bucle creativo</h1>
+                        <p>Taller diseñado con el corazón de un docente y la mente de un programador</p>
+                    </div>
+                </div>
+                <div class="theme">
+                    <h2>Modelo Entidad-Relación</h2>
+                    <p>Un viaje desde la idea hasta la estructura</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Title Section -->
+        <section class="section">
+            <h1 class="section-title"><i class="fas fa-brain"></i> Del Caos al Orden: Diseñando Mundos con el Modelo Entidad-Relación</h1>
+            <p>Imagina que puedes tomar todas las ideas, personas, objetos y relaciones de tu mundo y convertirlas en una estructura lógica y organizada. Eso es exactamente lo que aprenderás hoy: a transformar la complejidad en claridad, el desorden en armonía. Bienvenidos al arte de estructurar información.</p>
+        </section>
+
+        <!-- Learning Objective -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> Objetivo de Aprendizaje</h2>
+            <div class="card success">
+                <p><strong>Diseñar modelos entidad-relación</strong> para representar sistemas del mundo real mediante la identificación de entidades, atributos y relaciones, aplicando principios de normalización y coherencia lógica, con el fin de construir bases de datos eficientes que resuelvan problemas concretos de organización de información en contextos personales, académicos y profesionales, desarrollando simultáneamente habilidades de pensamiento abstracto, análisis crítico y trabajo colaborativo.</p>
+            </div>
+        </section>
+
+        <!-- Context Section -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-compass"></i> Contextualización: El Mapa de Tu Realidad</h2>
+            <p>Piensa en tu aplicación favorita: Instagram, TikTok, el sistema de calificaciones de tu colegio. ¿Qué tienen en común? Todas manejan información organizada. Cada like, cada amigo agregado, cada calificación registrada vive en una base de datos diseñada por alguien que supo capturar la esencia de las relaciones humanas en estructuras digitales.</p>
+            
+            <div class="card">
+                <p>Hoy, tú serás ese arquitecto digital. No estamos hablando de fórmulas abstractas, sino de la habilidad para entender cómo se conectan las cosas en tu mundo: tus amigos con sus publicaciones, los productos con sus compradores, los estudiantes con sus materias. El modelo entidad-relación es el lenguaje con el que le das estructura al caos, el puente entre tu imaginación y la realidad digital.</p>
+            </div>
+            
+            <p>¿Alguna vez has intentado organizar los contactos de tu teléfono o las fotos de tu galería? Ya estabas pensando en entidades y relaciones sin saberlo. Hoy daremos nombre a ese instinto organizador y lo convertiremos en una habilidad poderosa.</p>
+        </section>
+
+        <!-- Activity Development -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-code"></i> Desarrollo de la Actividad: Construyendo Tu Primer Modelo</h2>
+            
+            <h3>1. Las Piezas Fundamentales</h3>
+            <div class="card">
+                <p><span class="highlight">Entidad:</span> Un objeto del mundo real sobre el cual almacenamos información. Ejemplos: ESTUDIANTE, PROFESOR, MATERIA, LIBRO.</p>
+                <p><span class="highlight">Atributo:</span> Características o propiedades de una entidad. Ejemplo: Para ESTUDIANTE: cédula, nombres, fecha_nacimiento, correo.</p>
+                <p><span class="highlight">Relación:</span> Asociación entre dos o más entidades. Ejemplo: Un ESTUDIANTE <strong>cursa</strong> una MATERIA.</p>
+            </div>
+            
+            <h3>2. Tipos de Relaciones (Cardinalidad)</h3>
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-project-diagram"></i> Ejemplo: Sistema Académico</div>
+                <p><strong>Uno a Uno (1:1):</strong> Un ESTUDIANTE tiene un solo EXPEDIENTE académico.</p>
+                <p><strong>Uno a Muchos (1:N):</strong> Un PROFESOR imparte muchas MATERIAS.</p>
+                <p><strong>Muchos a Muchos (N:M):</strong> Un ESTUDIANTE cursa muchas MATERIAS, y una MATERIA es cursada por muchos ESTUDIANTES.</p>
+            </div>
+            
+            <h3>3. Símbolos del Modelo ER</h3>
+            <div class="card warning">
+                <p><i class="fas fa-square"></i> <strong>Rectángulo:</strong> Representa una ENTIDAD</p>
+                <p><i class="fas fa-ellipsis-h"></i> <strong>Elipse:</strong> Representa un ATRIBUTO</p>
+                <p><i class="fas fa-diamond"></i> <strong>Rombo:</strong> Representa una RELACIÓN</p>
+                <p><i class="fas fa-link"></i> <strong>Líneas:</strong> Conectan entidades con relaciones y atributos con entidades</p>
+            </div>
+            
+            <h3>4. Ejemplo Completo: Biblioteca Escolar</h3>
+            <div class="example-box">
+                <div class="example-title"><i class="fas fa-book"></i> Modelo ER para una Biblioteca</div>
+                <p><strong>Entidades:</strong> LIBRO, AUTOR, ESTUDIANTE, PRÉSTAMO</p>
+                <p><strong>Atributos de LIBRO:</strong> ISBN, título, año_publicación, editorial, género</p>
+                <p><strong>Relaciones:</strong></p>
+                <ul>
+                    <li>Un AUTOR <strong>escribe</strong> uno o muchos LIBROS (1:N)</li>
+                    <li>Un ESTUDIANTE <strong>realiza</strong> uno o muchos PRÉSTAMOS (1:N)</li>
+                    <li>Un LIBRO <strong>forma parte de</strong> uno o muchos PRÉSTAMOS (1:N)</li>
+                </ul>
+                <p><strong>Reflexión:</strong> ¿Qué pasaría si un libro pudiera tener múltiples autores? ¿Cómo representarías esa relación?</p>
+            </div>
+            
+            <h3>5. Ejercicio de Exploración</h3>
+            <div class="card">
+                <p>Imagina que debes diseñar la base de datos para una aplicación de delivery de comida en tu ciudad. Identifica:</p>
+                <ol>
+                    <li>¿Cuáles serían las entidades principales?</li>
+                    <li>¿Qué atributos tendría cada entidad?</li>
+                    <li>¿Cómo se relacionarían estas entidades entre sí?</li>
+                    <li>¿Qué tipo de cardinalidad tendría cada relación?</li>
+                </ol>
+                <p>Intenta dibujar en papel tu modelo antes de continuar. No hay respuestas incorrectas, solo aproximaciones que podemos mejorar juntos.</p>
+            </div>
+        </section>
+
+        <!-- Final Challenge -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-flag-checkered"></i> El Reto Final: Diseña el Cerebro de Tu Colegio</h2>
+            <div class="card success">
+                <p><strong>Situación:</strong> Tu colegio necesita modernizar su sistema de gestión académica. Te han encargado diseñar el modelo entidad-relación que servirá como base para desarrollar la nueva plataforma digital.</p>
+                
+                <p><strong>Tu misión:</strong> En equipos de 3 personas, diseñen un modelo ER completo que incluya:</p>
+                <ol>
+                    <li>Al menos 5 entidades principales del entorno académico</li>
+                    <li>Todos los atributos relevantes para cada entidad (identificando llaves primarias)</li>
+                    <li>Las relaciones entre estas entidades con sus respectivas cardinalidades</li>
+                    <li>Una entidad débil con su identificación</li>
+                    <li>Un diagrama claro y profesional usando la notación correcta</li>
+                </ol>
+                
+                <p><strong>Escenarios a considerar:</strong></p>
+                <ul>
+                    <li>Un estudiante puede estar en varios clubes extracurriculares</li>
+                    <li>Un profesor puede coordinar varias materias</li>
+                    <li>Las calificaciones dependen tanto del estudiante como de la materia</li>
+                    <li>Los representantes están asociados a los estudiantes</li>
+                </ul>
+                
+                <p><strong>Entrega:</strong> Presentarán su modelo en clase, defendiendo sus decisiones de diseño y explicando cómo su estructura resolvería problemas reales de la gestión escolar. El mejor diseño será "implementado" (simulado) en la siguiente sesión.</p>
+                
+                <button id="challenge-btn" class="btn btn-accent">¡Acepto el Reto!</button>
+            </div>
+        </section>
+
+        <!-- Interactive Quiz -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-gamepad"></i> Evaluación Lúdica: ¿Eres un Arquitecto de Datos?</h2>
+            <p>Pon a prueba lo aprendido con este juego interactivo. Responde las 5 preguntas y descubre tu nivel como diseñador de modelos ER.</p>
+            
+            <div id="quiz-start">
+                <button id="start-quiz-btn" class="btn btn-success"><i class="fas fa-play"></i> Iniciar Evaluación</button>
+            </div>
+            
+            <div id="quiz-container">
+                <div class="quiz-question" id="question">Pregunta aparecerá aquí</div>
+                
+                <div class="quiz-options" id="options-container">
+                    <!-- Opciones generadas por JavaScript -->
+                </div>
+                
+                <div class="feedback" id="feedback">
+                    <!-- Retroalimentación aquí -->
+                </div>
+                
+                <div class="score-container" id="score-container">
+                    <h3>¡Evaluación Completa!</h3>
+                    <p>Tu puntuación final es:</p>
+                    <div class="score" id="final-score">0/5</div>
+                    <p id="result-message"></p>
+                    <button id="restart-quiz-btn" class="btn btn-accent"><i class="fas fa-redo"></i> Intentar Nuevamente</button>
+                </div>
+                
+                <button id="next-btn" class="btn" style="display: none;">
+                    <i class="fas fa-arrow-right"></i> Siguiente Pregunta
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>Taller de Base de Datos: Modelo Entidad-Relación</p>
+                <p class="signature">Diseñado por: Edwin Méndez J.</p>
+                <p>Bucle creativo | Conectando mentes, estructurando ideas</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Challenge button interaction
+        document.getElementById('challenge-btn').addEventListener('click', function() {
+            alert('¡Excelente decisión! Ahora reúnete con tu equipo y comienza a diseñar. Recuerda: todo gran sistema comienza con un modelo bien pensado.');
+        });
+
+        // Quiz data
+        const quizData = [
+            {
+                question: "En un modelo ER para una red social, ¿cuál sería la relación más apropiada entre USUARIO y PUBLICACIÓN?",
+                options: [
+                    "Uno a Uno (1:1): Un usuario tiene una publicación",
+                    "Uno a Muchos (1:N): Un usuario tiene muchas publicaciones",
+                    "Muchos a Muchos (N:M): Muchos usuarios tienen muchas publicaciones",
+                    "No hay relación directa entre usuarios y publicaciones"
+                ],
+                correct: 1
+            },
+            {
+                question: "¿Cuál de los siguientes sería un atributo COMPUESTO en la entidad ESTUDIANTE?",
+                options: [
+                    "Número de cédula",
+                    "Nombre completo (que incluye nombres y apellidos)",
+                    "Fecha de nacimiento",
+                    "Correo electrónico"
+                ],
+                correct: 1
+            },
+            {
+                question: "En un sistema de biblioteca, la entidad PRÉSTAMO depende de la existencia de LIBRO y ESTUDIANTE. Esto la convierte en:",
+                options: [
+                    "Una entidad fuerte",
+                    "Una entidad débil",
+                    "Una relación atributo",
+                    "Una entidad multivaluada"
+                ],
+                correct: 1
+            },
+            {
+                question: "En el modelo ER para una tienda en línea, ¿cómo se representaría la relación entre PRODUCTO y CATEGORÍA si un producto puede tener varias categorías?",
+                options: [
+                    "Relación Uno a Uno (1:1)",
+                    "Relación Uno a Muchos (1:N) donde Categoría es el uno",
+                    "Relación Uno a Muchos (1:N) donde Producto es el uno",
+                    "Relación Muchos a Muchos (N:M)"
+                ],
+                correct: 3
+            },
+            {
+                question: "¿Cuál es el propósito principal de identificar las llaves primarias en un modelo ER?",
+                options: [
+                    "Hacer el diagrama más colorido",
+                    "Garantizar que cada instancia de una entidad sea única e identificable",
+                    "Reducir la cantidad de atributos en el modelo",
+                    "Convertir entidades débiles en fuertes"
+                ],
+                correct: 1
+            }
+        ];
+
+        // Quiz variables
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        // DOM elements
+        const startQuizBtn = document.getElementById('start-quiz-btn');
+        const quizStart = document.getElementById('quiz-start');
+        const quizContainer = document.getElementById('quiz-container');
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackElement = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreContainer = document.getElementById('score-container');
+        const finalScoreElement = document.getElementById('final-score');
+        const resultMessageElement = document.getElementById('result-message');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+
+        // Start the quiz
+        startQuizBtn.addEventListener('click', startQuiz);
+
+        function startQuiz() {
+            quizStart.style.display = 'none';
+            quizContainer.style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        // Load a question
+        function loadQuestion() {
+            resetOptions();
+            const currentQuizData = quizData[currentQuestion];
+            
+            questionElement.textContent = `Pregunta ${currentQuestion + 1}: ${currentQuizData.question}`;
+            
+            // Create options
+            currentQuizData.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('quiz-option');
+                optionElement.textContent = option;
+                optionElement.dataset.index = index;
+                
+                optionElement.addEventListener('click', function() {
+                    selectOption(this);
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Hide elements
+            feedbackElement.style.display = 'none';
+            nextBtn.style.display = 'none';
+            scoreContainer.style.display = 'none';
+        }
+
+        // Select an option
+        function selectOption(optionElement) {
+            // Remove previous selection
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Mark selected option
+            optionElement.classList.add('selected');
+            selectedOption = parseInt(optionElement.dataset.index);
+            
+            // Check answer
+            const isCorrect = selectedOption === quizData[currentQuestion].correct;
+            
+            // Show feedback
+            feedbackElement.textContent = isCorrect 
+                ? "¡Correcto! Has entendido bien este concepto." 
+                : "Incorrecto. Revisa este concepto en el material de estudio.";
+            
+            feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedbackElement.style.display = 'block';
+            
+            // Mark correct and incorrect answers
+            document.querySelectorAll('.quiz-option').forEach((opt, index) => {
+                if (index === quizData[currentQuestion].correct) {
+                    opt.classList.add('correct');
+                } else if (index === selectedOption && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Update score
+            if (isCorrect) {
+                score++;
+            }
+            
+            // Show next button
+            nextBtn.style.display = 'block';
+        }
+
+        // Reset options styling
+        function resetOptions() {
+            optionsContainer.innerHTML = '';
+            feedbackElement.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+
+        // Next question
+        nextBtn.addEventListener('click', function() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        // Show results
+        function showResults() {
+            questionElement.style.display = 'none';
+            optionsContainer.style.display = 'none';
+            feedbackElement.style.display = 'none';
+            nextBtn.style.display = 'none';
+            
+            finalScoreElement.textContent = `${score}/${quizData.length}`;
+            
+            // Set result message
+            let message = "";
+            if (score === quizData.length) {
+                message = "¡Excelente! Eres un verdadero arquitecto de datos. Dominas completamente los conceptos del modelo ER.";
+            } else if (score >= quizData.length * 0.7) {
+                message = "¡Muy bien! Tienes un buen entendimiento del modelo ER. Con un poco más de práctica serás experto.";
+            } else if (score >= quizData.length * 0.5) {
+                message = "Bien, pero hay conceptos que necesitas reforzar. Revisa los temas de relaciones y atributos.";
+            } else {
+                message = "Necesitas repasar los conceptos básicos del modelo ER. Vuelve a estudiar las secciones de entidades y relaciones.";
+            }
+            
+            resultMessageElement.textContent = message;
+            scoreContainer.style.display = 'block';
+        }
+
+        // Restart quiz
+        restartQuizBtn.addEventListener('click', function() {
+            questionElement.style.display = 'block';
+            optionsContainer.style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
