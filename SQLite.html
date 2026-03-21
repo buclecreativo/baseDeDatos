@@ -138,13 +138,13 @@
                 <h4 class="text-xl font-bold text-blue-700 mb-4">3. Operaciones CRUD: El Ciclo de la Vida</h4>
                 <p>CRUD significa: Create (Crear), Read (Leer), Update (Actualizar) y Delete (Borrar).</p>
                 <div class="code-block">
-<span class="text-green-400">-- 1. Crear una tabla de estudiantes</span>
-CREATE TABLE estudiantes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    edad INTEGER,
-    ciudad TEXT DEFAULT 'Guayaquil'
-);
+<span class="text-green-400">-- 1. Crear una tabla de estudiantes</span><br/>
+CREATE TABLE estudiantes ( <br/>
+    id INTEGER PRIMARY KEY AUTOINCREMENT <br/>
+    nombre TEXT NOT NULL <br/>
+    edad INTEGER, <br/>
+    ciudad TEXT DEFAULT 'Guayaquil' <br/>
+);<br/>
 
 <span class="text-green-400">-- 2. Insertar datos (Create)</span>
 INSERT INTO estudiantes (nombre, edad) VALUES ('Maria Jaramillo', 17);
