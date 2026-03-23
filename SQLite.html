@@ -2,304 +2,607 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bucle Creativo - Taller de SQLite</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Taller Tkinter + SQLite · Pensamiento Creativo con Python</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --accent: #f59e0b;
-            --bg: #f8fafc;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: #1e293b;
-            line-height: 1.6;
+            background: linear-gradient(145deg, #eef2f9 0%, #d9e2ef 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+            color: #1a2c3e;
         }
-        .code-block {
-            font-family: 'Fira+Code', monospace;
-            background-color: #1e293b;
-            color: #e2e8f0;
-            padding: 1.25rem;
-            border-radius: 0.75rem;
-            margin: 1rem 0;
-            overflow-x: auto;
-            position: relative;
+
+        /* Contenedor principal centrado en pantalla (vertical y horizontal) */
+        .main-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transition: all 0.2s ease;
         }
-        .btn-hover {
-            transition: all 0.3s ease;
+
+        /* Encabezado */
+        .hero {
+            background: #0f2b3d;
+            background-image: radial-gradient(circle at 10% 30%, #1c4e6f, #07212e);
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+            color: white;
+            border-bottom: 6px solid #f5b042;
         }
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            filter: brightness(110%);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFE6B0, #FFB347);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 0.75rem;
         }
-        .card {
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            font-style: italic;
+            border-top: 1px solid rgba(255,215,140,0.4);
+            display: inline-block;
+            padding-top: 0.6rem;
+        }
+
+        /* contenido interior */
+        .taller-content {
+            padding: 2rem 2rem 1.8rem;
+        }
+
+        /* secciones comunes */
+        section {
+            margin-bottom: 2.8rem;
             background: white;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--primary);
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s;
+            border: 1px solid #e9edf2;
         }
-        .quiz-container {
-            background: #ffffff;
-            border: 2px solid var(--primary);
+
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #1e4a6b;
+            border-left: 7px solid #f5b042;
+            padding-left: 1rem;
+            margin-bottom: 1.3rem;
+        }
+
+        .flex-imagen {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0 1rem;
+        }
+
+        .img-illustration {
+            max-width: 280px;
             border-radius: 1.5rem;
-            padding: 2rem;
+            box-shadow: 0 12px 18px -8px rgba(0,0,0,0.15);
+            background: #f4f7fc;
+            padding: 0.6rem;
         }
-        .option-btn {
-            display: block;
+
+        .img-illustration img {
             width: 100%;
-            text-align: left;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
+            border-radius: 1rem;
+            display: block;
+        }
+
+        .texto-narrativo {
+            font-size: 1.05rem;
+            color: #2c3e44;
+            flex: 1;
+        }
+
+        /* código ejemplo */
+        pre {
+            background: #1e2a32;
+            color: #e2f0fa;
+            padding: 1.2rem;
+            border-radius: 1.2rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+            box-shadow: inset 0 0 8px #00000020, 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-ejemplo {
+            background-color: #2c6e9e;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: 0.2s;
+            margin-top: 0.5rem;
         }
-        .option-btn:hover {
-            background: #f1f5f9;
+
+        /* botones hover */
+        button, .btn-like {
+            transition: all 0.25s ease-in-out;
+            cursor: pointer;
         }
-        .correct { background: #dcfce7 !important; border-color: #22c55e !important; }
-        .incorrect { background: #fee2e2 !important; border-color: #ef4444 !important; }
+        button:hover, .btn-ejemplo:hover {
+            background-color: #f5b042 !important;
+            color: #1e2a32 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 14px -6px rgba(0,0,0,0.2);
+        }
+
+        /* juego test */
+        .quiz-card {
+            background: #f9fafc;
+            border-radius: 1.8rem;
+            padding: 1.3rem;
+            margin: 1rem 0;
+            border: 1px solid #dee4ec;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #154256;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 1px solid #cad2db;
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            margin: 0.6rem 0;
+            transition: 0.1s;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            background: #eef3fc;
+            border-color: #f5b042;
+        }
+
+        .feedback {
+            margin-top: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 1rem;
+        }
+
+        .correct-feedback {
+            background: #c8e6df;
+            color: #1c6e4a;
+        }
+        .wrong-feedback {
+            background: #ffe0db;
+            color: #b13e3e;
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.2rem;
+        }
+
+        .score-board {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: #e9f0f5;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+        }
+
+        .btn-quiz {
+            background: #2c6e9e;
+            border: none;
+            padding: 0.6rem 1.6rem;
+            border-radius: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* pie de página */
+        .footer {
+            background: #0f2b3d;
+            color: #cddfe9;
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #f5b04250;
+        }
+
+        /* responsivo */
+        @media (max-width: 720px) {
+            .taller-content {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
+<div class="main-container">
+    <div class="hero">
+        <h1>✨ BASES DE DATOS CON ALMA ✨<br> Tkinter + SQLite: el arte de guardar historias</h1>
+        <div class="hero-tagline">Python para pensadores · Taller diseñado con el corazón de un docente y la mente de un programador.</div>
+        <div style="font-size: 0.9rem; margin-top: 0.8rem; font-weight: 300;">Tema: Tkinter (SQLite completo)</div>
+    </div>
 
-    <!-- Encabezado -->
-    <header class="max-w-4xl mx-auto text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-blue-700 mb-2">Bucle Creativo</h1>
-        <p class="text-lg text-slate-600 italic">Taller diseñado con el corazón de un docente y la mente de un programador.</p>
-        <div class="h-1 w-24 bg-blue-600 mx-auto mt-4 rounded-full"></div>
-    </header>
-
-    <main class="max-w-4xl mx-auto">
-        <!-- Título del Tema -->
-        <section class="mb-10 text-center">
-            <h2 class="text-3xl font-extrabold text-slate-800 uppercase tracking-tight">
-                SQLite: Arquitectos de lo Invisible
-            </h2>
-            <p class="text-slate-500 mt-2 font-medium">Tema: Dominio de Bases de Datos Locales</p>
+    <div class="taller-content">
+        <!-- 2. OBJETIVO DE APRENDIZAJE -->
+        <section>
+            <div class="section-title">🎯 Brújula del taller</div>
+            <p style="font-size:1.05rem; background:#eef2f9; padding:1rem; border-radius:1.2rem;"><strong>Objetivo:</strong> Diseñar una aplicación de escritorio con Tkinter y SQLite que gestione datos reales, integrando creatividad, pensamiento lógico y responsabilidad ética, para solucionar necesidades cotidianas con tecnología propia.</p>
+            <p style="margin-top:0.7rem;"><strong>Competencia a alcanzar:</strong> Construir interfaces gráficas funcionales que interactúen con una base de datos relacional, aplicando buenas prácticas, depuración consciente y trabajo colaborativo para transformar ideas en herramientas útiles.</p>
         </section>
 
-        <!-- Objetivo -->
-        <div class="card bg-blue-50 border-blue-600">
-            <h3 class="text-xl font-bold text-blue-800 mb-3">Objetivo de Aprendizaje</h3>
-            <p class="text-slate-700">
-                Implementar soluciones de almacenamiento local mediante el dominio técnico de SQLite, analizando su arquitectura y aplicando operaciones CRUD con rigor lógico y ético, para desarrollar aplicaciones eficientes y resilientes que respondan a necesidades reales del entorno ecuatoriano, fortaleciendo así la capacidad de autogestión y el pensamiento creativo del estudiante.
-            </p>
-        </div>
-
-        <!-- Contextualización -->
-        <section class="mb-12">
-            <h3 class="text-2xl font-bold text-slate-800 mb-4 flex items-center">
-                <span class="mr-2">🌱</span> Una semilla que sostiene mundos
-            </h3>
-            <div class="prose prose-slate max-w-none text-slate-600">
-                <p>
-                    Imagina que estás en medio del centro histórico de Quito, capturando datos para un proyecto escolar, o tal vez en una finca en Manabí donde la señal de internet es apenas un susurro. En esos momentos, la "nube" parece muy lejana. ¿Cómo hacemos que nuestra aplicación siga siendo útil, rápida y confiable sin depender de un servidor gigante al otro lado del mundo?
-                </p>
-                <p>
-                    Aquí es donde aparece <strong>SQLite</strong>. No es un servidor; es un fiel compañero que vive dentro de tu propia aplicación. Es la base de datos que usa tu celular para guardar tus mensajes de WhatsApp y la que usa tu navegador para recordar tus favoritos. Aprender SQLite es aprender a ser autónomo, a construir estructuras sólidas que funcionan incluso en el silencio de la desconexión.
-                </p>
-            </div>
-        </section>
-
-        <!-- Desarrollo de la Actividad -->
-        <section class="space-y-12">
-            <div>
-                <h4 class="text-xl font-bold text-blue-700 mb-4">1. Características y Arquitectura</h4>
-                <p class="mb-4">SQLite es "Serverless" (sin servidor). A diferencia de MySQL o Oracle, no necesitas instalar un programa aparte. Todo vive en un <strong>único archivo</strong> en tu disco duro.</p>
-                <ul class="list-disc pl-6 space-y-2">
-                    <li><strong>Zero Configuration:</strong> No hay que configurar puertos ni usuarios complejos al inicio.</li>
-                    <li><strong>Transaccional:</strong> Cumple con ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad). Si se va la luz, tus datos no se corrompen.</li>
-                    <li><strong>Portátil:</strong> Puedes copiar el archivo de tu base de datos y pegarlo en otra computadora, ¡y funcionará!</li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-xl font-bold text-blue-700 mb-4">2. Tipos de Datos: La simplicidad es poder</h4>
-                <p>En SQLite, los tipos de datos son flexibles (Tipado Dinámico), pero nos enfocaremos en los 5 pilares:</p>
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
-                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>NULL</strong><br><small>Vacío</small></div>
-                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>INTEGER</strong><br><small>Enteros</small></div>
-                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>REAL</strong><br><small>Decimales</small></div>
-                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>TEXT</strong><br><small>Cadenas</small></div>
-                    <div class="p-3 bg-white border border-slate-200 rounded text-center"><strong>BLOB</strong><br><small>Binarios</small></div>
+        <!-- 4. ACTIVACIÓN DE LA CLASE (dinámica + imagen) -->
+        <section>
+            <div class="section-title">🔥 Activación: El cuaderno perdido</div>
+            <div class="flex-imagen">
+                <div class="texto-narrativo">
+                    <p>📖 <strong>Historia:</strong> Valeria, una estudiante de bachillerato, llevaba un diario con todas las recetas de su abuela. Un día su cuaderno se mojó y perdió años de recuerdos. Ella dijo: <em>“Necesito una aplicación donde pueda guardar, buscar y nunca perder mis recetas”</em>. Así nació la idea: ¿Y si tú construyes con Python + SQLite un organizador personal que proteja lo valioso? 💡</p>
+                    <p>Hoy programarás una pequeña agenda que puede extenderse a inventarios, contactos o sueños. Porque cada dato cuenta una historia.</p>
                 </div>
-            </div>
-
-            <div>
-                <h4 class="text-xl font-bold text-blue-700 mb-4">3. Operaciones CRUD: El Ciclo de la Vida</h4>
-                <p>CRUD significa: Create (Crear), Read (Leer), Update (Actualizar) y Delete (Borrar).</p>
-                <div class="code-block">
-<span class="text-green-400">-- 1. Crear una tabla de estudiantes</span><br/>
-CREATE TABLE estudiantes ( <br/>
-    id INTEGER PRIMARY KEY AUTOINCREMENT, <br/>
-    nombre TEXT NOT NULL, <br/>
-    edad INTEGER, <br/>
-    ciudad TEXT DEFAULT 'Guayaquil' <br/>
-);<br/>
-<br/>
-<span class="text-green-400">-- 2. Insertar datos (Create)</span> <br/>
-INSERT INTO estudiantes (nombre, edad) VALUES ('Maria Jaramillo', 17); <br/>
-<br/>
-<span class="text-green-400">-- 3. Consultar (Read)</span> <br/>
-SELECT * FROM estudiantes WHERE edad > 15; <br/>
-<br/>
-<span class="text-green-400">-- 4. Actualizar (Update)</span> <br/>
-UPDATE estudiantes SET ciudad = 'Cuenca' WHERE id = 1;<br/>
-<br/>
-<span class="text-green-400">-- 5. Eliminar (Delete)</span><br/>
-DELETE FROM estudiantes WHERE id = 1; <br/>
+                <div class="img-illustration">
+                    <img src="https://picsum.photos/id/20/300/200" alt="cuaderno digital ilustración" style="width:100%; border-radius:1rem;">
+                    <p style="font-size:0.7rem; text-align:center;">✨ La creatividad encuentra su forma digital</p>
                 </div>
             </div>
         </section>
 
-        <!-- El Reto Final -->
-        <section class="my-16 p-8 bg-slate-900 text-white rounded-2xl">
-            <h3 class="text-2xl font-bold mb-4 text-accent">🚀 El Desafío: "Guardianes del Emprendimiento"</h3>
-            <p class="mb-6">
-                Imagina que un grupo de artesanos en Otavalo necesita una aplicación para gestionar su inventario de textiles sin depender de internet. Tu misión es diseñar la base de datos `inventario.db` que permita:
-            </p>
-            <ul class="list-decimal pl-6 space-y-3 text-slate-300">
-                <li>Crear una tabla <strong>productos</strong> con campos para: nombre, precio, stock y categoría.</li>
-                <li>Insertar al menos 3 productos representativos (ej. Poncho de Alpaca).</li>
-                <li>Realizar una consulta que muestre solo los productos que tienen menos de 5 unidades en stock (alerta de reabastecimiento).</li>
-                <li>Simular una venta actualizando el stock de un producto.</li>
-            </ul>
-            <p class="mt-6 italic text-sm text-slate-400">Recuerda: Un buen diseño de datos es el primer paso para un negocio resiliente.</p>
-        </section>
-
-        <!-- Evaluación Lúdica -->
-        <section class="mb-20">
-            <h3 class="text-2xl font-bold text-slate-800 mb-6 text-center">Comprueba tu Sabiduría</h3>
-            <div id="quiz" class="quiz-container shadow-xl">
-                <div id="question-area">
-                    <p id="question-text" class="text-lg font-semibold mb-4">Cargando pregunta...</p>
-                    <div id="options-area"></div>
+        <!-- 5. CONTENIDO + IMAGEN (narrativa envolvente) -->
+        <section>
+            <div class="section-title">🧠 Mente & código: ¿Qué es Tkinter + SQLite?</div>
+            <div class="flex-imagen">
+                <div class="texto-narrativo">
+                    <p>Tkinter es la biblioteca estándar de Python que te permite crear ventanas, botones y formularios. SQLite es una base de datos ligera que vive dentro de tu programa. Juntos forman un dúo poderoso: <strong>interfaz amigable + persistencia confiable</strong>. </p>
+                    <p>Imagina que construyes un <strong>gestor de tareas</strong> donde cada tarea tiene título, descripción y fecha. Tkinter te da el lienzo para que el usuario ingrese datos; SQLite los guarda para siempre (o hasta que los borres). Hoy aprenderás a conectar ambos mundos.</p>
+                    <p>✅ <em>Filosofía estoica aplicada:</em> La tecnología es una herramienta, pero tu enfoque determina su impacto. Programa con intención, cada línea refleja tu propósito de ayudar.</p>
                 </div>
-                <div id="feedback" class="mt-4 p-3 rounded hidden font-medium"></div>
-                <div class="mt-6 flex justify-between items-center">
-                    <span id="score-display" class="font-bold text-blue-600">Puntos: 0</span>
-                    <button id="next-btn" class="hidden bg-blue-600 text-white px-6 py-2 rounded-lg font-bold btn-hover">Siguiente Pregunta</button>
+                <div class="img-illustration">
+                    <img src="https://picsum.photos/id/0/300/200" alt="código y datos">
+                    <p style="font-size:0.7rem;">Conexión entre interfaz y datos</p>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- Pie de Página -->
-    <footer class="max-w-4xl mx-auto text-center py-8 border-t border-slate-200">
-        <p class="text-slate-500 font-medium">Diseñado por: Edwin Méndez J.</p>
-        <p class="text-xs text-slate-400 mt-1">© 2026 - Educación Transformadora</p>
-    </footer>
+        <!-- 6. DESARROLLO PRÁCTICO (ejemplo completo + tarea contextualizada) -->
+        <section>
+            <div class="section-title">🛠️ Manos a la obra: ejemplo completo (mini CRUD)</div>
+            <p>A continuación, un programa que crea una ventana Tkinter para registrar estudiantes y los almacena en SQLite. ¡Analízalo, modifícalo, experimenta!</p>
+            <pre><code>   import sqlite3
+import tkinter as tk
+from tkinter import messagebox, ttk
 
-    <script>
-        const quizData = [
-            {
-                q: "¿Qué significa que SQLite sea 'Serverless'?",
-                o: ["Que no tiene bases de datos", "Que no requiere un proceso de servidor separado para funcionar", "Que solo funciona en la nube", "Que es gratis"],
-                a: 1
-            },
-            {
-                q: "¿En cuántos archivos se guarda normalmente una base de datos de SQLite?",
-                o: ["Uno por cada tabla", "Cientos de archivos", "En un solo archivo", "No usa archivos"],
-                a: 2
-            },
-            {
-                q: "¿Qué comando SQL se usa para modificar datos existentes?",
-                o: ["MODIFY", "CHANGE", "UPDATE", "ALTER"],
-                a: 2
-            },
-            {
-                q: "¿Cuál de estos es un tipo de dato válido en SQLite?",
-                o: ["VARCHAR2", "INTEGER", "ARRAY", "OBJECT"],
-                a: 1
-            },
-            {
-                q: "¿Qué propiedad asegura que los datos no se corrompan si la app se cierra inesperadamente?",
-                o: ["Velocidad", "Portabilidad", "Propiedades ACID", "Diseño Web"],
-                a: 2
+# --- CONEXIÓN Y CREACIÓN DE TABLA ---
+conn = sqlite3.connect('tareas.db')
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS tareas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT NOT NULL,
+                estado TEXT DEFAULT 'pendiente')''')
+conn.commit()
+
+def agregar_tarea():
+    tarea = entry_tarea.get()
+    if tarea:
+        c.execute("INSERT INTO tareas (nombre) VALUES (?)", (tarea,))
+        conn.commit()
+        entry_tarea.delete(0, tk.END)
+        mostrar_tareas()
+    else:
+        messagebox.showwarning("Advertencia", "Escribe una tarea")
+
+def mostrar_tareas():
+    for row in tree.get_children():
+        tree.delete(row)
+    c.execute("SELECT * FROM tareas")
+    for tarea in c.fetchall():
+        tree.insert('', tk.END, values=tarea)
+
+def completada_tarea():
+    selected = tree.selection()
+    if selected:
+        item = tree.item(selected)
+        tarea_id = item['values'][0]
+        c.execute("UPDATE tareas SET estado = 'completada' WHERE id = ?", (tarea_id,))
+        conn.commit()
+        mostrar_tareas()
+
+def eliminar_tarea():
+    selected = tree.selection()
+    if selected:
+        item = tree.item(selected)
+        tarea_id = item['values'][0]
+        c.execute("DELETE FROM tareas WHERE id = ?", (tarea_id,))
+        conn.commit()
+        mostrar_tareas()
+
+# Ventana principal
+ventana = tk.Tk()
+ventana.title("Mis Tareas estoicas")
+ventana.geometry("550x450")
+ventana.configure(bg='#f0f4f8')
+
+frame_sup = tk.Frame(ventana, bg='#f0f4f8')
+frame_sup.pack(pady=12)
+tk.Label(frame_sup, text="📌 Nueva tarea:", font=('Segoe UI', 12), bg='#f0f4f8').pack(side=tk.LEFT, padx=5)
+entry_tarea = tk.Entry(frame_sup, width=30, font=('Segoe UI', 11))
+entry_tarea.pack(side=tk.LEFT, padx=5)
+btn_agregar = tk.Button(frame_sup, text="➕ Agregar", command=agregar_tarea, bg='#2c6e9e', fg='white', font=('Segoe UI', 10))
+btn_agregar.pack(side=tk.LEFT, padx=5)
+
+frame_botones = tk.Frame(ventana, bg='#f0f4f8')
+frame_botones.pack(pady=6)
+btn_completada = tk.Button(frame_botones, text="✅ completada", command=completada_tarea, bg='#4a8b6e', fg='white')
+btn_completada.pack(side=tk.LEFT, padx=10)
+btn_eliminar = tk.Button(frame_botones, text="🗑️ Eliminar", command=eliminar_tarea, bg='#b6492e', fg='white')
+btn_eliminar.pack(side=tk.LEFT, padx=10)
+
+tree = ttk.Treeview(ventana, columns=('ID', 'Tarea', 'Estado'), show='headings', height=12)
+tree.heading('ID', text='ID')
+tree.heading('Tarea', text='Descripción')
+tree.heading('Estado', text='Estado')
+tree.column('ID', width=40)
+tree.column('Tarea', width=300)
+tree.column('Estado', width=100)
+tree.pack(pady=15, padx=20, fill=tk.BOTH, expand=True)
+
+mostrar_tareas()
+ventana.mainloop()
+conn.close()</code></pre>
+            <div style="background:#eef3fa; border-radius:1rem; padding:1rem; margin:1rem 0;">
+                <p><strong>🧪 Desafío para tu mente crítica:</strong> Extiende este código para crear una <strong>"Agenda de proyectos comunitarios"</strong>. Debe permitir agregar proyecto (nombre, responsable, fecha límite) y listarlos. Reflexiona: ¿cómo organizarías las tablas? ¿Qué validaciones agregarías para fomentar la ética de los datos? ¡Explora, rompe y reconstruye!</p>
+                <p>🔁 <strong>Consigna evaluativa:</strong> Implementa una nueva tabla "proyectos" con al menos 3 campos. Incluye un botón "Mostrar proyectos". Comparte con tu compañero y explícale cómo interactúa la interfaz con la base de datos. Aprendizaje colaborativo.</p>
+            </div>
+        </section>
+
+        <!-- 7. EVALUACIÓN LÚDICA: TEST INTERACTIVO (5 preguntas + puntaje + retroalimentación) -->
+        <section>
+            <div class="section-title">🎮 Reto Código Maestro · Pon a prueba tu comprensión</div>
+            <div id="quizApp" class="quiz-card">
+                <!-- dinámico con JS -->
+                <div id="questionContainer"></div>
+                <div id="feedbackMsg" class="feedback"></div>
+                <div class="quiz-nav">
+                    <span class="score-board" id="puntajeDisplay">Puntaje: 0</span>
+                    <div>
+                        <button id="nextQuizBtn" class="btn-quiz">Siguiente ➡️</button>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size:0.8rem; margin-top:0.5rem;">✨ Cada respuesta correcta suma 100 puntos. ¡Reflexiona antes de elegir!</p>
+        </section>
+
+        <!-- 8. CIERRE -->
+        <section>
+            <div class="section-title">🌿 Cierre consciente</div>
+            <p>Hoy hemos descubierto que Tkinter nos permite construir puentes visuales y SQLite nos brinda memoria persistente. Aprendimos que programar es diseñar soluciones con impacto humano. Cada tabla es una estructura de confianza, cada ventana es una oportunidad de servir. </p>
+            <p>✅ Resumen: Interfaz gráfica + base de datos local = aplicaciones reales. Integraste pensamiento lógico, creatividad y ética. El código no solo hace cosas, <strong>transforma realidades</strong>. Sigue explorando, pregunta, equivócate y mejora. La próxima semana conectaremos con visualización de datos. ¡Sigue siendo un pensador estoico de la tecnología!</p>
+        </section>
+    </div>
+    <div class="footer">
+        Diseñado por: Edwin Méndez J. · Inspirado en DUA, estoicismo y aprendizaje basado en competencias.
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // JUEGO TEST: 5 preguntas sobre Tkinter + SQLite
+    // --------------------------------------------------------------
+    const preguntas = [
+        {
+            texto: "🔍 ¿Qué biblioteca de Python se utiliza para crear interfaces gráficas de escritorio?",
+            opciones: ["Django", "Flask", "Tkinter", "PyGame"],
+            correcta: 2  // índice 0-based
+        },
+        {
+            texto: "🗄️ SQLite es una base de datos que...",
+            opciones: ["Requiere un servidor externo", "Es ligera y guarda datos en un archivo local", "Solo funciona con navegadores web", "No soporta consultas SQL"],
+            correcta: 1
+        },
+        {
+            texto: "📌 En Tkinter, ¿qué método permite ejecutar la aplicación y mantener abierta la ventana?",
+            opciones: ["mainloop()", "run()", "start()", "exec()"],
+            correcta: 0
+        },
+        {
+            texto: "🧩 ¿Cuál es el comando SQL para crear una tabla en SQLite?",
+            opciones: ["INSERT TABLE", "MAKE TABLE", "CREATE TABLE", "NEW TABLE"],
+            correcta: 2
+        },
+        {
+            texto: "🤝 ¿Qué patrón o mentalidad promueve el enfoque estoico en la programación?",
+            opciones: ["Escribir código sin errores a la primera", "Resiliencia, reflexión y mejora continua", "Evitar colaborar con otros", "Usar solo librerías externas"],
+            correcta: 1
+        }
+    ];
+
+    let currentIndex = 0;
+    let puntajeTotal = 0;
+    let respuestasUsuario = new Array(preguntas.length).fill(null); // almacena la opción seleccionada (index)
+    let feedbackMostrado = false;
+
+    const questionContainer = document.getElementById('questionContainer');
+    const feedbackDiv = document.getElementById('feedbackMsg');
+    const puntajeDisplay = document.getElementById('puntajeDisplay');
+    const nextBtn = document.getElementById('nextQuizBtn');
+
+    function renderPregunta() {
+        const q = preguntas[currentIndex];
+        const userSelected = respuestasUsuario[currentIndex];
+        let opcionesHtml = '';
+        q.opciones.forEach((opt, idx) => {
+            let checkedAttr = (userSelected === idx) ? 'checked' : '';
+            opcionesHtml += `
+                <div class="quiz-option" data-opt-index="${idx}">
+                    <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                        <input type="radio" name="quizRadio" value="${idx}" ${checkedAttr} style="transform:scale(1.1);"> 
+                        <span>${opt}</span>
+                    </label>
+                </div>
+            `;
+        });
+
+        const html = `
+            <div class="question-text">${currentIndex+1}. ${q.texto}</div>
+            <div class="opciones-group">
+                ${opcionesHtml}
+            </div>
+        `;
+        questionContainer.innerHTML = html;
+
+        // agregar event listeners a los radio buttons
+        const radioBtns = document.querySelectorAll('input[name="quizRadio"]');
+        radioBtns.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const selectedVal = parseInt(e.target.value);
+                // guardar respuesta actual
+                respuestasUsuario[currentIndex] = selectedVal;
+                // mostrar feedback inmediato sin afectar puntaje acumulado hasta que no se confirme? Pero la retroalimentación inmediata se puede dar al seleccionar
+                mostrarFeedbackInmediato(currentIndex, selectedVal);
+                // recalcular puntaje global (cada vez que se selecciona una opción, actualizamos puntaje sumando respuestas correctas)
+                recalcularPuntaje();
+                actualizarPuntajeVista();
+            });
+        });
+
+        // si ya había una respuesta seleccionada, mostrar feedback para esa pregunta
+        if (userSelected !== null) {
+            mostrarFeedbackInmediato(currentIndex, userSelected);
+        } else {
+            feedbackDiv.innerHTML = ''; // limpiar feedback si no ha respondido
+        }
+    }
+
+    function mostrarFeedbackInmediato(idxPreg, respuestaIdx) {
+        const esCorrecta = (respuestaIdx === preguntas[idxPreg].correcta);
+        if (esCorrecta) {
+            feedbackDiv.innerHTML = `<div class="feedback correct-feedback">✅ ¡Correcto! +100 puntos · Excelente razonamiento.</div>`;
+        } else {
+            const respuestaCorrectaTexto = preguntas[idxPreg].opciones[preguntas[idxPreg].correcta];
+            feedbackDiv.innerHTML = `<div class="feedback wrong-feedback">❌ Incorrecto. La respuesta correcta era: "${respuestaCorrectaTexto}". Sigue aprendiendo, cada error es una lección.</div>`;
+        }
+    }
+
+    function recalcularPuntaje() {
+        let nuevoPuntaje = 0;
+        for (let i = 0; i < preguntas.length; i++) {
+            const respuestaSeleccionada = respuestasUsuario[i];
+            if (respuestaSeleccionada !== null && respuestaSeleccionada === preguntas[i].correcta) {
+                nuevoPuntaje += 100;
             }
-        ];
+        }
+        puntajeTotal = nuevoPuntaje;
+    }
 
-        let currentQuestion = 0;
-        let score = 0;
+    function actualizarPuntajeVista() {
+        puntajeDisplay.innerText = `Puntaje: ${puntajeTotal}`;
+    }
 
-        const questionText = document.getElementById('question-text');
-        const optionsArea = document.getElementById('options-area');
-        const feedback = document.getElementById('feedback');
-        const nextBtn = document.getElementById('next-btn');
-        const scoreDisplay = document.getElementById('score-display');
+    function siguientePregunta() {
+        // Si no hemos respondido la pregunta actual, informar pero permitir avanzar? Mejor dar mensaje sutil, pero por diseño se puede avanzar igual.
+        if (respuestasUsuario[currentIndex] === null) {
+            // opcional, feedback suave pero no bloqueamos para fomentar exploración
+            feedbackDiv.innerHTML = `<div class="feedback" style="background:#fff3cf;">✨ Aún no has seleccionado una respuesta. ¡Inténtalo! Pero puedes continuar.</div>`;
+        } else {
+            // si ya respondió, limpiamos feedback después de avanzar
+        }
+        if (currentIndex < preguntas.length - 1) {
+            currentIndex++;
+            renderPregunta();
+        } else {
+            // estamos en la última, mostrar resumen final
+            mostrarResumenFinal();
+        }
+    }
 
-        function loadQuestion() {
-            const q = quizData[currentQuestion];
-            questionText.innerText = `${currentQuestion + 1}. ${q.q}`;
-            optionsArea.innerHTML = '';
-            feedback.classList.add('hidden');
-            nextBtn.classList.add('hidden');
+    function mostrarResumenFinal() {
+        // calcular de nuevo el puntaje para asegurar
+        recalcularPuntaje();
+        actualizarPuntajeVista();
+        let mensajeFinal = `🎉 ¡Has completado el desafío! Tu puntaje final es: ${puntajeTotal} / ${preguntas.length*100}. `;
+        if (puntajeTotal === 500) mensajeFinal += "¡Maestro estoico del código! Excelente comprensión.";
+        else if (puntajeTotal >= 300) mensajeFinal += "¡Muy bien! Revisa los conceptos de SQLite y Tkinter para alcanzar la cima.";
+        else mensajeFinal += "Sigue practicando, cada error fortalece tu resiliencia. Vuelve a repasar los ejemplos.";
 
-            q.o.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.innerText = option;
-                btn.classList.add('option-btn');
-                btn.onclick = () => checkAnswer(index);
-                optionsArea.appendChild(btn);
+        // Mostrar en el contenedor de preguntas el resumen, deshabilitar next quiz cambiar su funcionalidad
+        questionContainer.innerHTML = `<div style="background:#eef2fa; border-radius:1.5rem; padding:1.5rem; text-align:center;">
+            <h3>🏆 Evaluación completada</h3>
+            <p style="font-size:1.2rem;">${mensajeFinal}</p>
+            <p>💡 Reflexiona: cada pregunta fortalece tu arquitectura mental. ¡Sigue codificando con propósito!</p>
+            <button id="reiniciarQuizBtn" class="btn-ejemplo" style="background:#f5b042; margin-top:1rem;">🔄 Reiniciar juego</button>
+        </div>`;
+        feedbackDiv.innerHTML = '';
+        // deshabilitar el botón siguiente y cambiar por reinicio
+        nextBtn.disabled = true;
+        nextBtn.style.opacity = '0.5';
+        nextBtn.style.cursor = 'default';
+        const reiniciarBtn = document.getElementById('reiniciarQuizBtn');
+        if (reiniciarBtn) {
+            reiniciarBtn.addEventListener('click', () => {
+                // resetear todo
+                currentIndex = 0;
+                puntajeTotal = 0;
+                respuestasUsuario = new Array(preguntas.length).fill(null);
+                actualizarPuntajeVista();
+                nextBtn.disabled = false;
+                nextBtn.style.opacity = '1';
+                nextBtn.style.cursor = 'pointer';
+                renderPregunta();
+                feedbackDiv.innerHTML = '';
             });
         }
+    }
 
-        function checkAnswer(idx) {
-            const correct = quizData[currentQuestion].a;
-            const buttons = optionsArea.querySelectorAll('button');
-            
-            // Deshabilitar todos los botones
-            buttons.forEach(btn => btn.disabled = true);
-
-            if (idx === correct) {
-                score++;
-                buttons[idx].classList.add('correct');
-                feedback.innerText = "¡Excelente! Respuesta correcta. 🌟";
-                feedback.className = "mt-4 p-3 rounded font-medium bg-green-100 text-green-700";
-            } else {
-                buttons[idx].classList.add('incorrect');
-                buttons[correct].classList.add('correct');
-                feedback.innerText = "No te preocupes, de los errores se aprende. La respuesta correcta era la indicada en verde.";
-                feedback.className = "mt-4 p-3 rounded font-medium bg-red-100 text-red-700";
-            }
-            
-            feedback.classList.remove('hidden');
-            nextBtn.classList.remove('hidden');
-            scoreDisplay.innerText = `Puntos: ${score}`;
-            
-            if (currentQuestion === quizData.length - 1) {
-                nextBtn.innerText = "Finalizar Test";
-            }
+    // evento next
+    nextBtn.addEventListener('click', () => {
+        if (nextBtn.disabled) return;
+        if (currentIndex === preguntas.length - 1 && respuestasUsuario[currentIndex] !== null) {
+            // si estamos en la última y respondió, mostrar resumen
+            mostrarResumenFinal();
+        } else if (currentIndex === preguntas.length - 1 && respuestasUsuario[currentIndex] === null) {
+            // está en última sin responder, aun así permitimos mostrar resumen final pero con advertencia
+            mostrarResumenFinal();
+        } else {
+            siguientePregunta();
         }
+    });
 
-        nextBtn.onclick = () => {
-            currentQuestion++;
-            if (currentQuestion < quizData.length) {
-                loadQuestion();
-            } else {
-                showFinalScore();
-            }
-        };
-
-        function showFinalScore() {
-            questionText.innerText = "¡Felicidades por completar el taller!";
-            optionsArea.innerHTML = `<p class="text-xl">Tu puntaje final es: <strong>${score} / ${quizData.length}</strong></p>
-            <p class="mt-4 text-slate-600">Recuerda: El conocimiento es una base de datos que siempre debe estar en crecimiento.</p>`;
-            nextBtn.classList.add('hidden');
-            feedback.classList.add('hidden');
-        }
-
-        // Iniciar
-        window.onload = loadQuestion;
-    </script>
+    // inicializar juego
+    renderPregunta();
+    actualizarPuntajeVista();
+</script>
 </body>
 </html>
