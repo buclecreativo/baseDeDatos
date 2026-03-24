@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0055)https://buclecreativo.github.io/baseDeDatos/SQLite.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Taller Tkinter + SQLite · Pensamiento Creativo con Python</title>
     <style>
@@ -271,17 +271,17 @@
             <div class="section-title">🔥 Activación: El cuaderno perdido</div>
             <div class="flex-imagen">
                 <div class="texto-narrativo">
-                    <p>Valeria, estudiante de bachillerato que vivía en Zuleta, guardaba en un cuaderno todas las recetas heredadas de su abuela. Cada página era un recuerdo, cada ingrediente una historia. Pero un día, un accidente lo cambió todo: su cuaderno se mojó y, con él, se desvanecieron años de memorias. <br/>
+                    <p>Valeria, estudiante de bachillerato, guardaba en un cuaderno todas las recetas heredadas de su abuela. Cada página era un recuerdo, cada ingrediente una historia. Pero un día, un accidente lo cambió todo: su cuaderno se mojó y, con él, se desvanecieron años de memorias. <br>
 
-Frustrada pero decidida, pensó: “Necesito una aplicación donde pueda guardar mis recetas, encontrarlas fácilmente y asegurarme de no perderlas nunca más.” <br/>
+Frustrada pero decidida, pensó: “Necesito una aplicación donde pueda guardar mis recetas, encontrarlas fácilmente y asegurarme de no perderlas nunca más.” <br>
 
-Así nació una idea poderosa: ¿y si tú pudieras crear, con Python y SQLite, un organizador personal capaz de proteger lo que más valoras? <br/>
+Así nació una idea poderosa: ¿y si tú pudieras crear, con Python y SQLite, un organizador personal capaz de proteger lo que más valoras? <br>
 
 Hoy no solo programarás una agenda digital. Estarás construyendo una herramienta que puede crecer contigo: desde recetas hasta inventarios, contactos o incluso tus propios sueños. Porque detrás de cada dato, siempre hay una historia.💡</p>
                     <p>Hoy programarás una pequeña agenda que puede extenderse a inventarios, contactos o sueños. Porque cada dato cuenta una historia.</p>
                 </div>
                 <div class="img-illustration">
-                    <img src="https://picsum.photos/id/20/300/200" alt="cuaderno digital ilustración" style="width:100%; border-radius:1rem;">
+                    <img src="./Taller Tkinter + SQLite · Pensamiento Creativo con Python_files/20-300x200.jpg" alt="cuaderno digital ilustración" style="width:100%; border-radius:1rem;">
                     <p style="font-size:0.7rem; text-align:center;">✨ La creatividad encuentra su forma digital</p>
                 </div>
             </div>
@@ -289,15 +289,27 @@ Hoy no solo programarás una agenda digital. Estarás construyendo una herramien
 
         <!-- 5. CONTENIDO + IMAGEN (narrativa envolvente) -->
         <section>
-            <div class="section-title">🧠 Mente & código: ¿Qué es Tkinter + SQLite?</div>
+            <div class="section-title">🧠 Mente &amp; código: </div>
             <div class="flex-imagen">
                 <div class="texto-narrativo">
-                    <p>Tkinter es la biblioteca estándar de Python que te permite crear ventanas, botones y formularios. SQLite es una base de datos ligera que vive dentro de tu programa. Juntos forman un dúo poderoso: <strong>interfaz amigable + persistencia confiable</strong>. </p>
-                    <p>Imagina que construyes un <strong>gestor de tareas</strong> donde cada tarea tiene título, descripción y fecha. Tkinter te da el lienzo para que el usuario ingrese datos; SQLite los guarda para siempre (o hasta que los borres). Hoy aprenderás a conectar ambos mundos.</p>
-                    <p>✅ <em>Filosofía estoica aplicada:</em> La tecnología es una herramienta, pero tu enfoque determina su impacto. Programa con intención, cada línea refleja tu propósito de ayudar.</p>
+                    <h2>¿Qué es SQLite?</h2>
+        <p>
+            SQLite es un sistema de gestión de bases de datos relacional muy ligero y fácil de usar.
+        </p>
+        <p>
+            A diferencia de otros motores de bases de datos, SQLite no necesita un servidor: todo se guarda en un solo archivo 
+            en tu computadora o aplicación. Esto lo hace ideal para proyectos pequeños, aplicaciones móviles o programas personales.
+        </p>
+        <h2>Características clave</h2>
+        <ul>
+            <li>📁 Basado en archivos: toda la base de datos está en un solo archivo (.db)</li>
+            <li>⚡ Ligero y rápido: no requiere instalación compleja</li>
+            <li>🔌 Integrado: viene incluido en muchos lenguajes como Python</li>
+            <li>🧠 SQL estándar: usa comandos como SELECT, INSERT, UPDATE</li>
+        </ul>
                 </div>
                 <div class="img-illustration">
-                    <img src="https://picsum.photos/id/0/300/200" alt="código y datos">
+                    <img src="./Taller Tkinter + SQLite · Pensamiento Creativo con Python_files/0-300x200.jpg" alt="código y datos">
                     <p style="font-size:0.7rem;">Conexión entre interfaz y datos</p>
                 </div>
             </div>
@@ -307,7 +319,7 @@ Hoy no solo programarás una agenda digital. Estarás construyendo una herramien
         <section>
             <div class="section-title">🛠️ Manos a la obra: ejemplo completo (mini CRUD)</div>
             <p>A continuación, un programa que crea una ventana Tkinter para registrar estudiantes y los almacena en SQLite. ¡Analízalo, modifícalo, experimenta!</p>
-            <pre><code>   import sqlite3
+            <pre><code>import sqlite3
 import tkinter as tk
 from tkinter import messagebox, ttk
 
@@ -399,7 +411,40 @@ conn.close()</code></pre>
             <div class="section-title">🎮 Reto Código Maestro · Pon a prueba tu comprensión</div>
             <div id="quizApp" class="quiz-card">
                 <!-- dinámico con JS -->
-                <div id="questionContainer"></div>
+                <div id="questionContainer">
+            <div class="question-text">1. 🔍 ¿Qué biblioteca de Python se utiliza para crear interfaces gráficas de escritorio?</div>
+            <div class="opciones-group">
+                
+                <div class="quiz-option" data-opt-index="0">
+                    <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                        <input type="radio" name="quizRadio" value="0" style="transform:scale(1.1);"> 
+                        <span>Django</span>
+                    </label>
+                </div>
+            
+                <div class="quiz-option" data-opt-index="1">
+                    <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                        <input type="radio" name="quizRadio" value="1" style="transform:scale(1.1);"> 
+                        <span>Flask</span>
+                    </label>
+                </div>
+            
+                <div class="quiz-option" data-opt-index="2">
+                    <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                        <input type="radio" name="quizRadio" value="2" style="transform:scale(1.1);"> 
+                        <span>Tkinter</span>
+                    </label>
+                </div>
+            
+                <div class="quiz-option" data-opt-index="3">
+                    <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                        <input type="radio" name="quizRadio" value="3" style="transform:scale(1.1);"> 
+                        <span>PyGame</span>
+                    </label>
+                </div>
+            
+            </div>
+        </div>
                 <div id="feedbackMsg" class="feedback"></div>
                 <div class="quiz-nav">
                     <span class="score-board" id="puntajeDisplay">Puntaje: 0</span>
@@ -610,5 +655,4 @@ conn.close()</code></pre>
     renderPregunta();
     actualizarPuntajeVista();
 </script>
-</body>
-</html>
+</body></html>
